@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <title>Clínica Dental Dra. Mariana Garro</title>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+
+    <!-- Responsive -->
+    <link rel="stylesheet" type="text/css" href="~/css/responsive.css">
+
+    <!-- Colors -->
+    <link rel="stylesheet" type="text/css" href="~/css/colors/color1.css" id="colors">
+
+    <!-- Animation Style -->
+    <link rel="stylesheet" type="text/css" href="~/css/animate.css">
+</head>
+<body class="page-template-front-page header-sticky home2">
+    <div class="boxed">
+        <!-- Header -->
+        <header id="header" class="header style2 clearfix">
+            <div class="header-inner">
+                <div class="btn-menu-active">
+                    <a href="#"><img src="~/images/icon/btn-menu-activet.png" alt="images"></a>
+                </div>
+                <div id="logo" class="logo">
+                    <a href="@Url.Action("Index","Login")" class="text-center">
+                    <img src="~/images/logoClinica.png" alt="image">
+                    </a>
+                </div><!-- /.logo -->
+                <div class="nav-wrap">
+                    <div class="btn-menu"></div>
+                    <nav id="mainnav" class="mainnav">
+                        <ul class="menu">
+                            <li class="home">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li><a href="@Url.Action("","")"</a> Historia Clínica Electrónica</li>
+                            <li><a href="@Url.Action("","")"</a> Citas</li>
+                            <li><a href="@Url.Action("","")"</a> Mis productos</li>
+                            <li><a href="@Url.Action("","")"</a> Calificación del servicio</li>
+                            <li><a href="@Url.Action("","")"</a> Asistente virtual</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header><!-- /.header -->
+        <!-- Contenido Principal -->
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-widgets">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="widget widget_text">
+                                <h5 class="widget-title">Sonrie más</h5>
+                                <div class="textwidget">
+                                    <p>Sonríe con confianza</p><br>
+                                    <p>Cuidamos tu salud dental para que muestres tu mejor sonrisa.</p>
+                                </div>
+                            </div><!-- /.widget -->
+                        </div><!-- /.col-md-4 -->
+
+                        <div class="col-md-4">
+                            <div class="widget widget_text">
+                                <h5 class="widget-title">Direccion</h5>
+                                <div class="textwidget">
+                                    <p>
+                                        Tu sonrisa es nuestra prioridad. <br>
+                                        ¡Visítanos para un cuidado dental de calidad!<br>
+                                        Dirección: El Rosario, Desamparados
+                                    </p>
+                                </div>
+                            </div><!-- /.widget -->
+                        </div><!-- /.col-md-4 -->
+
+                        <div class="col-md-4">
+                            <div class="widget widget_text">
+                                <h5 class="widget-title">Agenda una cita con nosotros</h5>
+                                <div class="textwidget">
+                                    <p>
+                                        Protege tu sonrisa, cuida tu salud.<br>
+                                        ¡Agenda tu cita hoy mismo!<br>
+                                    </p>
+                                </div>
+                            </div><!-- /.widget -->
+                        </div><!-- /.col-md-4 -->
+                    </div><!-- /.row -->
+                </div><!-- /.container -->
+            </div><!-- /.footer-widgets -->
+        </footer><!-- /.footer -->
+    </div><!-- /.boxed -->
+    <!-- Javascript -->
+    <script type="text/javascript" src="~/javascript/jquery.min.js"></script>
+    <script type="text/javascript" src="~/javascript/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.easing.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="~/javascript/owl.carousel.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.isotope.min.js"></script>
+    <script type="text/javascript" src="~/javascript/imagesloaded.min.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery-countTo.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery-waypoints.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery-ui-datepicker.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery-validate.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.mb.YTPlayer.js"></script>
+    <script type="text/javascript" src="~/javascript/gmap3.min.js"></script>
+    <script type="text/javascript" src="~/javascript/switcher.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/javascript/parallax.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="~/javascript/smoothscroll.js"></script>
+    <script type="text/javascript" src="~/javascript/main.js"></script>
+
+    <!-- Revolution Slider -->
+    <script type="text/javascript" src="~/javascript/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="~/javascript/jquery.themepunch.revolution.min.js"></script>
+    <script type="text/javascript" src="~/javascript/slider.js"></script>
+</body>
+</html>
+

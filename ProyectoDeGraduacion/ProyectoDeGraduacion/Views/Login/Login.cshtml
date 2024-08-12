@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+<div class="card">
+    <div class="card-body login-card-body">
+        <p class="login-box-msg">Iniciar Sesión</p>
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-info" role="alert" style="text-align:center">
+                @ViewBag.msj
+            </div>
+        }
+
+    <form>
+        <div class="input-group mb-3">
+            <input type="text" id="Correo" name="nombre">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" id="Password" name="nombre">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+            </div>
+            <div class="col-4">
+                <li class="btn btn-success">@Html.ActionLink("Ingresar", "Index", "Login", new { @class = "text-white" })</li>
+            </div>
+        </div>
+    </form>
+        <p class="mb-0">
+            <a href="@Url.Action("Registrarse","Login")" class="text-center">Crear una cuenta</a>
+        </p>
+    </div>
+</div>
+
+
