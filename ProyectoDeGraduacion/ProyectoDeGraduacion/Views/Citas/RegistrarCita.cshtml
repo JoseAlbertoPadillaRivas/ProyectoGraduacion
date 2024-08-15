@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "RegistrarCita";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4" style="max-width: 400px; width: 100%;">
+            <h2 class="card-title text-center">Programar una Cita</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="Nombre" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="Nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha de la Cita:</label>
+                    <input type="date" class="form-control" id="fecha" required>
+                </div>
+                <div class="mb-3">
+                    <label for="hora" class="form-label">Hora de la Cita:</label>
+                    <input type="time" class="form-control" id="hora" required>
+                </div>
+                <a class="btn btn-primary text-center" href="@Url.Action("MisCitas","Citas")">Agendar Cita</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const hoy = new Date().toISOString().split('T')[0];
+
+    document.getElementById('fecha').setAttribute('min', hoy);
+
+    const ahora = new Date();  
+
+    /*FALTA LIMITAR LAS HORAS*/        
+    //const horaMinima = ahora.toTimeString().slice(0, 5);
+
+    //const campoHora = document.getElementById('hora');
+    //campoHora.setAttribute('min', horaMinima);
+   
+
+</script>
+

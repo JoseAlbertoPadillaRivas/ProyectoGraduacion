@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "MisCitas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a class="btn btn-primary" href="@Url.Action("RegistrarCita","Citas")">
+    Nueva Cita
+</a>
+<br>
+<br>
+
+<div class="row">
+    <div class="col-12">
+        <table id="misCitas" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>10/8/2024</td>
+                    <td>8:30</td>
+                    <td>Cancelada</td>
+                </tr>
+                <tr>
+                    <td>14/8/2024</td>
+                    <td>8:30</td>
+                    <td>Finalizada</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

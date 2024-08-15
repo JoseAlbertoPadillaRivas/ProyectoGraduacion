@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
@@ -317,6 +318,7 @@
     <Content Include="root\dist\css\alt\adminlte.plugins.css" />
     <Content Include="root\dist\css\alt\adminlte.plugins.min.css" />
     <Content Include="root\dist\css\styles.css" />
+    <Content Include="root\dist\css\stylesCitas.css" />
     <Content Include="root\dist\img\AdminLTELogo.png" />
     <Content Include="root\dist\img\avatar.png" />
     <Content Include="root\dist\img\avatar04.png" />
@@ -470,6 +472,10 @@
     <Content Include="Views\Inventario\MostrarInventario.cshtml" />
     <Content Include="Views\Inventario\ActualizarProducto.cshtml" />
     <Content Include="Views\Inventario\AgregarProducto.cshtml" />
+    <Content Include="Views\Citas\RegistrarCita.cshtml" />
+    <Content Include="Views\Citas\MisCitas.cshtml" />
+    <Content Include="Views\Citas\CitasProgramadas.cshtml" />
+    <Content Include="Views\Citas\ReprogramarCita.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
