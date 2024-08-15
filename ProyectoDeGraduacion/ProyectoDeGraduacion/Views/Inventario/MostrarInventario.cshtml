@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "ConsultarUsuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br>
+<h4>Consulta de productos del inventario</h4>
+<hr>
+<br>
+
+<div class="row">
+    <div class="col-12">
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-info" role="alert" style="text-align:center">
+                @ViewBag.msj
+            </div>
+        }
+        <a class="btn btn-primary" href="@Url.Action("AgregarProducto","Inventario")">
+            Agregar Productos
+        </a>
+        <br>
+        <br>
+
+        <table id="tablaProductos" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Id Producto</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Fecha de ingreso</th>
+                    <th>Eliminar</th>
+                    <th>Actualizar</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>Fluor</td>
+                    <td>20</td>
+                    <td>14/8/2024</td>
+                    <td style="text-align:center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos"
+                                data-id="Consecutivo" data-name="Nombre">
+                            Eliminar Producto
+                        </button>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Inventario")">
+                            Actualizar Producto
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="modal fade" id="ModalProductos" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    ¿Desea eliminar el Producto <label id="Nombre"></label>?
+                </div>
+                <div class="modal-footer">
+                    <ul>
+                        <li class="btn btn-success">Confirmar</li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script>$(document).ready(function () {
+    $("#tablaProductos").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0, 1, 2, 3] }]
+        });
+    })
+
+    $(document).on("click", ".AbrirModal", function () {
+        $("#Consecutivo").val($(this).attr('data-id'));
+        $("#Nombre").text($(this).attr('data-name'));
+    });</script>
+

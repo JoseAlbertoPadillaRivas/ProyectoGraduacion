@@ -1,0 +1,70 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewBag.Title = "Registro";
+}
+
+<div class="card">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg">Actualizar Producto</p>
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-info" role="alert" style="text-align:center">
+                @ViewBag.msj
+            </div>
+        }
+
+        <form>
+            
+            <div class="input-group mb-3">
+                <input type="text" id="idProducto" name="idProducto" placeholder="Id Producto">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" id="Nombre" name="Nombre" placeholder="Nombre del producto">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" id="Cantidad" name="Cantidad" placeholder="Cantidad">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" id="fechaIngreso" name="fechaIngreso" placeholder="Fecha de ingreso">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                </div>
+                <div class="col-6">
+                    <ul>
+                        <li>
+                            <a class="btn btn-primary text-center" href="@Url.Action("MostrarInventario","Inventario")">Actualizar</a>
+                        </li>
+                    </ul>
+                    
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
