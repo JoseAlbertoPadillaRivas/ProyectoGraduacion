@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "NuevaCalificacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link href="~/root/dist/css/stylesCalificaciones.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+</head>
+
+<div class="container">
+    <div id="ratingcard" class="card" style="height:300px; margin-top:50px; padding:20px">
+        <h1>
+            <i id="star1" class="fa-regular fa-star" style="color:yellow"></i>
+            <i id="star2" class="fa-regular fa-star" style="color:yellow"></i>
+            <i id="star3" class="fa-regular fa-star" style="color:yellow"></i>
+            <i id="star4" class="fa-regular fa-star" style="color:yellow"></i>
+            <i id="star5" class="fa-regular fa-star" style="color:yellow"></i>
+        </h1>
+        <div class="mb-3">
+            <label for="Nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="Nombre" value="Josue Herrrera" readonly>
+        </div>
+        <div class="container">
+            <label for="dentalServices">Selecciona un servicio:</label>
+            <select id="dentalServices" name="dentalServices" class="form-control">
+                <option value="" disabled selected>Seleccione un servicio</option>
+                <option value="limpieza">Limpieza Dental</option>
+                <option value="extraccion">Extracción de Dientes</option>
+                <option value="relleno">Relleno Dental</option>
+                <option value="blanqueamiento">Blanqueamiento Dental</option>
+                <option value="ortodoncia">Ortodoncia</option>
+                <option value="endodoncia">Endodoncia</option>
+                <option value="implantes">Implantes Dentales</option>
+                <option value="coronas">Coronas Dentales</option>
+                <option value="puentes">Puentes Dentales</option>
+                <option value="limpieza_profunda">Limpieza Profunda</option>
+            </select>
+        </div>
+        <label for="opinions">Deja tu opinión:</label>
+        <textarea id="opinions" name="opinions" rows="5" class="form-control" placeholder="Escribe tu opinión aquí..."></textarea>
+        <button type="submit" class="form-control">Enviar</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#ratingcard i").click(function () {
+            var starIndex = $(this).index() + 1;
+
+            if ($(this).hasClass("fa-solid")) {
+                // Si la estrella está rellena, elimina el relleno de esta y las anteriores
+                for (var i = starIndex; i >= 1; i--) {
+                    $("#star" + i).removeClass("fa-solid").addClass("fa-regular");
+                }
+            } else {
+                // Si la estrella no está rellena, rellena esta y las anteriores
+                for (var i = 1; i <= starIndex; i++) {
+                    $("#star" + i).removeClass("fa-regular").addClass("fa-solid");
+                }
+            }
+        });
+    });
+</script>
+
+
+
