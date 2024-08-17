@@ -794,17 +794,17 @@ input[type="color"],
 }
 
 .btn-menu {
-	float: right;	
-	font-size: 32px;	
-	color: #2bb0ef;
-	text-align:center;	
-    width: 45px;
-    height: 73px;
-    text-align: center;
-    line-height: 73px;	
+	float: right;
+	font-size: 32px;
+	color: #f8f9fa;
+	text-align: center;
+	width: 45px;
+	height: 73px;
+	text-align: center;
+	line-height: 73px;
 	cursor: pointer;
-    font-family: 'Material Icons';
-	display: none;			
+	font-family: 'Material Icons';
+	display: none;
 }
 
 .btn-menu:before{

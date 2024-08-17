@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Añadir Documentos al Historial";
+}
+
+<h2 class="historial-header">Añadir Documentos al Historial</h2>
+
+<div class="historial-section">
+    <form method="post" enctype="multipart/form-data" action="@Url.Action("AñadirDocumentos", "Historial")">
+        <div class="form-group historial-upload">
+            <label for="documento">Seleccionar Documento:</label>
+            <input type="file" class="form-control" id="documento" name="documento" required>
+        </div>
+        <div class="form-group historial-upload">
+            <label for="descripcion">Descripción del Documento:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
+        </div>
+        <div class="historial-buttons text-center">
+            <button type="submit" class="btn btn-info">Añadir Documento</button>
+        </div>
+        <div class="historial-section">
+            <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-dark">Regresar al Historial</a>
+        </div>
+    </form>
+</div>

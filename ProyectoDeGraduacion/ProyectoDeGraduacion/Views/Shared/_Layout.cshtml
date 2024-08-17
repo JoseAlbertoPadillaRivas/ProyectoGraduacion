@@ -11,6 +11,7 @@
 
     <!-- Theme Style -->
     <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/css/stylesHistorial.css">
 
     <!-- Responsive -->
     <link rel="stylesheet" type="text/css" href="~/css/responsive.css">
@@ -24,7 +25,8 @@
     <link href="~/root/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <link href="~/root/dist/css/adminlte.min.css" rel="stylesheet" />
     <link href="~/root/dist/css/styles.css" rel="stylesheet" />
-
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
@@ -47,7 +49,7 @@
                     <nav id="mainnav" class="mainnav">
                         <ul class="menu">
                             <li><a href="@Url.Action("Index","Login")"> Home</a></li>
-                            <li><a href="@Url.Action("","")">Historia Clínica</a></li>
+                            <li><a href="@Url.Action("IndexHistorial","Historial")">Historia Clínica</a></li>
                             <li><a href="@Url.Action("RegistrarCita","Citas")">Citas</a></li>
                             <li><a href="@Url.Action("MostrarInventario","Inventario")">Inventario</a></li>
                             <li><a href="@Url.Action("","")">Seguimiento de productos</a></li>
@@ -136,6 +138,17 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.12.3/sweetalert2.min.js"></script>
+
+    <script>
+        function mostrarAlerta(titulo, mensaje, tipo) {
+            Swal.fire({
+                title: titulo,
+                text: mensaje,
+                icon: tipo,
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    </script>
 </body>
 
 </html>
