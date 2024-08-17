@@ -19,6 +19,11 @@ namespace ProyectoDeGraduacion.Controllers
             return View();
         }
 
-        
+        public ActionResult AdminCalificacion()
+        {
+            return View();
+        }
+
+
     }
 }

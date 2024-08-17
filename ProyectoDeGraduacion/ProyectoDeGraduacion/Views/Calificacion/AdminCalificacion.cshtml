@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "verCalificaciones";
+    ViewBag.Title = "AdminCalificacion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,12 +11,12 @@
 
 <div>
     <a class="btn btn-info mb-3" href=@Url.Action("NuevaCalificacion","Calificacion")>Agregar Calificación</a><br>
-    <a class="btn btn-info mb-3" href=@Url.Action("AdminCalificacion","Calificacion")>Vista Admin</a><br>
-
+    <a class="btn btn-info mb-3" href=@Url.Action("VerCalificaciones","Calificacion")>Vista Usuario</a><br>
 </div>
 
 
-<input type="text" id="searchInput" placeholder="Buscar..." class="form-control mb-3"><br>
+<input type="text" id="searchInput" placeholder="Buscar..." class="form-control mb-3">
+<br>
 
 <div class="row">
     <div class="card text-center col-3 mx-2">
@@ -32,6 +32,11 @@
                 <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
             </div>
         </div>
     </div>
@@ -50,6 +55,11 @@
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
             </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
+            </div>            
         </div>
     </div>
 
@@ -67,7 +77,13 @@
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
             </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
+            </div>
         </div>
+
     </div>
     <div class="card text-center col-3 mx-2" ">
         <div class="card-header">
@@ -83,8 +99,14 @@
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
             </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
+            </div>
         </div>
     </div>
+
     <div class="card text-center col-3 mx-2" ">
         <div class="card-header">
             Paciente: Josue Herrera
@@ -98,6 +120,11 @@
                 <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
             </div>
         </div>
     </div>
@@ -115,6 +142,11 @@
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
             </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
+            </div>
         </div>
     </div>
     <div class="card text-center col-3 mx-2" ">
@@ -130,6 +162,11 @@
                 <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
             </div>
         </div>
     </div>
@@ -147,27 +184,61 @@
                 <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
             </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
+            </div>
         </div>
     </div>
     <div class="card text-center col-3 mx-2" ">
-    <div class="card-header">
-        Paciente: Josue Herrera
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Endodoncia</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-        <div class="card-footer text-body-secondary">
-            <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+        <div class="card-header">
+            Paciente: Josue Herrera
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Endodoncia</h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
+            <div class="card-footer text-body-secondary">
+                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
+                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
+                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
+                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
+                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+            </div>
+            <div>
+                <button type="button" class="btn btn-danger" id="btn-cancelar" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                    Eliminar
+                </button>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalCalificacion" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Desea eliminar la calificacion de: Josué Herrera?
+            </div>
+            <div class="modal-footer">
+                <ul>
+                    <li class="btn btn-success">Confirmar</li>
+                    @*<a class="btn btn-primary" href="@Url.Action("CitasProgramadas", "Citas")">Confirmar</a>*@
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script>document.getElementById('searchInput').addEventListener('keyup', function() {
+<script>
+document.getElementById('searchInput').addEventListener('keyup', function() {
         let filter = this.value.toLowerCase();
         let cards = document.querySelectorAll('.card');
 
@@ -180,4 +251,5 @@
             }
         });
     });</script>
+
 

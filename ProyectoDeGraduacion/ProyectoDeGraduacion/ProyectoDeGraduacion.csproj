@@ -480,6 +480,7 @@
     <Content Include="Views\Historial\IndexHistorial.cshtml" />
     <Content Include="Views\Historial\IndexHistorialAdmin.cshtml" />
     <Content Include="Views\Historial\ModificarHistoria.cshtml" />
+    <Content Include="Views\Calificacion\AdminCalificacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
