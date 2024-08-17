@@ -24,6 +24,10 @@ namespace ProyectoDeGraduacion.Controllers
             return View();
         }
 
+        public ActionResult AnalizarCalificaciones()
+        {
+            return View();
+        }
 
     }
 }
