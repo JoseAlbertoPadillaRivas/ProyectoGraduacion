@@ -9,40 +9,43 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 </head>
 
-<div class="container">
-    <div id="ratingcard" class="card" style="height:300px; margin-top:50px; padding:20px">
-        <h1>
-            <i id="star1" class="fa-regular fa-star" style="color:yellow"></i>
-            <i id="star2" class="fa-regular fa-star" style="color:yellow"></i>
-            <i id="star3" class="fa-regular fa-star" style="color:yellow"></i>
-            <i id="star4" class="fa-regular fa-star" style="color:yellow"></i>
-            <i id="star5" class="fa-regular fa-star" style="color:yellow"></i>
-        </h1>
-        <div class="mb-3">
-            <label for="Nombre" class="form-label">Nombre:</label>
-            <input type="text" class="form-control" id="Nombre" value="Josue Herrrera" readonly>
-        </div>
-        <div class="container">
-            <label for="dentalServices">Selecciona un servicio:</label>
-            <select id="dentalServices" name="dentalServices" class="form-control">
-                <option value="" disabled selected>Seleccione un servicio</option>
-                <option value="limpieza">Limpieza Dental</option>
-                <option value="extraccion">Extracción de Dientes</option>
-                <option value="relleno">Relleno Dental</option>
-                <option value="blanqueamiento">Blanqueamiento Dental</option>
-                <option value="ortodoncia">Ortodoncia</option>
-                <option value="endodoncia">Endodoncia</option>
-                <option value="implantes">Implantes Dentales</option>
-                <option value="coronas">Coronas Dentales</option>
-                <option value="puentes">Puentes Dentales</option>
-                <option value="limpieza_profunda">Limpieza Profunda</option>
-            </select>
-        </div>
-        <label for="opinions">Deja tu opinión:</label>
-        <textarea id="opinions" name="opinions" rows="5" class="form-control" placeholder="Escribe tu opinión aquí..."></textarea>
-        <button type="submit" class="form-control">Enviar</button>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="max-width: 400px; width: 100%;">
+        <form>
+            <h1 id="ratingcard">
+                <i id="star1" class="fa-regular fa-star" style="color:yellow"></i>
+                <i id="star2" class="fa-regular fa-star" style="color:yellow"></i>
+                <i id="star3" class="fa-regular fa-star" style="color:yellow"></i>
+                <i id="star4" class="fa-regular fa-star" style="color:yellow"></i>
+                <i id="star5" class="fa-regular fa-star" style="color:yellow"></i>
+            </h1>
+            <div class="mb-3">
+                <label for="Nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="Nombre" value="Josue Herrrera" readonly>
+            </div>
+            <div class="container">
+                <label for="dentalServices">Selecciona un servicio:</label>
+                <select id="dentalServices" name="dentalServices" class="form-control">
+                    <option value="" disabled selected>Seleccione un servicio</option>
+                    <option value="limpieza">Limpieza Dental</option>
+                    <option value="extraccion">Extracción de Dientes</option>
+                    <option value="relleno">Relleno Dental</option>
+                    <option value="blanqueamiento">Blanqueamiento Dental</option>
+                    <option value="ortodoncia">Ortodoncia</option>
+                    <option value="endodoncia">Endodoncia</option>
+                    <option value="implantes">Implantes Dentales</option>
+                    <option value="coronas">Coronas Dentales</option>
+                    <option value="puentes">Puentes Dentales</option>
+                    <option value="limpieza_profunda">Limpieza Profunda</option>
+                </select>
+            </div>
+            <label for="opinions">Deja tu opinión:</label>
+            <textarea id="opinions" name="opinions" rows="5" class="form-control" placeholder="Escribe tu opinión aquí..."></textarea>
+            <a class="btn btn-primary" href="@Url.Action("verCalificaciones","Calificacion")">Enviar</a>
+        </form>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
