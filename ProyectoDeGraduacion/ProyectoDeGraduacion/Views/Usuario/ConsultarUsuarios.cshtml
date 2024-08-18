@@ -40,10 +40,9 @@
                     <td>jpadilla0738@ufide.ac.cr</td>
                     <td>Activo</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalUsuario"
-                                data-id="Consecutivo" data-name="Nombre">
-                           Cambiar estado
-                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalUsuario">
+                            Cambiar estado
+                        </button>                        
                     </td>
                     <td style="text-align:center">
                         <a class="btn btn-primary" href="@Url.Action("ActualizarUsuario","Usuario")">
@@ -63,16 +62,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ¿Cambiar el estado del usuario? <label id="Nombre"></label>?
+                ¿Cambiar el estado del usuario? Jose Padilla?
             </div>
             <div class="modal-footer">
                 <ul>
-                    <li class="btn btn-success">Confirmar</li>
+                    <li class=" btn btn-success"  data-bs-dismiss="modal" >Confirmar</li>
                 </ul>
             </div>
         </div>
@@ -90,7 +89,9 @@ $(document).ready(function () {
         });
     })
 
-    $(document).on("click", ".AbrirModal", function () {
-        $("#Consecutivo").val($(this).attr('data-id'));
-        $("#Nombre").text($(this).attr('data-name'));
-    });</script>
+    //$(document).on("click", ".AbrirModal", function () {
+    //    $("#Consecutivo").val($(this).attr('data-id'));
+    //    $("#Nombre").text($(this).attr('data-name'));
+    //});
+
+</script>

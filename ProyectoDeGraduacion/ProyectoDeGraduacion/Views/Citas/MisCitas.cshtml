@@ -4,11 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<a class="btn btn-primary" href="@Url.Action("RegistrarCita","Citas")">
-    Nueva Cita
-</a>
-<br>
-<br>
+<div class="mb-2">
+
+    <a class="btn btn-primary" href="@Url.Action("RegistrarCita","Citas")">
+        Nueva Cita
+    </a>
+
+    <a class="btn btn-primary" href="@Url.Action("CitasProgramadas","Citas")"> Vista Administrador</a>
+
+</div>
+
+
 
 <div class="row">
     <div class="col-12">
