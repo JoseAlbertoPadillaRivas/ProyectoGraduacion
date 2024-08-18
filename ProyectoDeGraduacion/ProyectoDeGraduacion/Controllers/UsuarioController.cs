@@ -6,28 +6,30 @@ using System.Web.Mvc;
 
 namespace ProyectoDeGraduacion.Controllers
 {
-    public class CalificacionController : Controller
+    public class UsuarioController : Controller
     {
         [HttpGet]
-        public ActionResult verCalificaciones()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult NuevaCalificacion()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult AdminCalificacion()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult AnalizarCalificaciones()
+        public ActionResult ConsultarUsuarios()
         {
             return View();
         }
 
+        [HttpGet]
+        public ActionResult MiPerfil()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ActualizarUsuario()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CerrarSesion()
+        {
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

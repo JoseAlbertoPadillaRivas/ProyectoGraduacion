@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = "Consultar";
+    ViewBag.Title = "ConsultarUsuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <br>
-<h4>Consulta de productos del inventario</h4>
+<h4>Consulta de usuarios</h4>
 <hr>
 <br>
 
@@ -17,40 +17,37 @@
                 @ViewBag.msj
             </div>
         }
-        <a class="btn btn-primary" href="@Url.Action("AgregarProducto","Inventario")">
-            Agregar Productos
-        </a>
         <br>
         <br>
 
-        <table id="tablaProductos" class="table table-bordered table-hover">
+        <table id="tablaUsuarios" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Id Producto</th>
+                    <th>Cedula</th>
                     <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Fecha de ingreso</th>
-                    <th>Eliminar</th>
-                    <th>Actualizar</th>
+                    <th>Correo</th>
+                    <th>Estado</th>
+                    <th>Cambiar estado</th>
+                    <th>Actualizar información</th>
 
                 </tr>
             </thead>
             <tbody>
 
                 <tr>
-                    <td>1</td>
-                    <td>Fluor</td>
-                    <td>20</td>
-                    <td>14/8/2024</td>
+                    <td>119190738</td>
+                    <td>Jose Padilla</td>
+                    <td>jpadilla0738@ufide.ac.cr</td>
+                    <td>Activo</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos"
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalUsuario"
                                 data-id="Consecutivo" data-name="Nombre">
-                            Eliminar Producto
+                           Cambiar estado
                         </button>
                     </td>
                     <td style="text-align:center">
-                        <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Inventario")">
-                            Actualizar Producto
+                        <a class="btn btn-primary" href="@Url.Action("ActualizarUsuario","Usuario")">
+                            Actualizar Usuario
                         </a>
                     </td>
                 </tr>
@@ -60,7 +57,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalProductos" data-backdrop="static" data-keyboard="false" tabindex="-1"
+<div class="modal fade" id="ModalUsuario" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -70,21 +67,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                <div class="modal-body">
-                    ¿Desea eliminar el Producto <label id="Nombre"></label>?
-                </div>
-                <div class="modal-footer">
-                    <ul>
-                        <li class="btn btn-success">Confirmar</li>
-                    </ul>
-                </div>
+            <div class="modal-body">
+                ¿Cambiar el estado del usuario? <label id="Nombre"></label>?
+            </div>
+            <div class="modal-footer">
+                <ul>
+                    <li class="btn btn-success">Confirmar</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
-<script>$(document).ready(function () {
-    $("#tablaProductos").DataTable({
+<script>
+$(document).ready(function () {
+    $("#tablaUsuarios").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
@@ -96,4 +94,3 @@
         $("#Consecutivo").val($(this).attr('data-id'));
         $("#Nombre").text($(this).attr('data-name'));
     });</script>
-

@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CalificacionController.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Controllers\HistorialController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -482,9 +484,13 @@
     <Content Include="Views\Historial\ModificarHistoria.cshtml" />
     <Content Include="Views\Calificacion\AdminCalificacion.cshtml" />
     <Content Include="Views\Calificacion\AnalizarCalificaciones.cshtml" />
+    <Content Include="Views\Usuario\ConsultarUsuarios.cshtml" />
+    <Content Include="Views\Usuario\MiPerfil.cshtml" />
+    <Content Include="Views\Usuario\ActualizarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
