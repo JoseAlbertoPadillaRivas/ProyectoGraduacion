@@ -117,6 +117,7 @@
     <Compile Include="Controllers\HistorialController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -487,6 +488,10 @@
     <Content Include="Views\Usuario\ConsultarUsuarios.cshtml" />
     <Content Include="Views\Usuario\MiPerfil.cshtml" />
     <Content Include="Views\Usuario\ActualizarUsuario.cshtml" />
+    <Content Include="Views\Seguimiento\MisProductos.cshtml" />
+    <Content Include="Views\Seguimiento\MostrarProductos.cshtml" />
+    <Content Include="Views\Seguimiento\AgregarProducto.cshtml" />
+    <Content Include="Views\Seguimiento\ActualizarProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

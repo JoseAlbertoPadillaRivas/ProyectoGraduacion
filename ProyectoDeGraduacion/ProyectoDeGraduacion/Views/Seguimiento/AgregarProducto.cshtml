@@ -1,0 +1,60 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewBag.Title = "Registro";
+}
+
+<div class="card">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg">Agregar productos de pacientes</p>
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-info" role="alert" style="text-align:center">
+                @ViewBag.msj
+            </div>
+        }
+
+    <form>
+
+        <div class="input-group mb-3">
+            <input type="text" id="Nombre" name="Nombre" placeholder="Nombre del producto">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" id="fechaEntrega" name="fechaEntrega" placeholder="Fecha de entrega">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <label for="Estados">Selecciona un estado:</label>
+            <select id="Estados" name="Estados" class="form-control">
+                <option value="" disabled selected>Seleccione un estado</option>
+                <option value="proceso">En proceso</option>
+                <option value="terminado">Terminado</option>
+                <option value="noIniciado">No iniciado</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-6">
+            </div>
+            <div class="col-6">
+                <ul>
+                    <li>
+                        <a class="btn btn-primary text-center" href="@Url.Action("MostrarProductos","Seguimiento")">Agregar</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
