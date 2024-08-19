@@ -17,8 +17,11 @@
                 @ViewBag.msj
             </div>
         }
-        <a class="btn btn-primary" href="@Url.Action("AgregarProducto","Inventario")">
-            Agregar Productos
+        <a class="btn btn-primary" href="@Url.Action("AgregarProducto","Seguimiento")">
+            Agregar producto de pacientes
+        </a>
+        <a class="btn btn-primary" href="@Url.Action("MisProductos","Seguimiento")">
+            Vista de usuario
         </a>
         <br>
         <br>
@@ -26,10 +29,9 @@
         <table id="tablaProductos" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Id Producto</th>
                     <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Fecha de ingreso</th>
+                    <th>Fecha de entrega</th>
+                    <th>Estado</th>
                     <th>Eliminar</th>
                     <th>Actualizar</th>
 
@@ -38,10 +40,9 @@
             <tbody>
 
                 <tr>
-                    <td>1</td>
-                    <td>Fluor</td>
-                    <td>20</td>
-                    <td>14/8/2024</td>
+                    <td>Retenedores</td>
+                    <td>25/10/2024</td>
+                    <td>En proceso</td>
                     <td style="text-align:center">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalProductos"
                                 data-id="Consecutivo" data-name="Nombre">
@@ -49,7 +50,7 @@
                         </button>
                     </td>
                     <td style="text-align:center">
-                        <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Inventario")">
+                        <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Seguimiento")">
                             Actualizar Producto
                         </a>
                     </td>
@@ -70,20 +71,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                <div class="modal-body">
-                    ¿Desea eliminar el Producto <label id="Nombre"></label>?
-                </div>
-                <div class="modal-footer">
-                    <ul>
-                        <li class="btn btn-success">Confirmar</li>
-                    </ul>
-                </div>
+            <div class="modal-body">
+                ¿Desea eliminar el Producto? <label id="Nombre"></label>?
+            </div>
+            <div class="modal-footer">
+                <ul>
+                    <li class="btn btn-success">Confirmar</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
-<script>$(document).ready(function () {
+<script>
+$(document).ready(function () {
     $("#tablaProductos").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'

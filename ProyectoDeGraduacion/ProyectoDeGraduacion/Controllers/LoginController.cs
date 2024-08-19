@@ -18,7 +18,7 @@ namespace KN_Web.Controllers
         public ActionResult CerrarSesion()
         {
             Session.Clear();
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpGet]

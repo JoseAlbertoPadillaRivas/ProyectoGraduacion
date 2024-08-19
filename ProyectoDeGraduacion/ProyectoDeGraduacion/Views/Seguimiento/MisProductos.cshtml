@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "MisProductos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br>
+<h4>Seguimiento de mis productos</h4>
+<hr>
+<br>
+
+<div class="row">
+    <div class="col-12">
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-info" role="alert" style="text-align:center">
+                @ViewBag.msj
+            </div>
+        }
+        <a class="btn btn-primary" href="@Url.Action("MostrarProductos","Seguimiento")">
+            Vista de admin
+        </a>
+        <br>
+        <br>
+
+
+        <table id="tablaProductos" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre del articulo</th>
+                    <th>Fecha de entrega</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>Retenedores</td>
+                    <td>25/10/2024</td>
+                    <td>En proceso</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $("#tablaProductos").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0, 1, 2] }]
+        });
+    })
+</script>
