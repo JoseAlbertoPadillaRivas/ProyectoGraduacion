@@ -1,66 +1,95 @@
-﻿
-
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
     ViewBag.Title = "Registro";
 }
 
 <div class="card">
     <div class="card-body register-card-body">
-        <p class="login-box-msg">Registro</p>
+        <h3 class="text-center mb-4">Registro</h3>
 
         @if (ViewBag.msj != null)
         {
-            <div class="alert alert-info" role="alert" style="text-align:center">
+            <div class="alert alert-info text-center">
                 @ViewBag.msj
             </div>
         }
 
-    <form>
+        <form>
+            <div class="form-group">
+                <label for="Cedula" class="font-weight-bold">Cédula</label>
+                <div class="input-group">
+                    <input type="text" id="Cedula" name="Cedula" class="form-control" placeholder="Ingrese su cédula">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-id-card"></span>
+                        </div>
+                    </div>
+                </div>
+                <small class="form-text text-muted">Cédula (ej: 123456789)</small>
+            </div>
 
-        <div class="input-group mb-3">
-            <input type="text" id="Cedula" name="Cedula">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-user"></span>
+            <div class="form-group mt-3">
+                <label for="Nombre" class="font-weight-bold">Nombre Completo</label>
+                <div class="input-group">
+                    <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Ingrese su nombre completo">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
                 </div>
+                <small class="form-text text-muted">Nombre Completo (ej: Juan Pérez)</small>
             </div>
-        </div>
-        <div class="input-group mb-3">
-            <input type="text" id="Nombre" name="Nombre">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-user"></span>
-                </div>
-            </div>
-        </div>
-        <div class="input-group mb-3">
-            <input type="text" id="Correo" name="Correo">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-envelope"></span>
-                </div>
-            </div>
-        </div>
-        <div class="input-group mb-3">
-            <input type="text" id="Password" name="Password">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-lock"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-8">
-            </div>
-            <div class="col-4">
-                <a href="@Url.Action("Login","Login")" class="text-center">Iniciar Sesión</a>
 
+            <div class="form-group mt-3">
+                <label for="Correo" class="font-weight-bold">Correo Electrónico</label>
+                <div class="input-group">
+                    <input type="email" id="Correo" name="Correo" class="form-control" placeholder="Ingrese su correo electrónico">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <small class="form-text text-muted">Correo Electrónico (ej: correo@ejemplo.com)</small>
             </div>
-        </div>
-    </form>
+
+            <div class="form-group mt-3">
+                <label for="Password" class="font-weight-bold">Contraseña</label>
+                <div class="input-group">
+                    <input type="password" id="Password" name="Password" class="form-control" placeholder="Ingrese su contraseña">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <small class="form-text text-muted">Contraseña (mínimo 8 caracteres)</small>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-success btn-block" onclick="registrarUsuario()">Registrarse</button>
+            </div>
+        </form>
+
+        <p class="mt-3 mb-0 text-center">
+            <a href="@Url.Action("Login","Login")" class="text-center">¿Ya tienes una cuenta? Iniciar Sesión</a>
+        </p>
     </div>
 </div>
 
-<script src="~/root/funciones/Usuario.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function registrarUsuario() {
+        // Aquí iría la lógica para registrar al usuario
+        Swal.fire({
+            title: 'Usuario registrado con éxito',
+            text: 'Su cuenta ha sido creada exitosamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            // Redireccionar al login u otra acción
+            window.location.href = '@Url.Action("Login", "Login")';
+        });
+    }
+</script>

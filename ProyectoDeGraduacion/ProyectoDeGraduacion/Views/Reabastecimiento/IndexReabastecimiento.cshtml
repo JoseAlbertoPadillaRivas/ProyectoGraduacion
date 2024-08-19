@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Gestión de Reabastecimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Reabastecimiento</h2>
+    <p class="text-center">Selecciona una de las opciones para gestionar el reabastecimiento de productos.</p>
+
+    <div class="row mt-5 text-center">
+        <div class="col-md-3">
+            <div class="card shadow-sm border-info h-100">
+                <div class="card-body d-flex flex-column">
+                    <i class="fa fa-cogs fa-2x text-info mb-3"></i>
+                    <h5 class="card-title">Configurar Valores</h5>
+                    <p class="card-text flex-grow-1">Establezca los niveles mínimos de stock para recibir alertas.</p>
+                    <a class="btn btn-info mt-auto" href="@Url.Action("ConfigurarValores", "Reabastecimiento")">Ir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-info h-100">
+                <div class="card-body d-flex flex-column">
+                    <i class="fa fa-file-alt fa-2x text-info mb-3"></i>
+                    <h5 class="card-title">Generar Órdenes</h5>
+                    <p class="card-text flex-grow-1">Cree y envíe órdenes de compra a los proveedores.</p>
+                    <a class="btn btn-info mt-auto" href="@Url.Action("GenerarOrdenes", "Reabastecimiento")">Ir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-info h-100">
+                <div class="card-body d-flex flex-column">
+                    <i class="fa fa-check-square fa-2x text-info mb-3"></i>
+                    <h5 class="card-title">Confirmar Recepción</h5>
+                    <p class="card-text flex-grow-1">Confirme la recepción de productos y actualice el inventario.</p>
+                    <a class="btn btn-info mt-auto" href="@Url.Action("ConfirmarRecepcion", "Reabastecimiento")">Ir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm border-info h-100">
+                <div class="card-body d-flex flex-column">
+                    <i class="fa fa-history fa-2x text-info mb-3"></i>
+                    <h5 class="card-title">Historial de Reabastecimiento</h5>
+                    <p class="card-text flex-grow-1">Revise el historial de órdenes de compra realizadas.</p>
+                    <a class="btn btn-info mt-auto" href="@Url.Action("HistorialReabastecimiento", "Reabastecimiento")">Ir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("MostrarInventario", "Inventario")" class="btn btn-secondary">Regresar a Inventario</a>
+    </div>
+</div>

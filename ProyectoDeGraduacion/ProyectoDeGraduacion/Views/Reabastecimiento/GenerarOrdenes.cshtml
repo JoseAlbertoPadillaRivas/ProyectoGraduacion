@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Generar Órdenes de Compra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Generar Órdenes de Compra</h2>
+    <p class="text-center">Seleccione los productos que necesitan ser reabastecidos.</p>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad a Solicitar</th>
+                    <th>Proveedor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Algodón Dental</td>
+                    <td><input type="number" class="form-control" value="100"></td>
+                    <td>Proveedor Dental S.A.</td>
+                    <td><button class="btn btn-info btn-generar-orden">Generar Orden</button></td>
+                </tr>
+                <tr>
+                    <td>Fluoruro en Gel</td>
+                    <td><input type="number" class="form-control" value="30"></td>
+                    <td>Productos Médicos Ltda.</td>
+                    <td><button class="btn btn-info btn-generar-orden">Generar Orden</button></td>
+                </tr>
+                <tr>
+                    <td>Anestesia Local</td>
+                    <td><input type="number" class="form-control" value="20"></td>
+                    <td>Medicamentos del Sur</td>
+                    <td><button class="btn btn-info btn-generar-orden">Generar Orden</button></td>
+                </tr>
+                <tr>
+                    <td>Guantes Desechables</td>
+                    <td><input type="number" class="form-control" value="300"></td>
+                    <td>Distribuidora Médica CR</td>
+                    <td><button class="btn btn-info btn-generar-orden">Generar Orden</button></td>
+                </tr>
+                <tr>
+                    <td>Mascarillas Quirúrgicas</td>
+                    <td><input type="number" class="form-control" value="200"></td>
+                    <td>Proveedora Salud Integral</td>
+                    <td><button class="btn btn-info btn-generar-orden">Generar Orden</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="@Url.Action("ConfigurarValores", "Reabastecimiento")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Anterior</a>
+        <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
+        <a href="@Url.Action("ConfirmarRecepcion", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
+    </div>
+
+</div>
+
+<script>
+    document.querySelectorAll('.btn-generar-orden').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            Swal.fire({
+                title: '¿Enviar Orden de Compra?',
+                text: 'La orden será enviada al proveedor.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Enviar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Orden Enviada',
+                        'La orden de compra se ha enviado correctamente al proveedor.',
+                        'success'
+                    );
+                }
+            });
+        });
+    });
+</script>

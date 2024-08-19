@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "Historial de Reabastecimientos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Historial de Reabastecimientos</h2>
+    <p class="text-center">Revise el historial de órdenes de compra realizadas.</p>
+
+    <div class="d-flex justify-content-between mb-3">
+        <input type="text" id="searchInput" placeholder="Buscar por producto, proveedor o estado..." class="form-control w-50" aria-label="Buscar">
+        <button class="btn btn-info" id="btn-exportar">Exportar Historial</button>
+    </div>
+
+    <div class="table-responsive mt-4">
+        <table id="historialTable" class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Producto</th>
+                    <th>Proveedor</th>
+                    <th>Fecha de Solicitud</th>
+                    <th>Estado de la Orden</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Algodón Dental</td>
+                    <td>Proveedor Dental S.A.</td>
+                    <td>01/01/2024</td>
+                    <td>Completada</td>
+                    <td>
+                        <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fluoruro en Gel</td>
+                    <td>Productos Médicos Ltda.</td>
+                    <td>15/02/2024</td>
+                    <td>Pendiente</td>
+                    <td>
+                        <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Anestesia Local</td>
+                    <td>Medicamentos del Sur</td>
+                    <td>10/03/2024</td>
+                    <td>Completada</td>
+                    <td>
+                        <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Guantes Desechables</td>
+                    <td>Distribuidora Médica CR</td>
+                    <td>20/04/2024</td>
+                    <td>Pendiente</td>
+                    <td>
+                        <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mascarillas Quirúrgicas</td>
+                    <td>Proveedora Salud Integral</td>
+                    <td>05/05/2024</td>
+                    <td>Completada</td>
+                    <td>
+                        <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="@Url.Action("ConfirmarRecepcion", "Reabastecimiento")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Anterior</a>
+        <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
+        <a href="@Url.Action("ConfigurarValores", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
+    </div>
+</div>
+
+<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Filtrado en la tabla
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#historialTable tbody tr');
+
+        rows.forEach(function(row) {
+            let text = row.textContent.toLowerCase();
+            if (text.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Exportar historial con SweetAlert
+    document.getElementById('btn-exportar').addEventListener('click', function() {
+        Swal.fire({
+            title: '¿Desea exportar el historial?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, exportar',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Exportación Iniciada',
+                    'El historial se está exportando en formato CSV o PDF.',
+                    'success'
+                ).then(() => {
+                    window.location.href = '@Url.Action("HistorialReabastecimiento", "Reabastecimiento")';
+                });
+            }
+        });
+    });
+
+    // Eliminar entrada del historial con SweetAlert
+    document.querySelectorAll('.btn-eliminar').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            Swal.fire({
+                title: '¿Eliminar esta entrada?',
+                text: "No podrás revertir esta acción.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'La entrada ha sido eliminada del historial.',
+                        'success'
+                    );
+                }
+            });
+        });
+    });
+</script>

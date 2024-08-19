@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Confirmar Recepción de Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Confirmar Recepción de Productos</h2>
+    <p class="text-center">Confirme la recepción de los productos y actualice el inventario.</p>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad Recibida</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Algodón Dental</td>
+                    <td><input type="number" class="form-control" value="100"></td>
+                    <td>
+                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
+                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fluoruro en Gel</td>
+                    <td><input type="number" class="form-control" value="30"></td>
+                    <td>
+                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
+                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Anestesia Local</td>
+                    <td><input type="number" class="form-control" value="20"></td>
+                    <td>
+                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
+                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Guantes Desechables</td>
+                    <td><input type="number" class="form-control" value="300"></td>
+                    <td>
+                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
+                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mascarillas Quirúrgicas</td>
+                    <td><input type="number" class="form-control" value="200"></td>
+                    <td>
+                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
+                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="@Url.Action("GenerarOrdenes", "Reabastecimiento")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Anterior</a>
+        <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
+        <a href="@Url.Action("HistorialReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
+    </div>
+
+</div>
+
+<script>
+    document.querySelectorAll('.btn-confirmar').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Recepción Confirmada',
+                text: 'La recepción de productos se ha registrado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+    });
+
+    document.querySelectorAll('.btn-discrepancia').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            Swal.fire({
+                title: 'Registrar Discrepancia',
+                text: 'Por favor, detalle la discrepancia.',
+                input: 'text',
+                showCancelButton: true,
+                confirmButtonText: 'Registrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Discrepancia Registrada',
+                        'La discrepancia ha sido registrada y se ha notificado al proveedor.',
+                        'success'
+                    );
+                }
+            });
+        });
+    });
+</script>

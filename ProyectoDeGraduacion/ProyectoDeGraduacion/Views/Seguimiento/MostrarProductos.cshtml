@@ -17,10 +17,10 @@
                 @ViewBag.msj
             </div>
         }
-        <a class="btn btn-primary" href="@Url.Action("AgregarProducto","Seguimiento")">
+        <a class="btn btn-info" href="@Url.Action("AgregarProducto","Seguimiento")">
             Agregar producto de pacientes
         </a>
-        <a class="btn btn-primary" href="@Url.Action("MisProductos","Seguimiento")">
+        <a class="btn btn-info" href="@Url.Action("MisProductos","Seguimiento")">
             Vista de usuario
         </a>
         <br>
@@ -34,68 +34,61 @@
                     <th>Estado</th>
                     <th>Eliminar</th>
                     <th>Actualizar</th>
-
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
                     <td>Retenedores</td>
                     <td>25/10/2024</td>
                     <td>En proceso</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalProductos"
-                                data-id="Consecutivo" data-name="Nombre">
+                        <button type="button" class="btn btn-info btn-eliminar" data-name="Retenedores">
                             Eliminar Producto
                         </button>
                     </td>
                     <td style="text-align:center">
-                        <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Seguimiento")">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Seguimiento")">
                             Actualizar Producto
                         </a>
                     </td>
                 </tr>
+                <!-- Más filas para otros productos -->
             </tbody>
         </table>
 
     </div>
 </div>
 
-<div class="modal fade" id="ModalProductos" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ¿Desea eliminar el Producto? <label id="Nombre"></label>?
-            </div>
-            <div class="modal-footer">
-                <ul>
-                    <li class="btn btn-success">Confirmar</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).ready(function () {
-    $("#tablaProductos").DataTable({
+    $(document).ready(function () {
+        $("#tablaProductos").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
             columnDefs: [{ type: 'string', target: [0, 1, 2, 3] }]
         });
-    })
 
-    $(document).on("click", ".AbrirModal", function () {
-        $("#Consecutivo").val($(this).attr('data-id'));
-        $("#Nombre").text($(this).attr('data-name'));
-    });</script>
-
+        $(document).on("click", ".btn-eliminar", function () {
+            var producto = $(this).attr('data-name');
+            Swal.fire({
+                title: '¿Desea eliminar el Producto?',
+                text: producto,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Eliminado',
+                        'El producto ha sido eliminado.',
+                        'success'
+                    );
+                    // Aquí puedes agregar la lógica para eliminar el producto del backend
+                }
+            });
+        });
+    });
+</script>

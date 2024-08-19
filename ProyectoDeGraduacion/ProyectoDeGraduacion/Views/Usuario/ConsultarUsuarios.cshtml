@@ -23,29 +23,27 @@
         <table id="tablaUsuarios" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Cedula</th>
+                    <th>Cédula</th>
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Estado</th>
                     <th>Cambiar estado</th>
                     <th>Actualizar información</th>
-
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
                     <td>119190738</td>
                     <td>Jose Padilla</td>
                     <td>jpadilla0738@ufide.ac.cr</td>
                     <td>Activo</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalUsuario">
+                        <button type="button" class="btn btn-info btn-cambiar-estado" data-name="Jose Padilla">
                             Cambiar estado
-                        </button>                        
+                        </button>
                     </td>
                     <td style="text-align:center">
-                        <a class="btn btn-primary" href="@Url.Action("ActualizarUsuario","Usuario")">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarUsuario","Usuario")">
                             Actualizar Usuario
                         </a>
                     </td>
@@ -56,42 +54,36 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalUsuario" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ¿Cambiar el estado del usuario? Jose Padilla?
-            </div>
-            <div class="modal-footer">
-                <ul>
-                    <li class=" btn btn-success"  data-bs-dismiss="modal" >Confirmar</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).ready(function () {
-    $("#tablaUsuarios").DataTable({
+    $(document).ready(function () {
+        $("#tablaUsuarios").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
             columnDefs: [{ type: 'string', target: [0, 1, 2, 3] }]
         });
-    })
 
-    //$(document).on("click", ".AbrirModal", function () {
-    //    $("#Consecutivo").val($(this).attr('data-id'));
-    //    $("#Nombre").text($(this).attr('data-name'));
-    //});
-
+        $(document).on("click", ".btn-cambiar-estado", function () {
+            var usuario = $(this).attr('data-name');
+            Swal.fire({
+                title: '¿Cambiar el estado del usuario?',
+                text: usuario,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Cambiar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Estado Cambiado',
+                        'El estado del usuario ha sido cambiado.',
+                        'success'
+                    );
+                    // Aquí puedes agregar la lógica para cambiar el estado del usuario en el backend
+                }
+            });
+        });
+    });
 </script>

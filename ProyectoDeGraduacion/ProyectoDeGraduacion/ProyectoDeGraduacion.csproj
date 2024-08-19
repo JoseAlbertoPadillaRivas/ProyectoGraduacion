@@ -117,6 +117,7 @@
     <Compile Include="Controllers\HistorialController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ReabastecimientoController.cs" />
     <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -493,6 +494,11 @@
     <Content Include="Views\Seguimiento\MostrarProductos.cshtml" />
     <Content Include="Views\Seguimiento\AgregarProducto.cshtml" />
     <Content Include="Views\Seguimiento\ActualizarProducto.cshtml" />
+    <Content Include="Views\Reabastecimiento\IndexReabastecimiento.cshtml" />
+    <Content Include="Views\Reabastecimiento\ConfigurarValores.cshtml" />
+    <Content Include="Views\Reabastecimiento\GenerarOrdenes.cshtml" />
+    <Content Include="Views\Reabastecimiento\ConfirmarRecepcion.cshtml" />
+    <Content Include="Views\Reabastecimiento\HistorialReabastecimiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

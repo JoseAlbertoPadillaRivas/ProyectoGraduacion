@@ -17,9 +17,15 @@
                 @ViewBag.msj
             </div>
         }
-        <a class="btn btn-primary" href="@Url.Action("AgregarProducto","Inventario")">
-            Agregar Productos
-        </a>
+
+        <div class="d-flex justify-content-between mb-3">
+            <a class="btn btn-info" href="@Url.Action("AgregarProducto","Inventario")">
+                Agregar Productos
+            </a>
+            <a class="btn btn-secondary" href="@Url.Action("IndexReabastecimiento","Reabastecimiento")">
+                Gestión de Reabastecimiento
+            </a>
+        </div>
         <br>
         <br>
 
@@ -32,68 +38,126 @@
                     <th>Fecha de ingreso</th>
                     <th>Eliminar</th>
                     <th>Actualizar</th>
-
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
                     <td>1</td>
                     <td>Fluor</td>
                     <td>20</td>
                     <td>14/8/2024</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalProductos"
-                                data-id="Consecutivo" data-name="Nombre">
+                        <button type="button" class="btn btn-info eliminar-producto" data-id="1" data-name="Fluor">
                             Eliminar Producto
                         </button>
                     </td>
                     <td style="text-align:center">
-                        <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Inventario")">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
+                            Actualizar Producto
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Anestesia Local</td>
+                    <td>15</td>
+                    <td>10/8/2024</td>
+                    <td style="text-align:center">
+                        <button type="button" class="btn btn-info eliminar-producto" data-id="2" data-name="Anestesia Local">
+                            Eliminar Producto
+                        </button>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
+                            Actualizar Producto
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Hilo Dental</td>
+                    <td>30</td>
+                    <td>12/8/2024</td>
+                    <td style="text-align:center">
+                        <button type="button" class="btn btn-info eliminar-producto" data-id="3" data-name="Hilo Dental">
+                            Eliminar Producto
+                        </button>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
+                            Actualizar Producto
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Gasa Esterilizada</td>
+                    <td>40</td>
+                    <td>15/8/2024</td>
+                    <td style="text-align:center">
+                        <button type="button" class="btn btn-info eliminar-producto" data-id="4" data-name="Gasa Esterilizada">
+                            Eliminar Producto
+                        </button>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
+                            Actualizar Producto
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Resina Dental</td>
+                    <td>25</td>
+                    <td>18/8/2024</td>
+                    <td style="text-align:center">
+                        <button type="button" class="btn btn-info eliminar-producto" data-id="5" data-name="Resina Dental">
+                            Eliminar Producto
+                        </button>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
                             Actualizar Producto
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-    </div>
-</div>
-
-<div class="modal fade" id="ModalProductos" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-                <div class="modal-body">
-                    ¿Desea eliminar el Producto <label id="Nombre"></label>?
-                </div>
-                <div class="modal-footer">
-                    <ul>
-                        <li class="btn btn-success">Confirmar</li>
-                    </ul>
-                </div>
-        </div>
     </div>
 </div>
 
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
-<script>$(document).ready(function () {
-    $("#tablaProductos").DataTable({
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+        $("#tablaProductos").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
             columnDefs: [{ type: 'string', target: [0, 1, 2, 3] }]
         });
-    })
+    });
 
-    $(document).on("click", ".AbrirModal", function () {
-        $("#Consecutivo").val($(this).attr('data-id'));
-        $("#Nombre").text($(this).attr('data-name'));
-    });</script>
+    $(document).on("click", ".eliminar-producto", function () {
+        var productoId = $(this).data('id');
+        var productoNombre = $(this).data('name');
 
+        Swal.fire({
+            title: '¿Eliminar Producto?',
+            text: "¿Desea eliminar el producto " + productoNombre + "?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí se puede realizar la acción de eliminación (ej. enviar una solicitud al servidor)
+                Swal.fire(
+                    'Eliminado',
+                    'El producto ha sido eliminado.',
+                    'success'
+                );
+            }
+        });
+    });
+</script>
