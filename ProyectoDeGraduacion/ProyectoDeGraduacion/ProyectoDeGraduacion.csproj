@@ -144,6 +144,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="css\animate.css" />
     <Content Include="css\bootstrap.css" />
+    <Content Include="css\chatbot.css" />
     <Content Include="css\colors\color1.css" />
     <Content Include="css\colors\color2.css" />
     <Content Include="css\colors\color3.css" />

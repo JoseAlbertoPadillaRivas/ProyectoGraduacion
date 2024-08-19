@@ -32,6 +32,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.12.3/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/css/chatbot.css" rel="stylesheet" />
 </head>
 
 <body class="page-template-front-page header-sticky home2">
@@ -59,7 +60,7 @@
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                                   Jose Padilla
+                                    Jose Padilla
                                     <i class="far fa-user ml-2"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -70,8 +71,8 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     @*<a href="@Url.Action("ActualizarContrasenna","Perfil")" class="dropdown-item">*@
-                                        <i class="fas fa-lock mr-2"></i> Seguridad
-                                        <span class="float-right text-muted text-sm"></span>
+                                    <i class="fas fa-lock mr-2"></i> Seguridad
+                                    <span class="float-right text-muted text-sm"></span>
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="@Url.Action("CerrarSesion","Login")" class="dropdown-item">
@@ -91,6 +92,22 @@
             @RenderBody()
             <hr />
         </div>
+
+        <div id="chatbot">
+            <div id="chatbot-button" onclick="toggleChatbot()">Asistente Virtual</div>
+            <div id="chatbot-content">
+                <div class="text-center">
+                    <div class="d-inline-block mt-2">
+                        <button class="btn btn-primary d-block mb-2 mx-auto">1- Horario</button>
+                        <button class="btn btn-primary d-block mb-2 mx-auto">2- Servicios</button>
+                        <label for="Pregunta" class="form-label">Opción:  </label>
+                        <input type="text" class="form-control" id="Pregunta" value="1" required>
+                        <p id="respuesta" class="respuesta-box">El Horario de atención de la doctora es de Lunes a Viernes de 7 am a 5pm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Footer -->
         <footer class="footer">
@@ -174,6 +191,15 @@
                 confirmButtonText: 'Aceptar'
             });
         }
+        function toggleChatbot() {
+            var content = document.getElementById("chatbot-content");
+            if (content.style.display === "none" || content.style.display === "") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+
     </script>
 </body>
 
