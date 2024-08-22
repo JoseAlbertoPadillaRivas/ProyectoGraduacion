@@ -29,10 +29,12 @@
             <textarea class="form-control" id="observaciones" name="observaciones" rows="6">Revisar en 6 meses</textarea>
         </div>
 
-        <div>
+        <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-dark">Guardar Cambios</button>
+            <a href="@Url.Action("AñadirDocumentos", "Historial")" class="btn btn-secondary">Agregar Documento</a>
         </div>
-        <div class="historial-section text-center">
+
+        <div class="historial-section text-center mt-4">
             <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-info">Regresar al Historial</a>
         </div>
     </form>

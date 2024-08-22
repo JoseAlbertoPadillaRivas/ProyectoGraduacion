@@ -3,21 +3,88 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <div class="tp-banner-container">
-        <div class="tp-banner">
-            <ul>
-                <li data-transition="random-static" data-slotamount="7" data-masterspeed="1000" data-saveperformance="on">
-                    <img src="~/images/logo2.jpg" alt="slider-image" />
-
-                    <div class="tp-caption sfb flat-subtitle-slider" data-x="15" data-y="322" data-speed="1000" data-start="1000" data-easing="Power3.easeInOut">Mejora tu</div>
-
-                    <div class="tp-caption sft flat-title-slider style1" data-x="15" data-y="382" data-speed="1000" data-start="1500" data-easing="Power3.easeInOut">
-                        SALUD DENTAL
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="0" class="active"></li>
+                    <li data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="2"></li>
+                    <li data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="3"></li>
+                    <li data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="4"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="~/images/Diapositiva_1.jpg" class="d-block mx-auto" alt="Imagen 1">
                     </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_2.jpg" class="d-block mx-auto" alt="Imagen 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_3.jpg" class="d-block mx-auto" alt="Imagen 3">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_4.jpg" class="d-block mx-auto" alt="Imagen 4">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_5.jpg" class="d-block mx-auto" alt="Imagen 5">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators1" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+        </div>
 
-                </li>
-            </ul>
+        <div class="col-md-6">
+            <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0" class="active"></li>
+                    <li data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="2"></li>
+                    <li data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="3"></li>
+                    <li data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="4"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="~/images/Diapositiva_6.jpg" class="d-block mx-auto" alt="Imagen 6">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_7.jpg" class="d-block mx-auto" alt="Imagen 7">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_8.jpg" class="d-block mx-auto" alt="Imagen 8">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_9.jpg" class="d-block mx-auto" alt="Imagen 9">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/images/Diapositiva_10.jpg" class="d-block mx-auto" alt="Imagen 10">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
         </div>
     </div>
+</div>
+
+<div class="mb-4 mt-5">
+    <div class="tp-caption sfb flat-subtitle-slider" data-x="15" data-y="322" data-speed="1000" data-start="1000" data-easing="Power3.easeInOut">Mejora tu</div>
+
+    <div class="tp-caption sft flat-title-slider style1" data-x="15" data-y="382" data-speed="1000" data-start="1500" data-easing="Power3.easeInOut">
+        SALUD DENTAL
     </div>
+</div>

@@ -3,10 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br>
-<h4>Consulta de productos del inventario</h4>
-<hr>
-<br>
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Inventario</h2>
+    <p class="text-center">Administra y controla los productos del inventario desde esta sección.</p>
+</div>
 
 <div class="row">
     <div class="col-12">
@@ -19,110 +19,112 @@
         }
 
         <div class="d-flex justify-content-between mb-3">
-            <a class="btn btn-info" href="@Url.Action("AgregarProducto","Inventario")">
+            <a class="btn btn-info" href="@Url.Action("AgregarProducto", "Inventario")">
                 Agregar Productos
             </a>
-            <a class="btn btn-secondary" href="@Url.Action("IndexReabastecimiento","Reabastecimiento")">
+            <a class="btn btn-secondary" href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")">
                 Gestión de Reabastecimiento
             </a>
         </div>
         <br>
         <br>
 
-        <table id="tablaProductos" class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Id Producto</th>
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Fecha de ingreso</th>
-                    <th>Eliminar</th>
-                    <th>Actualizar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Fluor</td>
-                    <td>20</td>
-                    <td>14/8/2024</td>
-                    <td style="text-align:center">
-                        <button type="button" class="btn btn-info eliminar-producto" data-id="1" data-name="Fluor">
-                            Eliminar Producto
-                        </button>
-                    </td>
-                    <td style="text-align:center">
-                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
-                            Actualizar Producto
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Anestesia Local</td>
-                    <td>15</td>
-                    <td>10/8/2024</td>
-                    <td style="text-align:center">
-                        <button type="button" class="btn btn-info eliminar-producto" data-id="2" data-name="Anestesia Local">
-                            Eliminar Producto
-                        </button>
-                    </td>
-                    <td style="text-align:center">
-                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
-                            Actualizar Producto
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Hilo Dental</td>
-                    <td>30</td>
-                    <td>12/8/2024</td>
-                    <td style="text-align:center">
-                        <button type="button" class="btn btn-info eliminar-producto" data-id="3" data-name="Hilo Dental">
-                            Eliminar Producto
-                        </button>
-                    </td>
-                    <td style="text-align:center">
-                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
-                            Actualizar Producto
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Gasa Esterilizada</td>
-                    <td>40</td>
-                    <td>15/8/2024</td>
-                    <td style="text-align:center">
-                        <button type="button" class="btn btn-info eliminar-producto" data-id="4" data-name="Gasa Esterilizada">
-                            Eliminar Producto
-                        </button>
-                    </td>
-                    <td style="text-align:center">
-                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
-                            Actualizar Producto
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Resina Dental</td>
-                    <td>25</td>
-                    <td>18/8/2024</td>
-                    <td style="text-align:center">
-                        <button type="button" class="btn btn-info eliminar-producto" data-id="5" data-name="Resina Dental">
-                            Eliminar Producto
-                        </button>
-                    </td>
-                    <td style="text-align:center">
-                        <a class="btn btn-info" href="@Url.Action("ActualizarProducto","Inventario")">
-                            Actualizar Producto
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="tablaProductos" class="table table-striped table-bordered historial-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id Producto</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de ingreso</th>
+                        <th>Eliminar</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Fluor</td>
+                        <td>20</td>
+                        <td>14/08/2024</td>
+                        <td style="text-align:center">
+                            <button type="button" class="btn btn-info btn-sm eliminar-producto" data-id="1" data-name="Fluor">
+                                Eliminar Producto
+                            </button>
+                        </td>
+                        <td style="text-align:center">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarProducto", "Inventario")">
+                                Actualizar Producto
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Anestesia Local</td>
+                        <td>15</td>
+                        <td>10/08/2024</td>
+                        <td style="text-align:center">
+                            <button type="button" class="btn btn-info btn-sm eliminar-producto" data-id="2" data-name="Anestesia Local">
+                                Eliminar Producto
+                            </button>
+                        </td>
+                        <td style="text-align:center">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarProducto", "Inventario")">
+                                Actualizar Producto
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Hilo Dental</td>
+                        <td>30</td>
+                        <td>12/08/2024</td>
+                        <td style="text-align:center">
+                            <button type="button" class="btn btn-info btn-sm eliminar-producto" data-id="3" data-name="Hilo Dental">
+                                Eliminar Producto
+                            </button>
+                        </td>
+                        <td style="text-align:center">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarProducto", "Inventario")">
+                                Actualizar Producto
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Gasa Esterilizada</td>
+                        <td>40</td>
+                        <td>15/08/2024</td>
+                        <td style="text-align:center">
+                            <button type="button" class="btn btn-info btn-sm eliminar-producto" data-id="4" data-name="Gasa Esterilizada">
+                                Eliminar Producto
+                            </button>
+                        </td>
+                        <td style="text-align:center">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarProducto", "Inventario")">
+                                Actualizar Producto
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Resina Dental</td>
+                        <td>25</td>
+                        <td>18/08/2024</td>
+                        <td style="text-align:center">
+                            <button type="button" class="btn btn-info btn-sm eliminar-producto" data-id="5" data-name="Resina Dental">
+                                Eliminar Producto
+                            </button>
+                        </td>
+                        <td style="text-align:center">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarProducto", "Inventario")">
+                                Actualizar Producto
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

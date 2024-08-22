@@ -2450,3 +2450,57 @@ footer {
 }
 
 
+.estado-cita-cancelada {
+	color: #dc3545 !important; /* Rojo para Cancelada */
+	font-weight: bold;
+}
+
+.estado-cita-finalizada {
+	color: #28a745 !important; /* Verde para Finalizada */
+	font-weight: bold;
+}
+
+.estado-cita-proxima {
+	color: #ffc107 !important; /* Amarillo para Próxima */
+	font-weight: bold;
+}
+
+.social-icons {
+	display: flex;
+	justify-content: center;
+	gap: 30px; 
+	margin-top: 10px;
+}
+
+.social-icon i {
+	font-size: 3rem; 
+	color: #fff; 
+	transition: color 0.3s ease, transform 0.3s ease;
+}
+
+	.social-icon i:hover {
+		color: #ffcc00; 
+		transform: scale(1.2); 
+	}
+
+.footer .widget-title {
+	margin-bottom: 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #333;
+	text-align: center;
+}
+
+.footer .textwidget p {
+	text-align: center;
+	margin: 0;
+	color: #666;
+}
+
+.map-container iframe {
+	border-radius: 8px; /* Bordes redondeados para el mapa */
+}
+
+
+

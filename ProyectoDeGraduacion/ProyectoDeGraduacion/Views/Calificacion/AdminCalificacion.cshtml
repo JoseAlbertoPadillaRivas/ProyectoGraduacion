@@ -8,6 +8,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 </head>
 
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Calificaciones</h2>
+    <p class="text-center">Administra, revisa y analiza las calificaciones de los pacientes desde esta sección.</p>
+</div>
+
 <!-- Botones para analizar y exportar calificaciones -->
 <div class="d-flex justify-content-end mb-3">
     <a class="btn btn-info mx-2" href=@Url.Action("AnalizarCalificaciones","Calificacion")>Analizar Calificaciones</a>
@@ -27,14 +32,13 @@
             <option value="marzo-2024">Marzo 2024</option>
             <!-- Agrega más opciones de meses y años según sea necesario -->
         </select>
-
     </div>
 </div>
 
 <!-- Tarjetas de calificaciones -->
-<div class="row">
+<div class="row justify-content-center">
     <!-- Ejemplo de tarjeta 1 -->
-    <div class="card text-center col-3 mx-2">
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
             Paciente: Josue Herrera
         </div>
@@ -52,7 +56,7 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
                     Ver
                 </button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                <button type="button" class="btn btn-danger eliminar-calificacion">
                     Eliminar
                 </button>
             </div>
@@ -60,7 +64,7 @@
     </div>
 
     <!-- Ejemplo de tarjeta 2 -->
-    <div class="card text-center col-3 mx-2">
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
             Paciente: Maria Pérez
         </div>
@@ -78,7 +82,7 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
                     Ver
                 </button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                <button type="button" class="btn btn-danger eliminar-calificacion">
                     Eliminar
                 </button>
             </div>
@@ -86,7 +90,7 @@
     </div>
 
     <!-- Ejemplo de tarjeta 3 -->
-    <div class="card text-center col-3 mx-2">
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
             Paciente: Carlos Gómez
         </div>
@@ -104,7 +108,7 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
                     Ver
                 </button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                <button type="button" class="btn btn-danger eliminar-calificacion">
                     Eliminar
                 </button>
             </div>
@@ -112,7 +116,7 @@
     </div>
 
     <!-- Ejemplo de tarjeta 4 -->
-    <div class="card text-center col-3 mx-2">
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
             Paciente: Laura Rodríguez
         </div>
@@ -130,7 +134,7 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
                     Ver
                 </button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalCalificacion">
+                <button type="button" class="btn btn-danger eliminar-calificacion">
                     Eliminar
                 </button>
             </div>
@@ -166,25 +170,6 @@
     </div>
 </div>
 
-<!-- Modal para confirmar eliminación -->
-<div class="modal fade" id="ModalCalificacion" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ¿Desea eliminar la calificación de: Josué Herrera?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success">Confirmar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function () {
         let filter = this.value.toLowerCase();
@@ -215,24 +200,46 @@
     });
 
     document.getElementById('exportButton').addEventListener('click', function() {
-    Swal.fire({
-        title: '¿Desea descargar el reporte?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Descarga Iniciada',
-                'El reporte se está descargando.',
-                'success'
-            ).then(() => {
-                // Redirige de nuevo a la misma página
-                window.location.href = '@Url.Action("AdminCalificacion", "Calificacion")';
-            });
-        }
+        Swal.fire({
+            title: '¿Desea descargar el reporte?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Descarga Iniciada',
+                    'El reporte se está descargando.',
+                    'success'
+                ).then(() => {
+                    // Redirige de nuevo a la misma página
+                    window.location.href = '@Url.Action("AdminCalificacion", "Calificacion")';
+                });
+            }
+        });
     });
-});
-</script>
 
+    document.querySelectorAll('.eliminar-calificacion').forEach(function(button) {
+        button.addEventListener('click', function() {
+            Swal.fire({
+                title: '¿Eliminar Calificación?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Calificación Eliminada',
+                        'La calificación ha sido eliminada con éxito.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '@Url.Action("AdminCalificacion", "Calificacion")';
+                    });
+                }
+            });
+        });
+    });
+</script>

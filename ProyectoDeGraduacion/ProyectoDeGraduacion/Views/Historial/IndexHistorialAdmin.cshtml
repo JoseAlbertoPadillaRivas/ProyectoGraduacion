@@ -2,6 +2,11 @@
     ViewBag.Title = "Historial Clínico - Admin";
 }
 
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Historiales Clínicos</h2>
+    <p class="text-center">Administra, revisa y gestiona los historiales clínicos de los pacientes desde esta sección.</p>
+</div>
+
 <div class="text-center mb-4">
     <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-primary btn-sm">Vista Usuario 1</a>
     <a href="@Url.Action("IndexHistorialAdmin", "Historial")" class="btn btn-secondary btn-sm">Vista Admin 2</a>
@@ -16,11 +21,7 @@
     </div>
 </div>
 
-<h2 class="historial-header">Gestión del Historial Clínico</h2>
-
 <div class="historial-section">
-    <p>A continuación se muestran los registros clínicos del paciente con opciones de gestión:</p>
-
     <div class="table-responsive">
         <table class="table table-striped table-bordered historial-table">
             <thead class="thead-dark">

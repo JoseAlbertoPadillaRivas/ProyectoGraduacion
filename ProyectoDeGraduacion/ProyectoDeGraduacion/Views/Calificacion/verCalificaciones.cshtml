@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "verCalificaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,16 +8,20 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 </head>
 
-<div class="d-flex justify-content-between mt-4">
-    <a class="btn btn-info mb-3" href=@Url.Action("NuevaCalificacion","Calificacion")>Agregar Calificación</a><br>
-    <a class="btn btn-info mb-3" href=@Url.Action("AdminCalificacion","Calificacion")>Vista Admin</a><br>
+<div class="container mt-4">
+    <h2 class="text-center">Calificaciones</h2>
+    <p class="text-center">Revisa las calificaciones y comentarios de los pacientes sobre sus tratamientos.</p>
 </div>
 
+<div class="d-flex justify-content-center mt-4">
+    <a class="btn btn-info mb-3 mx-2" href=@Url.Action("NuevaCalificacion","Calificacion")>Agregar Calificación</a>
+    <a class="btn btn-info mb-3 mx-2" href=@Url.Action("AdminCalificacion","Calificacion")>Vista Admin</a>
+</div>
 
-<input type="text" id="searchInput" placeholder="Buscar..." class="form-control mb-3"><br>
+<input type="text" id="searchInput" placeholder="Buscar..." class="form-control mb-3">
 
-<div class="row">
-    <div class="card text-center col-3 mx-2">
+<div class="row justify-content-center">
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
             Paciente: Josue Herrera
         </div>
@@ -35,26 +38,9 @@
         </div>
     </div>
 
-    <div class="card text-center col-3 mx-2" ">
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
-            Paciente: Josue Herrera
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Limpieza Dental</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="card text-center col-3 mx-2" ">
-        <div class="card-header">
-            Paciente: Josue Herrera
+            Paciente: Maria Perez
         </div>
         <div class="card-body">
             <h5 class="card-title">Extracción</h5>
@@ -68,9 +54,10 @@
             </div>
         </div>
     </div>
-    <div class="card text-center col-3 mx-2" ">
+
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
-            Paciente: Josue Herrera
+            Paciente: Carlos Mendez
         </div>
         <div class="card-body">
             <h5 class="card-title">Ortodoncia</h5>
@@ -84,9 +71,10 @@
             </div>
         </div>
     </div>
-    <div class="card text-center col-3 mx-2" ">
+
+    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
         <div class="card-header">
-            Paciente: Josue Herrera
+            Paciente: Laura Gutierrez
         </div>
         <div class="card-body">
             <h5 class="card-title">Relleno Dental</h5>
@@ -100,77 +88,14 @@
             </div>
         </div>
     </div>
-    <div class="card text-center col-3 mx-2" ">
-        <div class="card-header">
-            Paciente: Josue Herrera
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Endodoncia</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-        </div>
-    </div>
-    <div class="card text-center col-3 mx-2" ">
-        <div class="card-header">
-            Paciente: Josue Herrera
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Implantes Dentales</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-        </div>
-    </div>
-    <div class="card text-center col-3 mx-2" ">
-        <div class="card-header">
-            Paciente: Josue Herrera
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Extracción</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-        </div>
-    </div>
-    <div class="card text-center col-3 mx-2" ">
-    <div class="card-header">
-        Paciente: Josue Herrera
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Endodoncia</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-        <div class="card-footer text-body-secondary">
-            <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-            <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-        </div>
-    </div>
-</div>
 </div>
 
-<script>document.getElementById('searchInput').addEventListener('keyup', function() {
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
         let filter = this.value.toLowerCase();
         let cards = document.querySelectorAll('.card');
 
-        cards.forEach(function(card) {
+        cards.forEach(function (card) {
             let text = card.textContent.toLowerCase();
             if (text.includes(filter)) {
                 card.style.display = '';
@@ -178,5 +103,5 @@
                 card.style.display = 'none';
             }
         });
-    });</script>
-
+    });
+</script>

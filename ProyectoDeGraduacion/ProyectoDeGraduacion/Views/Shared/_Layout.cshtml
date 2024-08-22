@@ -40,15 +40,13 @@
         <!-- Header -->
         <header id="header" class="header style2 clearfix">
             <div class="header-inner">
-                <div id="logo" class="logo">
-                    <a href="@Url.Action("Index","Login")" class="text-center">
-                        <img src="~/images/logoClinica.png" alt="image">
-                    </a>
-                </div><!-- /.logo -->
                 <div class="nav-wrap">
                     <div class="btn-menu"></div>
-                    <nav id="mainnav" class="navbar navbar-expand ">
+                    <nav id="mainnav" class="navbar navbar-expand">
                         <ul class="navbar-nav ml-auto">
+                            <li><a href="@Url.Action("Index","Login")" class="text-center">
+                                <img src="~/images/logoClinica.png" alt="image">
+                            </a></li>
                             <li><a href="@Url.Action("Index","Login")"> Home</a></li>
                             <li><a href="@Url.Action("IndexHistorial","Historial")">Historia Clínica</a></li>
                             <li><a href="@Url.Action("MisCitas","Citas")">Citas</a></li>
@@ -56,8 +54,6 @@
                             <li><a href="@Url.Action("MostrarProductos","Seguimiento")">Seguimiento de productos</a></li>
                             <li><a href="@Url.Action("verCalificaciones","Calificacion")"> Calificación</a></li>
                             <li><a href="@Url.Action("ConsultarUsuarios","Usuario")"> Usuarios</a></li>
-                        </ul>
-                        <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a class="nav-link" data-bs-toggle="dropdown" href="#">
                                     Jose Padilla
@@ -110,50 +106,55 @@
             </div>
         </div>
 
-
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-widgets">
                 <div class="container">
                     <div class="row">
+                        <!-- Descripción -->
                         <div class="col-md-4">
                             <div class="widget widget_text">
-                                <h5 class="widget-title">Sonrie más</h5>
+                                <h5 class="widget-title">Sonríe más</h5>
                                 <div class="textwidget">
                                     <p>Sonríe con confianza</p><br>
                                     <p>Cuidamos tu salud dental para que muestres tu mejor sonrisa.</p>
                                 </div>
-                            </div><!-- /.widget -->
-                        </div><!-- /.col-md-4 -->
+                            </div>
+                        </div>
 
+                        <!-- Google Maps -->
                         <div class="col-md-4">
                             <div class="widget widget_text">
-                                <h5 class="widget-title">Direccion</h5>
-                                <div class="textwidget">
-                                    <p>
-                                        Tu sonrisa es nuestra prioridad. <br>
-                                        ¡Visítanos para un cuidado dental de calidad!<br>
-                                        Dirección: El Rosario, Desamparados
-                                    </p>
+                                <h5 class="widget-title">Ubicación</h5>
+                                <div class="map-container">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d209423.44069135375!2d-84.20872844259455!3d9.770794751507248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa11db2c6cecc15%3A0xb2002c1fc723e1f5!2sClinica%20Dental%20Dra.%20Mariana%20Garro!5e1!3m2!1ses-419!2scr!4v1724302356184!5m2!1ses-419!2scr"
+                                            width="100%"
+                                            height="200"
+                                            style="border:0;"
+                                            allowfullscreen=""
+                                            loading="lazy"></iframe>
                                 </div>
-                            </div><!-- /.widget -->
-                        </div><!-- /.col-md-4 -->
+                            </div>
+                        </div>
 
+                        <!-- Redes Sociales -->
                         <div class="col-md-4">
                             <div class="widget widget_text">
-                                <h5 class="widget-title">Agenda una cita con nosotros</h5>
-                                <div class="textwidget">
-                                    <p>
-                                        Protege tu sonrisa, cuida tu salud.<br>
-                                        ¡Agenda tu cita hoy mismo!<br>
-                                    </p>
+                                <h5 class="widget-title">Redes Sociales</h5>
+                                <div class="social-icons">
+                                    <a href="https://www.instagram.com/dra.marianagarro/" class="social-icon">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="https://www.facebook.com/ClinicaDentalDraMarianaGarro/" class="social-icon">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
                                 </div>
-                            </div><!-- /.widget -->
-                        </div><!-- /.col-md-4 -->
-                    </div><!-- /.row -->
-                </div><!-- /.container -->
-            </div><!-- /.footer-widgets -->
-        </footer><!-- /.footer -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div><!-- /.boxed -->
     <!-- Javascript -->
     <!--<script type="text/javascript" src="~/javascript/jquery.min.js"></script>
