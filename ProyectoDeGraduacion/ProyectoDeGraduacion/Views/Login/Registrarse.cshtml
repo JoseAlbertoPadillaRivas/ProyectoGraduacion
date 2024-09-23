@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ProyectoDeGraduacion.Entidades.Pacientes
+
+@{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
     ViewBag.Title = "Registro";
 }
@@ -14,11 +16,18 @@
             </div>
         }
 
-        <form>
+        @using (Html.BeginForm("Registrarse", "Login"))
+        {
             <div class="form-group">
                 <label for="Cedula" class="font-weight-bold">Cédula</label>
                 <div class="input-group">
-                    <input type="text" id="Cedula" name="Cedula" class="form-control" placeholder="Ingrese su cédula">
+                    @Html.TextBoxFor(m => m.Cedula, new
+                    {
+                        @type = "text",
+                        @class = "form-control",
+                        @placeholder = "Cedula",
+                        onkeyup = "ConsultarIdentificacion();"
+                    })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-id-card"></span>
@@ -31,7 +40,7 @@
             <div class="form-group mt-3">
                 <label for="Nombre" class="font-weight-bold">Nombre Completo</label>
                 <div class="input-group">
-                    <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Ingrese su nombre completo">
+                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre", @readOnly = true })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -44,7 +53,7 @@
             <div class="form-group mt-3">
                 <label for="Correo" class="font-weight-bold">Correo Electrónico</label>
                 <div class="input-group">
-                    <input type="email" id="Correo" name="Correo" class="form-control" placeholder="Ingrese su correo electrónico">
+                    @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -57,7 +66,7 @@
             <div class="form-group mt-3">
                 <label for="Password" class="font-weight-bold">Contraseña</label>
                 <div class="input-group">
-                    <input type="password" id="Password" name="Password" class="form-control" placeholder="Ingrese su contraseña">
+                    @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña" })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -68,9 +77,9 @@
             </div>
 
             <div class="text-center mt-4">
-                <button type="button" class="btn btn-success btn-block" onclick="registrarUsuario()">Registrarse</button>
+                <button type="submit" class="btn btn-success btn-block">Registrarse</button>
             </div>
-        </form>
+        }
 
         <p class="mt-3 mb-0 text-center">
             <a href="@Url.Action("Login","Login")" class="text-center">¿Ya tienes una cuenta? Iniciar Sesión</a>
@@ -79,17 +88,5 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function registrarUsuario() {
-        // Aquí iría la lógica para registrar al usuario
-        Swal.fire({
-            title: 'Usuario registrado con éxito',
-            text: 'Su cuenta ha sido creada exitosamente.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-        }).then(() => {
-            // Redireccionar al login u otra acción
-            window.location.href = '@Url.Action("Login", "Login")';
-        });
-    }
-</script>
+<script src="~/root/funciones/Usuario.js"></script>
+

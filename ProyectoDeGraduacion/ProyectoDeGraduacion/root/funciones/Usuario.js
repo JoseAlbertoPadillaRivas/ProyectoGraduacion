@@ -1,11 +1,11 @@
 ﻿function ConsultarIdentificacion() {
 
-  let identificacion = $("#Identificacion").val();
+    let Cedula = $("#Cedula").val();
 
-  if (identificacion.length >= 9) {
+    if (Cedula.length >= 9) {
     $.ajax({
       type: 'GET',
-      url: 'https://apis.gometa.org/cedulas/' + identificacion,
+        url: 'https://apis.gometa.org/cedulas/' + Cedula,
       dataType: 'json',
       success: function (data) {
         $("#Nombre").val(data.nombre);
