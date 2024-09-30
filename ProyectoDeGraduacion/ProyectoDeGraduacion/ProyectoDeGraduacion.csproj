@@ -138,6 +138,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDatos\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tCalificacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -174,11 +180,13 @@
     <Compile Include="Controllers\ReabastecimientoController.cs" />
     <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Entidades\Inventario.cs" />
     <Compile Include="Entidades\Pacientes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FiltroSeguridad.cs" />
+    <Compile Include="Models\InventarioModel.cs" />
     <Compile Include="Models\PacientesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
