@@ -54,11 +54,13 @@
                             {
                                 <li><a href="@Url.Action("MostrarInventario", "Inventario")">Inventario</a></li>
                                 <li><a href="@Url.Action("ConsultarPacientes", "Pacientes")"> Pacientes</a></li>
+                                <li><a href="@Url.Action("MostrarProductos", "Seguimiento")">Seguimiento de productos</a></li>
+
                             }
                             <li><a href="@Url.Action("Index", "Login")"> Home</a></li>
                             <li><a href="@Url.Action("IndexHistorial", "Historial")">Historia Clínica</a></li>
                             <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
-                            <li><a href="@Url.Action("MostrarProductos", "Seguimiento")">Seguimiento de productos</a></li>
+                            <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
                             <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link" data-bs-toggle="dropdown" href="#">
@@ -72,12 +74,6 @@
                                         <span class="float-right text-muted text-sm"></span>
                                     </a>
                                     <div class="dropdown-divider"></div>
-
-                                    @*<a href="@Url.Action("ActualizarContrasenna","Perfil")" class="dropdown-item">*@
-                                    <!--<i class="fas fa-lock mr-2"></i> Seguridad
-            <span class="float-right text-muted text-sm"></span>
-            </a>
-            <div class="dropdown-divider"></div>-->
 
                                     <a href="@Url.Action("CerrarSesion", "Login")" class="dropdown-item">
                                         <i class="fas fa-door-open mr-2"></i> Cerrar Sesión

@@ -144,6 +144,9 @@
     <Compile Include="BaseDatos\sp_helpdiagrams_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tCalificacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -182,12 +185,14 @@
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Entidades\Inventario.cs" />
     <Compile Include="Entidades\Pacientes.cs" />
+    <Compile Include="Entidades\Seguimiento.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FiltroSeguridad.cs" />
     <Compile Include="Models\InventarioModel.cs" />
     <Compile Include="Models\PacientesModel.cs" />
+    <Compile Include="Models\SeguimientoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -588,7 +593,7 @@
     <Content Include="Views\Seguimiento\MisProductos.cshtml" />
     <Content Include="Views\Seguimiento\MostrarProductos.cshtml" />
     <Content Include="Views\Seguimiento\AgregarProducto.cshtml" />
-    <Content Include="Views\Seguimiento\ActualizarProducto.cshtml" />
+    <Content Include="Views\Seguimiento\ActualizarSeguimiento.cshtml" />
     <Content Include="Views\Reabastecimiento\IndexReabastecimiento.cshtml" />
     <Content Include="Views\Reabastecimiento\ConfigurarValores.cshtml" />
     <Content Include="Views\Reabastecimiento\GenerarOrdenes.cshtml" />

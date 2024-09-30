@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="tCalificacion">
           <Key>
             <PropertyRef Name="idCalificacion" />
@@ -89,8 +99,8 @@
           <Property Name="idSeguimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idPaciente" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" />
-          <Property Name="Estado" Type="varchar" MaxLength="100" />
           <Property Name="FechaEntrega" Type="date" Nullable="false" />
+          <Property Name="Estado" Type="bit" />
         </EntityType>
         <Association Name="FK_idPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
@@ -190,11 +200,23 @@
           <Parameter Name="idProveedor" Type="int" Mode="In" />
           <Parameter Name="idProducto" Type="int" Mode="In" />
         </Function>
+        <Function Name="ActualizarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEntrega" Type="date" Mode="In" />
+          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
+        </Function>
         <Function Name="CambiarEstadoPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idPaciente" Type="int" Mode="In" />
         </Function>
+        <Function Name="CambiarEstadoSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
+        </Function>
         <Function Name="EliminarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idProducto" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EliminarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
         </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="IniciarSesion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -217,6 +239,11 @@
           <Parameter Name="Empresa" Type="varchar" Mode="In" />
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="NumeroTelefono" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RegistrarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEntrega" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -249,6 +276,7 @@
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ProyectoGraduacionModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tCalificacion" EntityType="Self.tCalificacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tCitas" EntityType="Self.tCitas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tHistoriaCE" EntityType="Self.tHistoriaCE" Schema="dbo" store:Type="Tables" />
@@ -291,6 +319,16 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoGraduacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="tCalificacion">
           <Key>
             <PropertyRef Name="idCalificacion" />
@@ -388,8 +426,8 @@
           <Property Name="idSeguimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idPaciente" Type="Int32" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FechaEntrega" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Estado" Type="Boolean" />
           <NavigationProperty Name="tPacientes" Relationship="Self.FK_idPacienteSeguimiento" FromRole="tSeguimiento" ToRole="tPacientes" />
         </EntityType>
         <Association Name="FK_idPacienteCalificacion">
@@ -477,6 +515,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ProyectoGraduacionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="tCalificacion" EntityType="Self.tCalificacion" />
           <EntitySet Name="tCitas" EntityType="Self.tCitas" />
           <EntitySet Name="tHistoriaCE" EntityType="Self.tHistoriaCE" />
@@ -521,16 +560,20 @@
             <Parameter Name="IdRol" Mode="In" Type="Byte" />
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="ActualizarProducto">
+            <Parameter Name="NombreProducto" Mode="In" Type="String" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="CaducidadProducto" Mode="In" Type="DateTime" />
+            <Parameter Name="idProveedor" Mode="In" Type="Int32" />
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="CambiarEstadoPaciente">
           <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="IniciarSesion" ReturnType="Collection(ProyectoGraduacionModel.IniciarSesion_Result)">
-            <Parameter Name="Correo" Mode="In" Type="String" />
-            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          <FunctionImport Name="EliminarProducto">
+          <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="RegistrarPaciente">
-            <Parameter Name="Cedula" Mode="In" Type="String" />
-            <Parameter Name="Nombre" Mode="In" Type="String" />
+          <FunctionImport Name="IniciarSesion" ReturnType="Collection(ProyectoGraduacionModel.IniciarSesion_Result)">
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
@@ -540,10 +583,21 @@
             <Parameter Name="CaducidadProducto" Mode="In" Type="DateTime" />
             <Parameter Name="idProveedor" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="RegistrarPaciente">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Correo" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="RegistrarProveedor">
             <Parameter Name="Empresa" Mode="In" Type="String" />
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="NumeroTelefono" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarSeguimiento">
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -575,15 +629,17 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="ActualizarProducto">
-            <Parameter Name="NombreProducto" Mode="In" Type="String" />
-            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
-            <Parameter Name="CaducidadProducto" Mode="In" Type="DateTime" />
-            <Parameter Name="idProveedor" Mode="In" Type="Int32" />
-            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          <FunctionImport Name="ActualizarSeguimiento">
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="EliminarProducto">
-            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          <FunctionImport Name="CambiarEstadoSeguimiento">
+            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarSeguimiento">
+            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IniciarSesion_Result">
@@ -611,6 +667,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ProyectoGraduacionModelStoreContainer" CdmEntityContainer="ProyectoGraduacionEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ProyectoGraduacionModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tCalificacion">
             <EntityTypeMapping TypeName="ProyectoGraduacionModel.tCalificacion">
               <MappingFragment StoreEntitySet="tCalificacion">
@@ -702,13 +769,15 @@
                 <ScalarProperty Name="idSeguimiento" ColumnName="idSeguimiento" />
                 <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarPaciente" FunctionName="ProyectoGraduacionModel.Store.ActualizarPaciente" />
+          <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="ProyectoGraduacionModel.Store.ActualizarProducto" />
           <FunctionImportMapping FunctionImportName="CambiarEstadoPaciente" FunctionName="ProyectoGraduacionModel.Store.CambiarEstadoPaciente" />
+          <FunctionImportMapping FunctionImportName="EliminarProducto" FunctionName="ProyectoGraduacionModel.Store.EliminarProducto" />
           <FunctionImportMapping FunctionImportName="IniciarSesion" FunctionName="ProyectoGraduacionModel.Store.IniciarSesion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoGraduacionModel.IniciarSesion_Result">
@@ -721,9 +790,10 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
           <FunctionImportMapping FunctionImportName="RegistrarInventario" FunctionName="ProyectoGraduacionModel.Store.RegistrarInventario" />
+          <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
           <FunctionImportMapping FunctionImportName="RegistrarProveedor" FunctionName="ProyectoGraduacionModel.Store.RegistrarProveedor" />
+          <FunctionImportMapping FunctionImportName="RegistrarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.RegistrarSeguimiento" />
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ProyectoGraduacionModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ProyectoGraduacionModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ProyectoGraduacionModel.Store.sp_dropdiagram" />
@@ -748,8 +818,9 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ProyectoGraduacionModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ProyectoGraduacionModel.Store.sp_upgraddiagrams" />
-          <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="ProyectoGraduacionModel.Store.ActualizarProducto" />
-          <FunctionImportMapping FunctionImportName="EliminarProducto" FunctionName="ProyectoGraduacionModel.Store.EliminarProducto" />
+          <FunctionImportMapping FunctionImportName="ActualizarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.ActualizarSeguimiento" />
+          <FunctionImportMapping FunctionImportName="CambiarEstadoSeguimiento" FunctionName="ProyectoGraduacionModel.Store.CambiarEstadoSeguimiento" />
+          <FunctionImportMapping FunctionImportName="EliminarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.EliminarSeguimiento" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

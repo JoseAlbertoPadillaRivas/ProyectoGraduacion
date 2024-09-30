@@ -1,4 +1,4 @@
-﻿@model ProyectoDeGraduacion.Entidades.Seguimiento
+﻿@model ProyectoDeGraduacion.BaseDatos.tSeguimiento
 
 
 @{
@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-body register-card-body">
-        <p class="login-box-msg">Agregar productos de pacientes</p>
+        <p class="login-box-msg">Actualizar productos de pacientes</p>
 
         @if (ViewBag.msj != null)
         {
@@ -17,8 +17,10 @@
             </div>
         }
 
-        @using (Html.BeginForm("AgregarProducto", "Seguimiento"))
-        {
+        @using (Html.BeginForm("ActualizarSeguimiento", "Seguimiento"))
+        {            
+            @Html.HiddenFor(m => m.idSeguimiento)
+
             <div class="input-group mb-3">
                 @Html.TextBoxFor(m => m.idPaciente, new
                 {
@@ -53,7 +55,7 @@
                 </div>
                 <div class="col-6">
                     <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success btn-block">Registrar</button>
+                        <button type="submit" class="btn btn-success btn-block">Actualizar</button>
                     </div>
                 </div>
             </div>
