@@ -14,6 +14,7 @@ namespace ProyectoDeGraduacion.Controllers
     public class SeguimientoController : Controller
     {
         SeguimientoModel seguimientoM = new SeguimientoModel();
+        private ProyectoGraduacionEntities _context = new ProyectoGraduacionEntities();
 
 
         [FiltroAdmin]
@@ -27,6 +28,8 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult AgregarProducto()
         {
+            var pacientes = _context.tPacientes.ToList();
+            ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
             return View();
         }
 
@@ -40,6 +43,8 @@ namespace ProyectoDeGraduacion.Controllers
             else
             {
                 ViewBag.msj = "Error al registrar informacion";
+                var pacientes = _context.tPacientes.ToList();
+                ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
                 return View();
             }
         }

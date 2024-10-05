@@ -20,12 +20,7 @@
         @using (Html.BeginForm("AgregarProducto", "Seguimiento"))
         {
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.idPaciente, new
-                {
-                    @type = "number",
-                    @class = "form-control",
-                    @placeholder = "ID del paciente",
-                })
+                @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.Pacientes, "Seleccione un paciente", new { @class = "form-control" })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>
