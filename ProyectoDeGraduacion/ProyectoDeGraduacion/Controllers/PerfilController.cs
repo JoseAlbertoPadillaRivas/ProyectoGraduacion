@@ -35,5 +35,6 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
+
     }
 }

@@ -62,6 +62,27 @@ namespace ProyectoDeGraduacion.BaseDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPaciente", cedulaParameter, nombreParameter, correoParameter, idRolParameter, idPacienteParameter);
         }
     
+        public virtual int ActualizarSeguimiento(Nullable<int> idPaciente, string nombre, Nullable<System.DateTime> fechaEntrega, Nullable<int> idSeguimiento)
+        {
+            var idPacienteParameter = idPaciente.HasValue ?
+                new ObjectParameter("idPaciente", idPaciente) :
+                new ObjectParameter("idPaciente", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var fechaEntregaParameter = fechaEntrega.HasValue ?
+                new ObjectParameter("FechaEntrega", fechaEntrega) :
+                new ObjectParameter("FechaEntrega", typeof(System.DateTime));
+    
+            var idSeguimientoParameter = idSeguimiento.HasValue ?
+                new ObjectParameter("idSeguimiento", idSeguimiento) :
+                new ObjectParameter("idSeguimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarSeguimiento", idPacienteParameter, nombreParameter, fechaEntregaParameter, idSeguimientoParameter);
+        }
+    
         public virtual int CambiarEstadoPaciente(Nullable<int> idPaciente)
         {
             var idPacienteParameter = idPaciente.HasValue ?
@@ -69,6 +90,24 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("idPaciente", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoPaciente", idPacienteParameter);
+        }
+    
+        public virtual int CambiarEstadoSeguimiento(Nullable<int> idSeguimiento)
+        {
+            var idSeguimientoParameter = idSeguimiento.HasValue ?
+                new ObjectParameter("idSeguimiento", idSeguimiento) :
+                new ObjectParameter("idSeguimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoSeguimiento", idSeguimientoParameter);
+        }
+    
+        public virtual int EliminarSeguimiento(Nullable<int> idSeguimiento)
+        {
+            var idSeguimientoParameter = idSeguimiento.HasValue ?
+                new ObjectParameter("idSeguimiento", idSeguimiento) :
+                new ObjectParameter("idSeguimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarSeguimiento", idSeguimientoParameter);
         }
     
         public virtual ObjectResult<IniciarSesion_Result> IniciarSesion(string correo, string contrasenna)
@@ -103,6 +142,32 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("Contrasenna", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarPaciente", cedulaParameter, nombreParameter, correoParameter, contrasennaParameter);
+        }
+    
+        public virtual int RegistrarSeguimiento(Nullable<int> idPaciente, string nombre, Nullable<System.DateTime> fechaEntrega)
+        {
+            var idPacienteParameter = idPaciente.HasValue ?
+                new ObjectParameter("idPaciente", idPaciente) :
+                new ObjectParameter("idPaciente", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var fechaEntregaParameter = fechaEntrega.HasValue ?
+                new ObjectParameter("FechaEntrega", fechaEntrega) :
+                new ObjectParameter("FechaEntrega", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarSeguimiento", idPacienteParameter, nombreParameter, fechaEntregaParameter);
+        }
+    
+        public virtual int EliminarPaciente(Nullable<int> idPaciente)
+        {
+            var idPacienteParameter = idPaciente.HasValue ?
+                new ObjectParameter("idPaciente", idPaciente) :
+                new ObjectParameter("idPaciente", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarPaciente", idPacienteParameter);
         }
     }
 }

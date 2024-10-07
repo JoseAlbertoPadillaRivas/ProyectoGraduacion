@@ -15,23 +15,23 @@
 
         @if (ViewBag.msj != null)
         {
-            <div class="alert alert-info" role="alert" style="text-align:center">
+            <div class="alert alert-info text-center" role="alert">
                 @ViewBag.msj
             </div>
         }
-        <br>
-        <br>
 
+        <br>
         <div class="table-responsive">
-            <table id="tablaUsuarios" class="table table-striped table-bordered historial-table">
-                <thead class="thead-dark">
+            <table id="tablaUsuarios" class="table table-hover table-bordered text-center">
+                <thead class="thead-dark bg-dark text-white">
                     <tr>
                         <th>Cédula</th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Estado</th>
-                        <th>Cambiar estado</th>
-                        <th>Actualizar información</th>
+                        <th>Cambiar Estado</th>
+                        <th>Actualizar Información</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,22 +43,29 @@
                             <td>@item.Correo</td>
                             @if (item.Estado)
                             {
-                                <td>Activo</td>
+                                <td><span class="badge bg-success">Activo</span></td>
                             }
                             else
                             {
-                                <td>Inactivo</td>
+                                <td><span class="badge bg-danger">Inactivo</span></td>
                             }
-                            <td style="text-align:center">
-                                <button type="button" class="btn btn-primary btn-cambiar-estado" data-id="@item.idPaciente" data-name="@item.Nombre">
-                                    <i class="fa fa-share-square"></i>
+
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm btn-cambiar-estado" data-id="@item.idPaciente" data-name="@item.Nombre" title="Cambiar Estado">
+                                    <i class="fas fa-sync-alt"></i>
                                 </button>
                             </td>
 
-                            <td style="text-align:center">
-                                <a class="btn btn-primary" href="@Url.Action("ActualizarPaciente","Pacientes", new { idPaciente = item.idPaciente })">
-                                    <i class="fa fa-user"></i>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarPaciente","Pacientes", new { idPaciente = item.idPaciente })" title="Actualizar Información">
+                                    <i class="fas fa-user-edit"></i>
                                 </a>
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm btn-eliminar" data-id="@item.idPaciente" data-name="@item.Nombre" title="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </td>
                         </tr>
                     }
@@ -68,6 +75,7 @@
 
     </div>
 </div>
+
 
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -101,15 +109,56 @@
                             Swal.fire(
                                 'Estado Cambiado',
                                 'El estado del usuario ha sido cambiado.',
-                                'success' 
+                                'success'
                             ).then(function () {
-                                location.reload(); 
+                                location.reload();
                             });
                         },
                         error: function () {
                             Swal.fire(
                                 'Error',
                                 'No se pudo cambiar el estado del usuario.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".btn-eliminar", function () {
+            var usuarioId = $(this).attr('data-id');
+            var usuario = $(this).attr('data-name');
+
+            Swal.fire({
+                title: '¿Deseas eliminar este usuario?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("EliminarPaciente", "Pacientes")',
+                        type: 'POST',
+                        data: { idPaciente: usuarioId },
+                        success: function (response) {
+                            Swal.fire(
+                                'Eliminado',
+                                'El usuario ha sido eliminado.',
+                                'success'
+                            ).then(function () {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            Swal.fire(
+                                'Error',
+                                'No se pudo eliminar el usuario.',
                                 'error'
                             );
                         }

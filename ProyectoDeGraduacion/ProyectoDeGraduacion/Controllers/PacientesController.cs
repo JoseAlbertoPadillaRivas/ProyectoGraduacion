@@ -57,5 +57,21 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        public ActionResult EliminarPaciente(Pacientes paciente)
+        {
+            var respuesta = pacienteM.EliminarPaciente(paciente);
+
+            if (respuesta)
+                return RedirectToAction("ConsultarPacientes", "Pacientes");
+            else
+            {
+                ViewBag.msj = "No se ha eliminado el usuario";
+                return View();
+            }
+        }
+
+
     }
 }

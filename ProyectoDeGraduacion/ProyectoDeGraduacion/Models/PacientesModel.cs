@@ -74,5 +74,15 @@ namespace ProyectoDeGraduacion.Models
             return (rowsAffected > 0 ? true : false);
         }
 
+        public bool EliminarPaciente(Pacientes paciente)
+        {
+            var rowsAffected = 0;
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                rowsAffected = context.EliminarPaciente(paciente.idPaciente);
+            }
+
+            return (rowsAffected > 0 ? true : false);
+        }
     }
 }
