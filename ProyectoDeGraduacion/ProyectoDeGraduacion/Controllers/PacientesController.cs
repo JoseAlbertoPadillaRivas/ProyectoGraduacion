@@ -59,9 +59,9 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarPaciente(Pacientes paciente)
+        public ActionResult EliminarUsuario(Pacientes paciente)
         {
-            var respuesta = pacienteM.EliminarPaciente(paciente);
+            var respuesta = pacienteM.EliminarUsuario(paciente);
 
             if (respuesta)
                 return RedirectToAction("ConsultarPacientes", "Pacientes");

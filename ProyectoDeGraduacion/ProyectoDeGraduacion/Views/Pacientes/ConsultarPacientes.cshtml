@@ -63,16 +63,16 @@
                             </td>
 
                             <td>
-                                <button type="button" class="btn btn-danger btn-sm btn-eliminar" data-id="@item.idPaciente" data-name="@item.Nombre" title="Eliminar">
+                                <button type="button" class="btn btn-danger btn-sm btn-eliminar" data-id="@item.idPaciente" title="Eliminar">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
+
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 
@@ -128,44 +128,44 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $(document).on("click", ".btn-eliminar", function () {
-            var usuarioId = $(this).attr('data-id');
-            var usuario = $(this).attr('data-name');
+$(document).ready(function () {
+    $(document).on("click", ".btn-eliminar", function () {
 
-            Swal.fire({
-                title: '¿Deseas eliminar este usuario?',
-                text: "Esta acción no se puede deshacer.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '@Url.Action("EliminarPaciente", "Pacientes")',
-                        type: 'POST',
-                        data: { idPaciente: usuarioId },
-                        success: function (response) {
-                            Swal.fire(
-                                'Eliminado',
-                                'El usuario ha sido eliminado.',
-                                'success'
-                            ).then(function () {
-                                location.reload();
-                            });
-                        },
-                        error: function () {
-                            Swal.fire(
-                                'Error',
-                                'No se pudo eliminar el usuario.',
-                                'error'
-                            );
-                        }
-                    });
-                }
-            });
+        var usuarioId = $(this).attr('data-id');
+
+        Swal.fire({
+
+            title: '¿Deseas eliminar este usuario?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("EliminarUsuario", "Pacientes")',
+                    type: 'POST',
+                    data: { idPaciente: usuarioId },
+                    success: function (response) {
+                        Swal.fire(
+                            'Eliminado',
+                            'El usuario ha sido eliminado.',
+                            'success'
+                        ).then(function () {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar el usuario.',
+                            'error'
+                        );
+                    }
+                });
+            }
         });
     });
+});
 </script>
-

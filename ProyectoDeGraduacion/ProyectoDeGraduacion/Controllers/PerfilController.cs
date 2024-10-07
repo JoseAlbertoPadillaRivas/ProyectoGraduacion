@@ -36,5 +36,20 @@ namespace ProyectoDeGraduacion.Controllers
             }
         }
 
+        [FiltroSeguridad]
+        [HttpPost]
+        public ActionResult EliminarUsuario(Pacientes paciente)
+        {
+            var respuesta = pacienteM.EliminarUsuario(paciente);
+
+            if (respuesta)
+                return RedirectToAction("Login", "Login");
+            else
+            {
+                ViewBag.msj = "No se ha eliminado el usuario";
+                return View();
+            }
+        }
+
     }
 }
