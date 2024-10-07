@@ -10,14 +10,14 @@
 namespace ProyectoDeGraduacion.BaseDatos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class IniciarSesion_Result
+    public partial class sysdiagrams
     {
-        public int idPaciente { get; set; }
-        public string Cedula { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public bool Estado { get; set; }
-        public byte IdRol { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

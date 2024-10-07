@@ -72,6 +72,8 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult ActualizarSeguimiento(int idSeguimiento)
         {
+            var pacientes = _context.tPacientes.ToList();
+            ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
             var respuesta = seguimientoM.ConsultarSeguimientoID(idSeguimiento);
             return View(respuesta);
         }

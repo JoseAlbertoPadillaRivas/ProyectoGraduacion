@@ -121,49 +121,58 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BaseDatos\IniciarSesion_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseDatos\Model1.Context.cs">
+    <Compile Include="BaseDatos\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
+      <DependentUpon>Model.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseDatos\Model1.cs">
+    <Compile Include="BaseDatos\Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="BaseDatos\Model1.Designer.cs">
+    <Compile Include="BaseDatos\Model.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDatos\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDatos\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDatos\sysdiagrams.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tCalificacion.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tCitas.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tHistoriaCE.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tInventario.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tPacientes.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tProveedores.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tRol.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tSede.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tSeguimiento.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CalificacionController.cs" />
     <Compile Include="Controllers\CitasController.cs" />
@@ -189,15 +198,15 @@
   <ItemGroup>
     <Content Include="ajax\p2.html" />
     <Content Include="ajax\p3.html" />
-    <Content Include="BaseDatos\Model1.Context.tt">
+    <Content Include="BaseDatos\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="BaseDatos\Model1.tt">
+    <Content Include="BaseDatos\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -511,12 +520,12 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="BaseDatos\Model1.edmx">
+    <EntityDeploy Include="BaseDatos\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="BaseDatos\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Content Include="BaseDatos\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />

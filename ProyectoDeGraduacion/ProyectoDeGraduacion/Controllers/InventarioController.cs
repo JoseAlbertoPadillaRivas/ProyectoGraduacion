@@ -15,7 +15,8 @@ namespace ProyectoDeGraduacion.Controllers
     public class InventarioController : Controller
     {
         InventarioModel inventarioM = new InventarioModel();
-        // GET: Inventario
+        private ProyectoGraduacionEntities _context = new ProyectoGraduacionEntities();
+
         [HttpGet]
         public ActionResult MostrarInventario()
         {
@@ -40,6 +41,8 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult ActualizarProducto(int idProducto)
         {
+            var proveedores = _context.tProveedores.ToList();
+            ViewBag.Proveedores = new SelectList(proveedores, "idProveedor", "Empresa");
             var respuesta = inventarioM.ConsultarProductoID(idProducto);
             return View(respuesta);
         }
@@ -61,6 +64,8 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult AgregarProducto()
         {
+            var proveedores = _context.tProveedores.ToList();
+            ViewBag.Proveedores = new SelectList(proveedores, "idProveedor","Empresa");
             return View();
         }
 

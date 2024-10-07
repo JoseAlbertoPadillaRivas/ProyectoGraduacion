@@ -50,10 +50,10 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.idProveedor, new { @type = "int", @class = "form-control", @placeholder = "ID Proveedor" })
+                @Html.DropDownListFor(m => m.idProveedor, (SelectList)ViewBag.Proveedores, "Seleccione un proveedor", new { @class = "form-control" })
                 <div class="input-group-append">
                     <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
+                        <span class="fas fa-user"></span>
                     </div>
                 </div>
             </div>
