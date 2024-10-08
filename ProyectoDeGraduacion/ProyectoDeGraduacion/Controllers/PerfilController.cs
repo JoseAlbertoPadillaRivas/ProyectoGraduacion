@@ -43,12 +43,14 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = pacienteM.EliminarUsuario(paciente);
 
             if (respuesta)
-                return RedirectToAction("Login", "Login");
-            else
             {
+                Session.Clear();
+                return RedirectToAction("Login", "Login");
+            } else
+              {
                 ViewBag.msj = "No se ha eliminado el usuario";
                 return View();
-            }
+              }
         }
 
     }

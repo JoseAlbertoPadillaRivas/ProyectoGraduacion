@@ -108,7 +108,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("EliminarUsuario", "Pacientes")',
+                    url: '@Url.Action("EliminarUsuario", "Perfil")',
                     type: 'POST',
                     data: { idPaciente: usuarioId },
                     success: function (response) {
