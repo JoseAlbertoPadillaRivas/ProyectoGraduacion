@@ -38,7 +38,16 @@
             <button type="submit" class="btn btn-dark">Registrar</button>
         </div>
         <div class="historial-section text-center">
-            <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-info">Regresar al Historial</a>
+            @if (Session["RolUsuario"].ToString() == "1")
+            {
+                <!-- Regresar para el Admin -->
+                <a href="@Url.Action("IndexHistorialAdmin", "Historial")" class="btn btn-info">Regresar al Historial</a>
+            }
+            else if (Session["RolUsuario"].ToString() == "2")
+            {
+                <!-- Regresar para el Usuario -->
+                <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-info">Regresar al Historial</a>
+            }
         </div>
     </form>
 </div>

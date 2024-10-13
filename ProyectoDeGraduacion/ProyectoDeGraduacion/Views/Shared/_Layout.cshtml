@@ -57,12 +57,20 @@
                                 <li><a href="@Url.Action("MostrarInventario", "Inventario")">Inventario</a></li>
                                 <li><a href="@Url.Action("ConsultarPacientes", "Pacientes")"> Pacientes</a></li>
                                 <li><a href="@Url.Action("MostrarProductos", "Seguimiento")">Seguimiento de productos</a></li>
+                                <li><a href="@Url.Action("IndexHistorialAdmin", "Historial")">Historia Clínica</a></li>
+                                <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
+                                <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
+                                <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
 
                             }
-                            <li><a href="@Url.Action("IndexHistorial", "Historial")">Historia Clínica</a></li>
-                            <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
-                            <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
-                            <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
+                            else if (Session["RolUsuario"].ToString() == "2")
+                            {
+                                <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
+                                <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
+                                <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
+                                <li><a href="@Url.Action("IndexHistorial", "Historial")">Historia Clínica</a></li>
+                            }
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link" data-bs-toggle="dropdown" href="#">
                                     @Session["NombreUsuario"].ToString()

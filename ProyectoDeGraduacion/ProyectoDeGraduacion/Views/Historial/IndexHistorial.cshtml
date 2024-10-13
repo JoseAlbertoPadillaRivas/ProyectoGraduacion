@@ -3,10 +3,10 @@
     var nombrePaciente = "Juan Pérez";
 }
 
-<div class="text-center mb-4">
+@*<div class="text-center mb-4">
     <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-primary btn-sm">Vista Usuario 1</a>
     <a href="@Url.Action("IndexHistorialAdmin", "Historial")" class="btn btn-secondary btn-sm">Vista Admin 2</a>
-</div>
+</div>*@
 
 <div class="container mt-4">
     <h2 class="text-center">Mi Historial Clínico</h2>
@@ -68,7 +68,7 @@
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Descargar',
-                cancelButtonText: 'X'
+                cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire(
