@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<ProyectoDeGraduacion.BaseDatos.tOrdenesProductos>
+
+@{
     ViewBag.Title = "Confirmar Recepción de Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,57 +10,30 @@
     <p class="text-center">Confirme la recepción de los productos y actualice el inventario.</p>
 
     <div class="table-responsive mt-4">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad Recibida</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Algodón Dental</td>
-                    <td><input type="number" class="form-control" value="100"></td>
-                    <td>
-                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
-                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Fluoruro en Gel</td>
-                    <td><input type="number" class="form-control" value="30"></td>
-                    <td>
-                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
-                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Anestesia Local</td>
-                    <td><input type="number" class="form-control" value="20"></td>
-                    <td>
-                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
-                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Guantes Desechables</td>
-                    <td><input type="number" class="form-control" value="300"></td>
-                    <td>
-                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
-                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Mascarillas Quirúrgicas</td>
-                    <td><input type="number" class="form-control" value="200"></td>
-                    <td>
-                        <button class="btn btn-info btn-confirmar">Confirmar Recepción</button>
-                        <button class="btn btn-warning btn-discrepancia">Registrar Discrepancia</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <form method="post" action="@Url.Action("ConfirmarRecepcion", "Reabastecimiento")">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad Recibida</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var producto in Model)
+                    {
+                        <tr>
+                            <td>@producto.tInventario.NombreProducto</td>
+                            <td><input type="number" name="cantidad_@producto.idProducto" class="form-control" value="0" min="0"></td>
+                            <td>
+                                <button type="submit" class="btn btn-info">Confirmar Recepción</button>
+                                <button type="button" class="btn btn-warning btn-discrepancia" data-producto="@producto.idProducto">Registrar Discrepancia</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
     </div>
 
     <div class="d-flex justify-content-between mt-4">
@@ -66,26 +41,15 @@
         <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
         <a href="@Url.Action("HistorialReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
     </div>
-
 </div>
 
 <script>
-    document.querySelectorAll('.btn-confirmar').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            Swal.fire({
-                title: 'Recepción Confirmada',
-                text: 'La recepción de productos se ha registrado correctamente.',
-                icon: 'success',
-                confirmButtonText: 'Aceptar'
-            });
-        });
-    });
-
     document.querySelectorAll('.btn-discrepancia').forEach(function (btn) {
         btn.addEventListener('click', function () {
+            var productoId = this.getAttribute('data-producto');
             Swal.fire({
                 title: 'Registrar Discrepancia',
-                text: 'Por favor, detalle la discrepancia.',
+                text: 'Por favor, detalle la discrepancia para el producto con ID: ' + productoId,
                 input: 'text',
                 showCancelButton: true,
                 confirmButtonText: 'Registrar',

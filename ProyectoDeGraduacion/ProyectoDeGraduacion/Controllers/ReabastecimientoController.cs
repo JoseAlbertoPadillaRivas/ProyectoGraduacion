@@ -134,8 +134,68 @@ namespace ProyectoDeGraduacion.Controllers
         // Vista para Confirmar Recepción de Productos
         public ActionResult ConfirmarRecepcion()
         {
-            return View();
+            // Obtener las órdenes de compra pendientes
+            var ordenesPendientes = db.tOrdenesCompra
+                                      .Where(o => o.EstadoOrden == "Pendiente")
+                                      .ToList();
+
+            // Crear una lista para pasar los productos de estas órdenes
+            var productosPendientes = new List<tOrdenesProductos>();
+
+            foreach (var orden in ordenesPendientes)
+            {
+                // Obtener los productos asociados a la orden de compra
+                var productosOrden = db.tOrdenesProductos
+                                       .Where(op => op.idOrdenCompra == orden.idOrdenCompra)
+                                       .ToList();
+
+                // Agregar los productos a la lista
+                productosPendientes.AddRange(productosOrden);
+            }
+
+            // Pasar los productos pendientes a la vista
+            return View(productosPendientes);
         }
+
+        [HttpPost]
+        public ActionResult ConfirmarRecepcion(FormCollection form)
+        {
+            foreach (var key in form.AllKeys)
+            {
+                if (key.StartsWith("cantidad_"))
+                {
+                    // Extraer el idProducto desde el nombre del campo
+                    int idProducto = int.Parse(key.Split('_')[1]);
+
+                    // Obtener la cantidad recibida
+                    int cantidadRecibida = int.Parse(form[key]);
+
+                    // Buscar el producto en la base de datos
+                    var producto = db.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
+                    if (producto != null)
+                    {
+                        // Actualizar la cantidad en el inventario
+                        producto.Cantidad += cantidadRecibida;
+
+                        // Actualizar el estado de la orden de compra como completada
+                        var ordenProducto = db.tOrdenesProductos.FirstOrDefault(op => op.idProducto == idProducto);
+                        if (ordenProducto != null)
+                        {
+                            var orden = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == ordenProducto.idOrdenCompra);
+                            orden.EstadoOrden = "Completada";
+                        }
+
+                        // Guardar los cambios en la base de datos
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            // Mostrar ventana emergente de confirmación
+            TempData["mensaje"] = "La recepción de productos se ha registrado correctamente y el inventario ha sido actualizado.";
+            return RedirectToAction("ConfirmarRecepcion");
+        }
+
 
         // Vista para el Historial de Reabastecimientos
         public ActionResult HistorialReabastecimiento()
