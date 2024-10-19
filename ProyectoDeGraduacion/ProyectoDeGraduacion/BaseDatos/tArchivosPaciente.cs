@@ -10,15 +10,17 @@
 namespace ProyectoDeGraduacion.BaseDatos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class IniciarSesion_Result
+    public partial class tArchivosPaciente
     {
+        public int idArchivo { get; set; }
         public int idPaciente { get; set; }
-        public string Cedula { get; set; }
-        public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public string Correo { get; set; }
-        public bool Estado { get; set; }
-        public byte IdRol { get; set; }
+        public string NombreArchivo { get; set; }
+        public string TipoArchivo { get; set; }
+        public byte[] Archivo { get; set; }
+        public System.DateTime FechaSubida { get; set; }
+    
+        public virtual tPacientes tPacientes { get; set; }
     }
 }

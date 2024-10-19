@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<ProyectoDeGraduacion.BaseDatos.tInventario>
+
+@{
     ViewBag.Title = "Configurar Valores de Reabastecimiento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,67 +9,52 @@
     <h2 class="text-center">Configurar Valores de Reabastecimiento</h2>
     <p class="text-center">Establezca los niveles mínimos de stock para recibir alertas.</p>
 
-    <div class="table-responsive mt-4">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Producto</th>
-                    <th>Stock Actual</th>
-                    <th>Nivel Mínimo de Stock</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Algodón Dental</td>
-                    <td>200</td>
-                    <td><input type="number" class="form-control" value="50"></td>
-                    <td><button class="btn btn-info btn-configurar">Guardar</button></td>
-                </tr>
-                <tr>
-                    <td>Fluoruro en Gel</td>
-                    <td>75</td>
-                    <td><input type="number" class="form-control" value="20"></td>
-                    <td><button class="btn btn-info btn-configurar">Guardar</button></td>
-                </tr>
-                <tr>
-                    <td>Anestesia Local</td>
-                    <td>30</td>
-                    <td><input type="number" class="form-control" value="10"></td>
-                    <td><button class="btn btn-info btn-configurar">Guardar</button></td>
-                </tr>
-                <tr>
-                    <td>Guantes Desechables</td>
-                    <td>500</td>
-                    <td><input type="number" class="form-control" value="100"></td>
-                    <td><button class="btn btn-info btn-configurar">Guardar</button></td>
-                </tr>
-                <tr>
-                    <td>Mascarillas Quirúrgicas</td>
-                    <td>300</td>
-                    <td><input type="number" class="form-control" value="80"></td>
-                    <td><button class="btn btn-info btn-configurar">Guardar</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <form method="post" action="@Url.Action("ConfigurarValores", "Reabastecimiento")">
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Stock Actual</th>
+                        <th>Nivel Mínimo de Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var producto in Model)
+                    {
+                        <tr>
+                            <td>@producto.NombreProducto</td>
+                            <td>@producto.Cantidad</td>
+                            <td>
+                                <input type="number" name="[@Model.IndexOf(producto)].NivelMinimoStock" class="form-control" value="@producto.NivelMinimoStock" />
+                                <input type="hidden" name="[@Model.IndexOf(producto)].idProducto" value="@producto.idProducto" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        </div>
+    </form>
 
     <div class="d-flex justify-content-between mt-4">
         <a href="@Url.Action("HistorialReabastecimiento", "Reabastecimiento")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Anterior</a>
         <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
         <a href="@Url.Action("GenerarOrdenes", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
     </div>
-</div>
 
-<script>
-    document.querySelectorAll('.btn-configurar').forEach(function (btn) {
-        btn.addEventListener('click', function () {
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
             Swal.fire({
                 title: 'Configuración Guardada',
-                text: 'Los valores de reabastecimiento se han configurado correctamente.',
+                text: '@TempData["SuccessMessage"]',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             });
-        });
-    });
-</script>
+        </script>
+    }
+</div>

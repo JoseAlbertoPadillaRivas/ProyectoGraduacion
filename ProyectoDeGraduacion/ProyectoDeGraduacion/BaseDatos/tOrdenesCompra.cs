@@ -12,23 +12,21 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tProveedores
+    public partial class tOrdenesCompra
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tProveedores()
+        public tOrdenesCompra()
         {
-            this.tInventario = new HashSet<tInventario>();
-            this.tOrdenesCompra = new HashSet<tOrdenesCompra>();
+            this.tOrdenesProductos = new HashSet<tOrdenesProductos>();
         }
     
+        public int idOrdenCompra { get; set; }
         public int idProveedor { get; set; }
-        public string Empresa { get; set; }
-        public string NumeroTelefono { get; set; }
-        public string Correo { get; set; }
+        public System.DateTime FechaSolicitud { get; set; }
+        public string EstadoOrden { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tInventario> tInventario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tOrdenesCompra> tOrdenesCompra { get; set; }
+        public virtual ICollection<tOrdenesProductos> tOrdenesProductos { get; set; }
+        public virtual tProveedores tProveedores { get; set; }
     }
 }

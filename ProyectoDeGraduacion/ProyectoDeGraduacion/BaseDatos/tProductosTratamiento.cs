@@ -12,17 +12,14 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tHistoriaCE
+    public partial class tProductosTratamiento
     {
-        public int idExpediente { get; set; }
-        public int idPaciente { get; set; }
-        public string Diagnostico { get; set; }
-        public string Procedimiento { get; set; }
-        public string Medicacion { get; set; }
-        public string Observaciones { get; set; }
-        public System.DateTime FechaConsulta { get; set; }
-        public byte[] Archivos { get; set; }
+        public int idProductoTratamiento { get; set; }
+        public int idProducto { get; set; }
+        public int idCita { get; set; }
+        public int CantidadUtilizada { get; set; }
     
-        public virtual tPacientes tPacientes { get; set; }
+        public virtual tCitas tCitas { get; set; }
+        public virtual tInventario tInventario { get; set; }
     }
 }

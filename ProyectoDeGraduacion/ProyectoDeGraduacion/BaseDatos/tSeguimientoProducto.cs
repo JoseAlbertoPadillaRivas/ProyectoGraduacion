@@ -12,23 +12,23 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tProveedores
+    public partial class tSeguimientoProducto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tProveedores()
+        public tSeguimientoProducto()
         {
-            this.tInventario = new HashSet<tInventario>();
-            this.tOrdenesCompra = new HashSet<tOrdenesCompra>();
+            this.tRecomendacionesProducto = new HashSet<tRecomendacionesProducto>();
         }
     
-        public int idProveedor { get; set; }
-        public string Empresa { get; set; }
-        public string NumeroTelefono { get; set; }
-        public string Correo { get; set; }
+        public int idSeguimiento { get; set; }
+        public int idPaciente { get; set; }
+        public int idProducto { get; set; }
+        public Nullable<System.DateTime> FechaEntregaEstimada { get; set; }
+        public string Estado { get; set; }
     
+        public virtual tInventario tInventario { get; set; }
+        public virtual tPacientes tPacientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tInventario> tInventario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tOrdenesCompra> tOrdenesCompra { get; set; }
+        public virtual ICollection<tRecomendacionesProducto> tRecomendacionesProducto { get; set; }
     }
 }

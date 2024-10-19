@@ -1,10 +1,7 @@
 ﻿using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Entidades;
 using ProyectoDeGraduacion.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProyectoDeGraduacion.Controllers
@@ -24,19 +21,19 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
-        [HttpPost]
-        public ActionResult EliminarProducto(Inventario inventario)
-        {
-            var respuesta = inventarioM.EliminarProducto(inventario);
+        //[HttpPost]
+        //public ActionResult EliminarProducto(Inventario inventario)
+        //{
+        //    var respuesta = inventarioM.EliminarProducto(inventario);
 
-            if (respuesta)
-                return RedirectToAction("MostrarInventario", "Inventario");
-            else
-            {
-                ViewBag.msj = "Error al eliminar";
-                return View();
-            }
-        }
+        //    if (respuesta)
+        //        return RedirectToAction("MostrarInventario", "Inventario");
+        //    else
+        //    {
+        //        ViewBag.msj = "Error al eliminar";
+        //        return View();
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult ActualizarProducto(int idProducto)
@@ -65,7 +62,7 @@ namespace ProyectoDeGraduacion.Controllers
         public ActionResult AgregarProducto()
         {
             var proveedores = _context.tProveedores.ToList();
-            ViewBag.Proveedores = new SelectList(proveedores, "idProveedor","Empresa");
+            ViewBag.Proveedores = new SelectList(proveedores, "idProveedor", "Empresa");
             return View();
         }
 

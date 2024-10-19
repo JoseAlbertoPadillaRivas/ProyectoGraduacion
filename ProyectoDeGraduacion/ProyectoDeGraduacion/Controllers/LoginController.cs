@@ -1,7 +1,6 @@
 ﻿
 using ProyectoDeGraduacion.Entidades;
 using ProyectoDeGraduacion.Models;
-using System;
 using System.Web.Mvc;
 
 namespace KN_Web.Controllers
@@ -70,7 +69,7 @@ namespace KN_Web.Controllers
         [FiltroSeguridad]
         [HttpGet]
         public ActionResult Index()
-        { 
+        {
             return View();
         }
 

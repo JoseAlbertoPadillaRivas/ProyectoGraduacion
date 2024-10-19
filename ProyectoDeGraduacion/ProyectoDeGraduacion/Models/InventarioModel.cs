@@ -1,25 +1,34 @@
 ﻿using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Entidades;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace ProyectoDeGraduacion.Models
 {
     public class InventarioModel
     {
+        // Método para registrar un nuevo producto en el inventario usando LINQ
         public bool RegistrarInventario(Inventario inventario)
         {
-            var rowsAffected = 0;
-
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.RegistrarInventario(inventario.NombreProducto, inventario.Cantidad, inventario.CaducidadProducto, inventario.idProveedor);
+                tInventario nuevoProducto = new tInventario
+                {
+                    NombreProducto = inventario.NombreProducto,
+                    Cantidad = inventario.Cantidad,
+                    CaducidadProducto = inventario.CaducidadProducto,
+                    idProveedor = inventario.idProveedor,
+                    NivelMinimoStock = inventario.NivelMinimoStock  // Aseguramos que el nuevo campo se use
+                };
+
+                context.tInventario.Add(nuevoProducto);
+                context.SaveChanges(); // Guardamos los cambios en la base de datos
             }
 
-            return (rowsAffected > 0 ? true : false);
+            return true;
         }
+
+        // Método para consultar todo el inventario usando LINQ
         public List<tInventario> ConsultarInventario()
         {
             using (var context = new ProyectoGraduacionEntities())
@@ -29,6 +38,7 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
+        // Método para consultar un producto en específico por su ID
         public tInventario ConsultarProductoID(int idProducto)
         {
             using (var context = new ProyectoGraduacionEntities())
@@ -39,27 +49,43 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-        public bool EliminarProducto(Inventario inventario)
+        // Método para eliminar un producto del inventario usando LINQ
+        public bool EliminarProducto(int idProducto)
         {
-            var rowsAffected = 0;
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.EliminarProducto(inventario.idProducto);
-            }
+                var producto = context.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
 
-            return (rowsAffected > 0 ? true : false);
+                if (producto != null)
+                {
+                    context.tInventario.Remove(producto);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
         }
 
+        // Método para actualizar un producto existente en el inventario usando LINQ
         public bool ActualizarProducto(Inventario inventario)
         {
-            var rowsAffected = 0;
-
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.ActualizarProducto(inventario.NombreProducto,inventario.Cantidad,inventario.CaducidadProducto,inventario.idProveedor, inventario.idProducto);
-            }
+                var producto = context.tInventario.FirstOrDefault(p => p.idProducto == inventario.idProducto);
 
-            return (rowsAffected > 0 ? true : false);
+                if (producto != null)
+                {
+                    producto.NombreProducto = inventario.NombreProducto;
+                    producto.Cantidad = inventario.Cantidad;
+                    producto.CaducidadProducto = inventario.CaducidadProducto;
+                    producto.idProveedor = inventario.idProveedor;
+                    producto.NivelMinimoStock = inventario.NivelMinimoStock;  // Actualizamos el nivel mínimo de stock
+
+                    context.SaveChanges(); // Guardamos los cambios en la base de datos
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }

@@ -10,15 +10,14 @@
 namespace ProyectoDeGraduacion.BaseDatos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class IniciarSesion_Result
+    public partial class tRecomendacionesProducto
     {
-        public int idPaciente { get; set; }
-        public string Cedula { get; set; }
-        public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public string Correo { get; set; }
-        public bool Estado { get; set; }
-        public byte IdRol { get; set; }
+        public int idRecomendacion { get; set; }
+        public int idSeguimiento { get; set; }
+        public string RecomendacionTexto { get; set; }
+    
+        public virtual tSeguimientoProducto tSeguimientoProducto { get; set; }
     }
 }

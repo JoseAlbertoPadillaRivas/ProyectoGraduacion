@@ -1,6 +1,5 @@
-﻿using ProyectoDeGraduacion.Entidades;
-using ProyectoDeGraduacion.BaseDatos;
-using System;
+﻿using ProyectoDeGraduacion.BaseDatos;
+using ProyectoDeGraduacion.Entidades;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,14 +10,14 @@ namespace ProyectoDeGraduacion.Models
     {
         public bool RegistrarPaciente(Pacientes paciente)
         {
-                var rowsAffected = 0;
+            var rowsAffected = 0;
 
-                using (var context = new ProyectoGraduacionEntities())
-                {
-                    rowsAffected = context.RegistrarPaciente(paciente.Cedula, paciente.Nombre, paciente.Correo, paciente.Contrasenna);
-                }
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                rowsAffected = context.RegistrarPaciente(paciente.Cedula, paciente.Nombre, paciente.Apellidos, paciente.Correo, paciente.Contrasenna);
+            }
 
-                return (rowsAffected > 0 ? true : false);
+            return (rowsAffected > 0 ? true : false);
         }
 
         public IniciarSesion_Result IniciarSesion(Pacientes paciente)
@@ -68,7 +67,7 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.ActualizarPaciente(paciente.Cedula, paciente.Nombre, paciente.Correo, paciente.idRol, paciente.idPaciente);
+                rowsAffected = context.ActualizarPaciente(paciente.Cedula, paciente.Nombre, paciente.Apellidos, paciente.Correo, paciente.idRol, paciente.idPaciente);
             }
 
             return (rowsAffected > 0 ? true : false);
@@ -80,7 +79,7 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.EliminarUsuario(paciente.idPaciente);    
+                //rowsAffected = context.EliminarUsuario(paciente.idPaciente);
             }
 
             return (rowsAffected > 0 ? true : false);

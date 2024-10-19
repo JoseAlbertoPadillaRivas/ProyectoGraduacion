@@ -14,12 +14,30 @@ namespace ProyectoDeGraduacion.BaseDatos
     
     public partial class tInventario
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tInventario()
+        {
+            this.tMovimientosInventario = new HashSet<tMovimientosInventario>();
+            this.tOrdenesProductos = new HashSet<tOrdenesProductos>();
+            this.tProductosTratamiento = new HashSet<tProductosTratamiento>();
+            this.tSeguimientoProducto = new HashSet<tSeguimientoProducto>();
+        }
+    
         public int idProducto { get; set; }
         public string NombreProducto { get; set; }
         public int Cantidad { get; set; }
         public Nullable<System.DateTime> CaducidadProducto { get; set; }
-        public Nullable<int> idProveedor { get; set; }
+        public int idProveedor { get; set; }
+        public int NivelMinimoStock { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tMovimientosInventario> tMovimientosInventario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tOrdenesProductos> tOrdenesProductos { get; set; }
         public virtual tProveedores tProveedores { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tProductosTratamiento> tProductosTratamiento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tSeguimientoProducto> tSeguimientoProducto { get; set; }
     }
 }

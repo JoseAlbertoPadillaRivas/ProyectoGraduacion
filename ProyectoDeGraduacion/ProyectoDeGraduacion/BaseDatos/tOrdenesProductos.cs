@@ -12,13 +12,14 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tCalificacion
+    public partial class tOrdenesProductos
     {
-        public int idCalificacion { get; set; }
-        public int idPaciente { get; set; }
-        public string Comentario { get; set; }
-        public int Estrellas { get; set; }
+        public int idOrdenProducto { get; set; }
+        public int idOrdenCompra { get; set; }
+        public int idProducto { get; set; }
+        public int CantidadSolicitada { get; set; }
     
-        public virtual tPacientes tPacientes { get; set; }
+        public virtual tInventario tInventario { get; set; }
+        public virtual tOrdenesCompra tOrdenesCompra { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace ProyectoDeGraduacion.Entidades
 {
@@ -10,9 +7,13 @@ namespace ProyectoDeGraduacion.Entidades
         public int idPaciente { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
+        public string Apellidos { get; set; }
         public string Correo { get; set; }
         public string Contrasenna { get; set; }
         public bool Estado { get; set; }
         public byte idRol { get; set; }
+
+        // Agregar propiedad de navegación para los productos en seguimiento
+        public virtual ICollection<SeguimientoProducto> SeguimientoProductos { get; set; }
     }
 }

@@ -12,14 +12,15 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tSeguimiento
+    public partial class tMovimientosInventario
     {
-        public int idSeguimiento { get; set; }
-        public int idPaciente { get; set; }
-        public string Nombre { get; set; }
-        public System.DateTime FechaEntrega { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public int idMovimiento { get; set; }
+        public int idProducto { get; set; }
+        public int Cantidad { get; set; }
+        public string TipoMovimiento { get; set; }
+        public System.DateTime FechaMovimiento { get; set; }
+        public string Observaciones { get; set; }
     
-        public virtual tPacientes tPacientes { get; set; }
+        public virtual tInventario tInventario { get; set; }
     }
 }

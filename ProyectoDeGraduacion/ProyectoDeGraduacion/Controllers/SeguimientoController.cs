@@ -16,7 +16,7 @@ namespace ProyectoDeGraduacion.Controllers
         SeguimientoModel seguimientoM = new SeguimientoModel();
         private ProyectoGraduacionEntities _context = new ProyectoGraduacionEntities();
 
-
+        // Mostrar productos con seguimiento
         [FiltroAdmin]
         [HttpGet]
         public ActionResult MostrarProductos()
@@ -24,17 +24,22 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = seguimientoM.ConsultarSeguimiento();
             return View(respuesta);
         }
+
+        // Vista para agregar producto al seguimiento
         [FiltroAdmin]
         [HttpGet]
         public ActionResult AgregarProducto()
         {
             var pacientes = _context.tPacientes.ToList();
             ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
+            var productos = _context.tInventario.ToList();
+            ViewBag.Productos = new SelectList(productos, "idProducto", "NombreProducto");
             return View();
         }
 
+        // Agregar producto al seguimiento
         [HttpPost]
-        public ActionResult AgregarProducto(Seguimiento seguimiento)
+        public ActionResult AgregarProducto(SeguimientoProducto seguimiento)
         {
             var respuesta = seguimientoM.RegistrarSeguimiento(seguimiento);
 
@@ -42,44 +47,63 @@ namespace ProyectoDeGraduacion.Controllers
                 return RedirectToAction("MostrarProductos", "Seguimiento");
             else
             {
-                ViewBag.msj = "Error al registrar informacion";
+                ViewBag.msj = "Error al registrar información";
                 var pacientes = _context.tPacientes.ToList();
                 ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
+                var productos = _context.tInventario.ToList();
+                ViewBag.Productos = new SelectList(productos, "idProducto", "NombreProducto");
                 return View();
             }
         }
+
+        // Mostrar productos del usuario logueado
         [HttpGet]
         public ActionResult MisProductos()
         {
-            var respuesta = seguimientoM.ConsultarMisProductos(int.Parse(Session["idUsuario"].ToString()));
-            return View(respuesta);
+            throw new NotImplementedException("Este método depende de un SP que aún no está disponible.");
         }
 
+        // Cambiar estado del seguimiento de un producto
         [HttpPost]
-        public ActionResult CambiarEstadoSeguimiento(Seguimiento seguimiento)
+        public bool CambiarEstadoSeguimiento(SeguimientoProducto seguimiento)
         {
-            var respuesta = seguimientoM.CambiarEstadoSeguimiento(seguimiento);
+            var rowsAffected = 0;
 
-            if (respuesta)
-                return RedirectToAction("MostrarProductos", "Seguimiento");
-            else
+            using (var context = new ProyectoGraduacionEntities())
             {
-                ViewBag.msj = "Error al desactivar";
-                return View();
+                // Obtener el seguimiento a modificar
+                var seguimientoExistente = context.tSeguimientoProducto.FirstOrDefault(s => s.idSeguimiento == seguimiento.idSeguimiento);
+
+                if (seguimientoExistente != null)
+                {
+                    // Cambiar el estado
+                    seguimientoExistente.Estado = seguimiento.Estado;
+
+                    // Guardar los cambios
+                    rowsAffected = context.SaveChanges();
+                }
             }
-        }
-        [FiltroAdmin]
-        [HttpGet]
-        public ActionResult ActualizarSeguimiento(int idSeguimiento)
-        {
-            var pacientes = _context.tPacientes.ToList();
-            ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
-            var respuesta = seguimientoM.ConsultarSeguimientoID(idSeguimiento);
-            return View(respuesta);
+
+            return (rowsAffected > 0 ? true : false);
         }
 
+        // Vista para actualizar un producto en seguimiento
+        //[FiltroAdmin]
+        //[HttpGet]
+        //public ActionResult ActualizarSeguimiento(int idSeguimiento)
+        //{
+        //    var pacientes = _context.tPacientes.ToList();
+        //    ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
+        //    var productos = _context.tInventario.ToList();
+        //    ViewBag.Productos = new SelectList(productos, "idProducto", "NombreProducto");
+
+        //    var respuesta = seguimientoM.ConsultarSeguimientoID(idSeguimiento);
+        //    return View(respuesta);
+        //}
+
+        // Actualizar un producto en seguimiento
         [HttpPost]
-        public ActionResult ActualizarSeguimiento(Seguimiento seguimiento)
+        public ActionResult ActualizarSeguimiento(SeguimientoProducto seguimiento)
         {
             var respuesta = seguimientoM.ActualizarSeguimiento(seguimiento);
 
@@ -92,9 +116,9 @@ namespace ProyectoDeGraduacion.Controllers
             }
         }
 
-
+        // Eliminar un seguimiento de producto
         [HttpPost]
-        public ActionResult EliminarSeguimiento(Seguimiento seguimiento)
+        public ActionResult EliminarSeguimiento(SeguimientoProducto seguimiento)
         {
             var respuesta = seguimientoM.EliminarSeguimiento(seguimiento);
 
@@ -106,6 +130,5 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
     }
 }
