@@ -4,7 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="historial_compras">
+          <Key>
+            <PropertyRef Name="idProducto" />
+            <PropertyRef Name="NombreProducto" />
+            <PropertyRef Name="Cantidad" />
+            <PropertyRef Name="idProveedor" />
+            <PropertyRef Name="NivelMinimoStock" />
+          </Key>
+          <Property Name="idProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreProducto" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="CaducidadProducto" Type="date" />
+          <Property Name="idProveedor" Type="int" Nullable="false" />
+          <Property Name="NivelMinimoStock" Type="int" Nullable="false" />
+          <Property Name="FechaCompra" Type="datetime" />
+        </EntityType>
         <EntityType Name="tArchivosPaciente">
           <Key>
             <PropertyRef Name="idArchivo" />
@@ -305,12 +323,37 @@
           <Parameter Name="IdRol" Type="tinyint" Mode="In" />
           <Parameter Name="idPaciente" Type="int" Mode="In" />
         </Function>
+        <Function Name="ActualizarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NombreProducto" Type="varchar" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+          <Parameter Name="CaducidadProducto" Type="date" Mode="In" />
+          <Parameter Name="idProveedor" Type="int" Mode="In" />
+          <Parameter Name="idProducto" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ActualizarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEntrega" Type="date" Mode="In" />
+          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
+        </Function>
         <Function Name="CambiarEstadoPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idPaciente" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EliminarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idProducto" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EliminarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
         </Function>
         <Function Name="IniciarSesion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NombreProducto" Type="varchar" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+          <Parameter Name="CaducidadProducto" Type="date" Mode="In" />
+          <Parameter Name="idProveedor" Type="int" Mode="In" />
         </Function>
         <Function Name="RegistrarPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
@@ -318,6 +361,16 @@
           <Parameter Name="Apellidos" Type="varchar" Mode="In" />
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+          <Parameter Name="Correo" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroTelefono" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RegistrarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEntrega" Type="date" Mode="In" />
         </Function>
         <EntityContainer Name="ProyectoGraduacionModelStoreContainer">
           <EntitySet Name="tArchivosPaciente" EntityType="Self.tArchivosPaciente" Schema="dbo" store:Type="Tables" />
@@ -333,6 +386,17 @@
           <EntitySet Name="tRol" EntityType="Self.tRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSede" EntityType="Self.tSede" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSeguimientoProducto" EntityType="Self.tSeguimientoProducto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="historial_compras" EntityType="Self.historial_compras" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [historial_compras].[idProducto] AS [idProducto], 
+    [historial_compras].[NombreProducto] AS [NombreProducto], 
+    [historial_compras].[Cantidad] AS [Cantidad], 
+    [historial_compras].[CaducidadProducto] AS [CaducidadProducto], 
+    [historial_compras].[idProveedor] AS [idProveedor], 
+    [historial_compras].[NivelMinimoStock] AS [NivelMinimoStock], 
+    [historial_compras].[FechaCompra] AS [FechaCompra]
+    FROM [dbo].[historial_compras] AS [historial_compras]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
@@ -390,8 +454,7 @@
             <End Role="tSeguimientoProducto" EntitySet="tSeguimientoProducto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoGraduacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -793,12 +856,37 @@
             <Parameter Name="IdRol" Mode="In" Type="Byte" />
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="CambiarEstadoPaciente">
+          <FunctionImport Name="ActualizarProducto">
+            <Parameter Name="NombreProducto" Mode="In" Type="String" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="CaducidadProducto" Mode="In" Type="DateTime" />
+            <Parameter Name="idProveedor" Mode="In" Type="Int32" />
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarSeguimiento">
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CambiarEstadoPaciente">
+          <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarProducto">
+          <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarSeguimiento">
+          <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IniciarSesion" ReturnType="Collection(ProyectoGraduacionModel.IniciarSesion_Result)">
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarInventario">
+            <Parameter Name="NombreProducto" Mode="In" Type="String" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="CaducidadProducto" Mode="In" Type="DateTime" />
+            <Parameter Name="idProveedor" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="RegistrarPaciente">
             <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -807,6 +895,17 @@
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="RegistrarProveedor">
+            <Parameter Name="Empresa" Mode="In" Type="String" />
+            <Parameter Name="Correo" Mode="In" Type="String" />
+            <Parameter Name="NumeroTelefono" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarSeguimiento">
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="historial_compras" EntityType="ProyectoGraduacionModel.historial_compras" />
         </EntityContainer>
         <ComplexType Name="IniciarSesion_Result">
           <Property Type="Int32" Name="idPaciente" Nullable="false" />
@@ -817,6 +916,22 @@
           <Property Type="Boolean" Name="Estado" Nullable="false" />
           <Property Type="Byte" Name="IdRol" Nullable="false" />
         </ComplexType>
+        <EntityType Name="historial_compras">
+          <Key>
+            <PropertyRef Name="idProducto" />
+            <PropertyRef Name="NombreProducto" />
+            <PropertyRef Name="Cantidad" />
+            <PropertyRef Name="idProveedor" />
+            <PropertyRef Name="NivelMinimoStock" />
+          </Key>
+          <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreProducto" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="CaducidadProducto" Type="DateTime" Precision="0" />
+          <Property Name="idProveedor" Type="Int32" Nullable="false" />
+          <Property Name="NivelMinimoStock" Type="Int32" Nullable="false" />
+          <Property Name="FechaCompra" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -961,7 +1076,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarPaciente" FunctionName="ProyectoGraduacionModel.Store.ActualizarPaciente" />
+          <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="ProyectoGraduacionModel.Store.ActualizarProducto" />
+          <FunctionImportMapping FunctionImportName="ActualizarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.ActualizarSeguimiento" />
           <FunctionImportMapping FunctionImportName="CambiarEstadoPaciente" FunctionName="ProyectoGraduacionModel.Store.CambiarEstadoPaciente" />
+          <FunctionImportMapping FunctionImportName="EliminarProducto" FunctionName="ProyectoGraduacionModel.Store.EliminarProducto" />
+          <FunctionImportMapping FunctionImportName="EliminarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.EliminarSeguimiento" />
           <FunctionImportMapping FunctionImportName="IniciarSesion" FunctionName="ProyectoGraduacionModel.Store.IniciarSesion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoGraduacionModel.IniciarSesion_Result">
@@ -975,7 +1094,23 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarInventario" FunctionName="ProyectoGraduacionModel.Store.RegistrarInventario" />
           <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
+          <FunctionImportMapping FunctionImportName="RegistrarProveedor" FunctionName="ProyectoGraduacionModel.Store.RegistrarProveedor" />
+          <FunctionImportMapping FunctionImportName="RegistrarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.RegistrarSeguimiento" />
+          <EntitySetMapping Name="historial_compras">
+            <EntityTypeMapping TypeName="ProyectoGraduacionModel.historial_compras">
+              <MappingFragment StoreEntitySet="historial_compras">
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+                <ScalarProperty Name="NivelMinimoStock" ColumnName="NivelMinimoStock" />
+                <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
+                <ScalarProperty Name="CaducidadProducto" ColumnName="CaducidadProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -993,7 +1128,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

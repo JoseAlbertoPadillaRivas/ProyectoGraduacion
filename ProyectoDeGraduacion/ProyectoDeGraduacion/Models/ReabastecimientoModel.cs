@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProyectoDeGraduacion.BaseDatos;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ProyectoGraduacion.Models
 {
@@ -26,6 +29,15 @@ namespace ProyectoGraduacion.Models
             NombreProducto = nombreProducto;
             CantidadActual = cantidadActual;
             NivelMinimoStock = nivelMinimoStock;
+        }
+
+        public List<historial_compras> ConsultarCompras()
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                return (from x in context.historial_compras
+                        select x).ToList();
+            }
         }
     }
 }

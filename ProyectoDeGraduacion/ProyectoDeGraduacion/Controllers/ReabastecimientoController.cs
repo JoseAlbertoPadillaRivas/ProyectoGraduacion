@@ -1,15 +1,18 @@
 ﻿using ProyectoDeGraduacion.BaseDatos;
+using ProyectoDeGraduacion.Entidades;
 using ProyectoDeGraduacion.Models;
+using ProyectoGraduacion.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-
+using Rotativa;
 namespace ProyectoDeGraduacion.Controllers
 {
     public class ReabastecimientoController : Controller
     {
         private ProyectoGraduacionEntities db = new ProyectoGraduacionEntities(); // Contexto de la base de datos
+       ReabastecimientoModel reabastecimientoM = new ReabastecimientoModel();
 
         // Vista principal del módulo de Reabastecimiento
         public ActionResult IndexReabastecimiento()
@@ -198,9 +201,35 @@ namespace ProyectoDeGraduacion.Controllers
 
 
         // Vista para el Historial de Reabastecimientos
+        [HttpGet]
         public ActionResult HistorialReabastecimiento()
         {
-            return View();
+            var respuesta = reabastecimientoM.ConsultarCompras();
+            return View(respuesta);
         }
+
+        // Vista específica para PDF
+        public ActionResult HistorialReabastecimientoPDF()
+        {
+            var respuesta = reabastecimientoM.ConsultarCompras();
+            return View(respuesta);
+        }
+
+        [HttpPost]
+        public ActionResult GenerarPdf()
+        {
+            var respuesta = reabastecimientoM.ConsultarCompras();
+
+            // Generar el PDF
+            var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", respuesta)
+            {
+                FileName = "Historial.pdf"
+            };
+
+            // Aquí se debe ejecutar la generación del PDF
+            return pdfResult;
+        }
+
+
     }
 }
