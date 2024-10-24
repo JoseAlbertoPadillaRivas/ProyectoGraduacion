@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Rotativa;
+using System.Text;
 namespace ProyectoDeGraduacion.Controllers
 {
     public class ReabastecimientoController : Controller
@@ -62,75 +63,82 @@ namespace ProyectoDeGraduacion.Controllers
             }
         }
 
+
         [HttpPost]
         public ActionResult GenerarOrdenes(FormCollection form)
         {
-            using (var db = new ProyectoGraduacionEntities())
+            bool ordenGenerada = false;
+            int idOrdenCompra = 0;
+
+            StringBuilder productosHtml = new StringBuilder();
+
+            foreach (var key in form.AllKeys)
             {
-                // Inicializamos variables de control
-                bool ordenGenerada = false;
-
-                // Recorrer los productos del inventario (deberían venir del modelo)
-                foreach (var key in form.AllKeys)
+                if (key.StartsWith("cantidad_"))
                 {
-                    if (key.StartsWith("cantidad_")) // Identificar inputs que tienen la cantidad de productos
+                    var idProductoStr = key.Replace("cantidad_", "");
+                    int idProducto = int.Parse(idProductoStr);
+                    var cantidadString = form[key];
+                    if (string.IsNullOrEmpty(cantidadString) || cantidadString == "0")
                     {
-                        // Obtener el idProducto a partir del nombre del campo (después de 'cantidad_')
-                        var idProductoStr = key.Replace("cantidad_", "");
-                        int idProducto = int.Parse(idProductoStr);
+                        continue;
+                    }
+                    int cantidadSolicitada = int.Parse(cantidadString);
+                    var proveedorString = form["proveedor_" + idProductoStr];
+                    if (string.IsNullOrEmpty(proveedorString))
+                    {
+                        continue;
+                    }
+                    int idProveedor = int.Parse(proveedorString);
 
-                        // Obtener la cantidad solicitada
-                        var cantidadString = form[key];
-                        if (string.IsNullOrEmpty(cantidadString) || cantidadString == "0")
+                    if (!ordenGenerada)
+                    {
+                        tOrdenesCompra nuevaOrdenCompra = new tOrdenesCompra
                         {
-                            continue; // Si la cantidad es nula o 0, pasamos al siguiente producto
-                        }
-                        int cantidadSolicitada = int.Parse(cantidadString);
-
-                        // Obtener el proveedor relacionado a este producto
-                        var proveedorString = form["proveedor_" + idProductoStr];
-                        if (string.IsNullOrEmpty(proveedorString))
-                        {
-                            continue; // Si no hay proveedor, pasamos al siguiente producto
-                        }
-                        int idProveedor = int.Parse(proveedorString);
-
-                        // Crear una nueva orden de compra solo si no se ha creado ya
-                        if (!ordenGenerada)
-                        {
-                            tOrdenesCompra nuevaOrdenCompra = new tOrdenesCompra
-                            {
-                                idProveedor = idProveedor,
-                                FechaSolicitud = DateTime.Now,
-                                EstadoOrden = "Pendiente"
-                            };
-
-                            db.tOrdenesCompra.Add(nuevaOrdenCompra);
-                            db.SaveChanges(); // Guardamos para obtener el idOrdenCompra generado
-
-                            // Marcamos que ya se generó la orden
-                            ordenGenerada = true;
-                        }
-
-                        // Ahora que ya tenemos la orden, podemos agregar los productos a la tabla tOrdenesProductos
-                        tOrdenesProductos nuevaOrdenProducto = new tOrdenesProductos
-                        {
-                            idOrdenCompra = db.tOrdenesCompra.OrderByDescending(o => o.idOrdenCompra).FirstOrDefault().idOrdenCompra, // Última orden de compra generada
-                            idProducto = idProducto,
-                            CantidadSolicitada = cantidadSolicitada
+                            idProveedor = idProveedor,
+                            FechaSolicitud = DateTime.Now,
+                            EstadoOrden = "Pendiente"
                         };
 
-                        db.tOrdenesProductos.Add(nuevaOrdenProducto);
+                        db.tOrdenesCompra.Add(nuevaOrdenCompra);
+                        db.SaveChanges();
+                        ordenGenerada = true;
+                        idOrdenCompra = nuevaOrdenCompra.idOrdenCompra;
                     }
+
+                    var productoInfo = db.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
+                    productosHtml.Append($"<tr><td>{productoInfo.NombreProducto}</td><td>{cantidadSolicitada}</td></tr>");
                 }
-
-                // Guardar los cambios en la base de datos
-                db.SaveChanges();
-
-                // Redirigir o mostrar mensaje de éxito
-                TempData["mensaje"] = "Las órdenes de compra han sido generadas correctamente.";
-                return RedirectToAction("ConfirmarRecepcion", "Reabastecimiento");
             }
+
+            if (ordenGenerada)
+            {
+                var ordenCompra = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == idOrdenCompra);
+                var proveedor = db.tProveedores.FirstOrDefault(p => p.idProveedor == ordenCompra.idProveedor);
+
+                if (proveedor != null)
+                {
+                    string correoProveedor = proveedor.Correo;
+
+                    string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoProveedor.html";
+                    string contenido = System.IO.File.ReadAllText(ruta);
+
+                    contenido = contenido.Replace("@@NombreProveedor", proveedor.Empresa);
+                    contenido = contenido.Replace("@@Productos", productosHtml.ToString());
+                    contenido = contenido.Replace("@@Fecha", DateTime.Now.ToString("dd/MM/yyyy"));
+
+                    GeneralModel generalM = new GeneralModel();
+                    generalM.EnviarCorreo(correoProveedor, "Orden de Compra - Reabastecimiento", contenido);
+
+                    TempData["SuccessMessage"] = "La orden de compra fue generada y enviada correctamente al proveedor.";
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No se seleccionaron productos para generar órdenes.";
+            }
+
+            return RedirectToAction("GenerarOrdenes");
         }
 
 

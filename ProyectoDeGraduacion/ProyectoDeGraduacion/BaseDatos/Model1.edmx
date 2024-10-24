@@ -4,9 +4,9 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+      <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="historial_compras">
           <Key>
             <PropertyRef Name="idProducto" />
@@ -497,7 +497,8 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
             <End Role="tHistorial" EntitySet="tHistorial" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoGraduacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -525,6 +526,20 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
           <NavigationProperty Name="tPacientes" Relationship="Self.FK_CitaPaciente" FromRole="tCitas" ToRole="tPacientes" />
           <NavigationProperty Name="tSede" Relationship="Self.FK_CitaSede" FromRole="tCitas" ToRole="tSede" />
           <NavigationProperty Name="tProductosTratamiento" Relationship="Self.FK_CitaTratamiento" FromRole="tCitas" ToRole="tProductosTratamiento" />
+        </EntityType>
+        <EntityType Name="tHistorial">
+          <Key>
+            <PropertyRef Name="idHistorial" />
+          </Key>
+          <Property Name="idHistorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPaciente" Type="Int32" Nullable="false" />
+          <Property Name="FechaConsulta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Diagnostico" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Tratamiento" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Medicacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Archivo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tPacientes" Relationship="Self.FK_tHistorial_Pacientes" FromRole="tHistorial" ToRole="tPacientes" />
         </EntityType>
         <EntityType Name="tInventario">
           <Key>
@@ -590,9 +605,9 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
           <Property Name="IdRol" Type="Byte" Nullable="false" />
           <NavigationProperty Name="tArchivosPaciente" Relationship="Self.FK_ArchivoPaciente" FromRole="tPacientes" ToRole="tArchivosPaciente" />
           <NavigationProperty Name="tCitas" Relationship="Self.FK_CitaPaciente" FromRole="tPacientes" ToRole="tCitas" />
+          <NavigationProperty Name="tHistorial" Relationship="Self.FK_tHistorial_Pacientes" FromRole="tPacientes" ToRole="tHistorial" />
           <NavigationProperty Name="tRol" Relationship="Self.FK_PacienteRol" FromRole="tPacientes" ToRole="tRol" />
           <NavigationProperty Name="tSeguimientoProducto" Relationship="Self.FK_SeguimientoPaciente" FromRole="tPacientes" ToRole="tSeguimientoProducto" />
-          <NavigationProperty Name="tHistorial" Relationship="ProyectoGraduacionModel.FK_tHistorial_Pacientes" FromRole="tPacientes" ToRole="tHistorial" />
         </EntityType>
         <EntityType Name="tProductosTratamiento">
           <Key>
@@ -654,6 +669,22 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
           <NavigationProperty Name="tPacientes" Relationship="Self.FK_SeguimientoPaciente" FromRole="tSeguimientoProducto" ToRole="tPacientes" />
           <NavigationProperty Name="tRecomendacionesProducto" Relationship="Self.FK_RecomendacionSeguimiento" FromRole="tSeguimientoProducto" ToRole="tRecomendacionesProducto" />
         </EntityType>
+        <EntityType Name="historial_compras">
+          <Key>
+            <PropertyRef Name="idProducto" />
+            <PropertyRef Name="NombreProducto" />
+            <PropertyRef Name="Cantidad" />
+            <PropertyRef Name="idProveedor" />
+            <PropertyRef Name="NivelMinimoStock" />
+          </Key>
+          <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreProducto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="CaducidadProducto" Type="DateTime" Precision="0" />
+          <Property Name="idProveedor" Type="Int32" Nullable="false" />
+          <Property Name="NivelMinimoStock" Type="Int32" Nullable="false" />
+          <Property Name="FechaCompra" Type="DateTime" Precision="3" />
+        </EntityType>
         <Association Name="FK_ArchivoPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tArchivosPaciente" Type="Self.tArchivosPaciente" Multiplicity="*" />
@@ -699,6 +730,18 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
             </Principal>
             <Dependent Role="tProductosTratamiento">
               <PropertyRef Name="idCita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tHistorial_Pacientes">
+          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
+          <End Role="tHistorial" Type="Self.tHistorial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPacientes">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="tHistorial">
+              <PropertyRef Name="idPaciente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -825,6 +868,7 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
         <EntityContainer Name="ProyectoGraduacionEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tArchivosPaciente" EntityType="Self.tArchivosPaciente" />
           <EntitySet Name="tCitas" EntityType="Self.tCitas" />
+          <EntitySet Name="tHistorial" EntityType="Self.tHistorial" />
           <EntitySet Name="tInventario" EntityType="Self.tInventario" />
           <EntitySet Name="tMovimientosInventario" EntityType="Self.tMovimientosInventario" />
           <EntitySet Name="tOrdenesCompra" EntityType="Self.tOrdenesCompra" />
@@ -836,6 +880,7 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
           <EntitySet Name="tRol" EntityType="Self.tRol" />
           <EntitySet Name="tSede" EntityType="Self.tSede" />
           <EntitySet Name="tSeguimientoProducto" EntityType="Self.tSeguimientoProducto" />
+          <EntitySet Name="historial_compras" EntityType="Self.historial_compras" />
           <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
@@ -851,6 +896,10 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
           <AssociationSet Name="FK_CitaTratamiento" Association="Self.FK_CitaTratamiento">
             <End Role="tCitas" EntitySet="tCitas" />
             <End Role="tProductosTratamiento" EntitySet="tProductosTratamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tHistorial_Pacientes" Association="Self.FK_tHistorial_Pacientes">
+            <End Role="tPacientes" EntitySet="tPacientes" />
+            <End Role="tHistorial" EntitySet="tHistorial" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductoMovimiento" Association="Self.FK_ProductoMovimiento">
             <End Role="tInventario" EntitySet="tInventario" />
@@ -892,6 +941,10 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
             <End Role="tSeguimientoProducto" EntitySet="tSeguimientoProducto" />
             <End Role="tRecomendacionesProducto" EntitySet="tRecomendacionesProducto" />
           </AssociationSet>
+          <FunctionImport Name="ActualizarArchivo">
+            <Parameter Name="idHistorial" Mode="In" Type="Int32" />
+            <Parameter Name="Archivo" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="ActualizarPaciente">
             <Parameter Name="Cedula" Mode="In" Type="String" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -914,17 +967,26 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
             <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CambiarEstadoPaciente">
-          <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarProducto">
-          <Parameter Name="idProducto" Mode="In" Type="Int32" />
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarSeguimiento">
-          <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
+            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IniciarSesion" ReturnType="Collection(ProyectoGraduacionModel.IniciarSesion_Result)">
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarHistorial" ReturnType="Collection(Decimal)">
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="FechaConsulta" Mode="In" Type="DateTime" />
+            <Parameter Name="Diagnostico" Mode="In" Type="String" />
+            <Parameter Name="Tratamiento" Mode="In" Type="String" />
+            <Parameter Name="Medicacion" Mode="In" Type="String" />
+            <Parameter Name="Observaciones" Mode="In" Type="String" />
+            <Parameter Name="Archivo" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="RegistrarInventario">
             <Parameter Name="NombreProducto" Mode="In" Type="String" />
@@ -949,25 +1011,6 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <EntitySet Name="historial_compras" EntityType="ProyectoGraduacionModel.historial_compras" />
-          <EntitySet Name="tHistorial" EntityType="ProyectoGraduacionModel.tHistorial" />
-          <AssociationSet Name="FK_tHistorial_Pacientes" Association="ProyectoGraduacionModel.FK_tHistorial_Pacientes">
-            <End Role="tPacientes" EntitySet="tPacientes" />
-            <End Role="tHistorial" EntitySet="tHistorial" />
-          </AssociationSet>
-          <FunctionImport Name="RegistrarHistorial">
-            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
-            <Parameter Name="FechaConsulta" Mode="In" Type="DateTime" />
-            <Parameter Name="Diagnostico" Mode="In" Type="String" />
-            <Parameter Name="Tratamiento" Mode="In" Type="String" />
-            <Parameter Name="Medicacion" Mode="In" Type="String" />
-            <Parameter Name="Observaciones" Mode="In" Type="String" />
-            <Parameter Name="Archivo" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="ActualizarArchivo">
-            <Parameter Name="idHistorial" Mode="In" Type="Int32" />
-            <Parameter Name="Archivo" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IniciarSesion_Result">
           <Property Type="Int32" Name="idPaciente" Nullable="false" />
@@ -978,48 +1021,6 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
           <Property Type="Boolean" Name="Estado" Nullable="false" />
           <Property Type="Byte" Name="IdRol" Nullable="false" />
         </ComplexType>
-        <EntityType Name="historial_compras">
-          <Key>
-            <PropertyRef Name="idProducto" />
-            <PropertyRef Name="NombreProducto" />
-            <PropertyRef Name="Cantidad" />
-            <PropertyRef Name="idProveedor" />
-            <PropertyRef Name="NivelMinimoStock" />
-          </Key>
-          <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NombreProducto" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="CaducidadProducto" Type="DateTime" Precision="0" />
-          <Property Name="idProveedor" Type="Int32" Nullable="false" />
-          <Property Name="NivelMinimoStock" Type="Int32" Nullable="false" />
-          <Property Name="FechaCompra" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tHistorial">
-          <Key>
-            <PropertyRef Name="idHistorial" />
-          </Key>
-          <Property Name="idHistorial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idPaciente" Type="Int32" Nullable="false" />
-          <Property Name="FechaConsulta" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Diagnostico" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Tratamiento" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Medicacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Archivo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tPacientes" Relationship="ProyectoGraduacionModel.FK_tHistorial_Pacientes" FromRole="tHistorial" ToRole="tPacientes" />
-        </EntityType>
-        <Association Name="FK_tHistorial_Pacientes">
-          <End Type="ProyectoGraduacionModel.tPacientes" Role="tPacientes" Multiplicity="1" />
-          <End Type="ProyectoGraduacionModel.tHistorial" Role="tHistorial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tPacientes">
-              <PropertyRef Name="idPaciente" />
-            </Principal>
-            <Dependent Role="tHistorial">
-              <PropertyRef Name="idPaciente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1046,6 +1047,20 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
                 <ScalarProperty Name="idSede" ColumnName="idSede" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tHistorial">
+            <EntityTypeMapping TypeName="ProyectoGraduacionModel.tHistorial">
+              <MappingFragment StoreEntitySet="tHistorial">
+                <ScalarProperty Name="idHistorial" ColumnName="idHistorial" />
+                <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+                <ScalarProperty Name="FechaConsulta" ColumnName="FechaConsulta" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="Tratamiento" ColumnName="Tratamiento" />
+                <ScalarProperty Name="Medicacion" ColumnName="Medicacion" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1163,6 +1178,20 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="historial_compras">
+            <EntityTypeMapping TypeName="ProyectoGraduacionModel.historial_compras">
+              <MappingFragment StoreEntitySet="historial_compras">
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CaducidadProducto" ColumnName="CaducidadProducto" />
+                <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
+                <ScalarProperty Name="NivelMinimoStock" ColumnName="NivelMinimoStock" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarArchivo" FunctionName="ProyectoGraduacionModel.Store.ActualizarArchivo" />
           <FunctionImportMapping FunctionImportName="ActualizarPaciente" FunctionName="ProyectoGraduacionModel.Store.ActualizarPaciente" />
           <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="ProyectoGraduacionModel.Store.ActualizarProducto" />
           <FunctionImportMapping FunctionImportName="ActualizarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.ActualizarSeguimiento" />
@@ -1182,39 +1211,11 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarHistorial" FunctionName="ProyectoGraduacionModel.Store.RegistrarHistorial" />
           <FunctionImportMapping FunctionImportName="RegistrarInventario" FunctionName="ProyectoGraduacionModel.Store.RegistrarInventario" />
           <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
           <FunctionImportMapping FunctionImportName="RegistrarProveedor" FunctionName="ProyectoGraduacionModel.Store.RegistrarProveedor" />
           <FunctionImportMapping FunctionImportName="RegistrarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.RegistrarSeguimiento" />
-          <EntitySetMapping Name="historial_compras">
-            <EntityTypeMapping TypeName="ProyectoGraduacionModel.historial_compras">
-              <MappingFragment StoreEntitySet="historial_compras">
-                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
-                <ScalarProperty Name="NivelMinimoStock" ColumnName="NivelMinimoStock" />
-                <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
-                <ScalarProperty Name="CaducidadProducto" ColumnName="CaducidadProducto" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
-                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tHistorial">
-            <EntityTypeMapping TypeName="ProyectoGraduacionModel.tHistorial">
-              <MappingFragment StoreEntitySet="tHistorial">
-                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="Medicacion" ColumnName="Medicacion" />
-                <ScalarProperty Name="Tratamiento" ColumnName="Tratamiento" />
-                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
-                <ScalarProperty Name="FechaConsulta" ColumnName="FechaConsulta" />
-                <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
-                <ScalarProperty Name="idHistorial" ColumnName="idHistorial" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="RegistrarHistorial" FunctionName="ProyectoGraduacionModel.Store.RegistrarHistorial" />
-          <FunctionImportMapping FunctionImportName="ActualizarArchivo" FunctionName="ProyectoGraduacionModel.Store.ActualizarArchivo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1232,7 +1233,7 @@ advertencia 6002: La tabla o vista 'ProyectoGraduacion.dbo.historial_compras' no
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
