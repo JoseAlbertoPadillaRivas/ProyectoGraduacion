@@ -69,7 +69,6 @@
         });
     });
 
-    // Exportar historial con SweetAlert
 
 document.getElementById('btn-exportar').addEventListener('click', function() {
     Swal.fire({
@@ -80,15 +79,13 @@ document.getElementById('btn-exportar').addEventListener('click', function() {
         cancelButtonText: 'No'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Llamada AJAX a la acción del controlador
             $.ajax({
                 url: '@Url.Action("GenerarPdf", "Reabastecimiento")',
                 type: 'POST',
                 xhrFields: {
-                    responseType: 'blob' // Esperar un Blob como respuesta
+                    responseType: 'blob' 
                 },
                 success: function (data) {
-                    // Crear un enlace para descargar el PDF
                     const url = window.URL.createObjectURL(new Blob([data]));
                     const a = document.createElement('a');
                     a.href = url;
@@ -116,7 +113,6 @@ document.getElementById('btn-exportar').addEventListener('click', function() {
 });
 
 
-    // Eliminar entrada del historial con SweetAlert
     document.querySelectorAll('.btn-eliminar').forEach(function(btn) {
         btn.addEventListener('click', function() {
             Swal.fire({

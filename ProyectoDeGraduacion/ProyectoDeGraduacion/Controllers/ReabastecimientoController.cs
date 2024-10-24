@@ -220,13 +220,11 @@ namespace ProyectoDeGraduacion.Controllers
         {
             var respuesta = reabastecimientoM.ConsultarCompras();
 
-            // Generar el PDF
             var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", respuesta)
             {
                 FileName = "Historial.pdf"
             };
 
-            // Aquí se debe ejecutar la generación del PDF
             return pdfResult;
         }
 

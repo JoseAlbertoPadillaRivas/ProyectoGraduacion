@@ -33,6 +33,8 @@
         <AssociationConnector Association="ProyectoGraduacionModel.FK_SeguimientoPaciente" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_RecomendacionSeguimiento" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.historial_compras" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tHistorial" Width="1.5" PointX="3" PointY="20.5" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_tHistorial_Pacientes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,6 +20,7 @@ namespace ProyectoDeGraduacion.BaseDatos
             this.tArchivosPaciente = new HashSet<tArchivosPaciente>();
             this.tCitas = new HashSet<tCitas>();
             this.tSeguimientoProducto = new HashSet<tSeguimientoProducto>();
+            this.tHistorial = new HashSet<tHistorial>();
         }
     
         public int idPaciente { get; set; }
@@ -38,5 +39,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual tRol tRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tSeguimientoProducto> tSeguimientoProducto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tHistorial> tHistorial { get; set; }
     }
 }

@@ -1,69 +1,44 @@
-﻿@{
+﻿@model ProyectoDeGraduacion.BaseDatos.tHistorial
+@{
     ViewBag.Title = "Nuevo Registro";
-    var nombrePaciente = "Juan Pérez"; // Nombre del paciente provisional para la prueba
 }
 
-<h2 class="historial-header">Nuevo Registro para el paciente @nombrePaciente</h2>
+<h2 class="historial-header">Nuevo Registro para el paciente</h2>
 
 <div class="historial-section">
-    <form id="registroForm" method="post" enctype="multipart/form-data" action="@Url.Action("RegistrarHistoria", "Historial")">
+    @using (Html.BeginForm("RegistrarHistoria", "Historial", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
         <div class="form-group">
-            <label for="fechaConsulta">Fecha de Consulta:</label>
-            <input type="date" class="form-control" id="fechaConsulta" name="fechaConsulta" required>
+            @Html.Label("Paciente")
+            @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @placeholder = "ID Paciente" })
         </div>
         <div class="form-group">
-            <label for="diagnostico">Diagnóstico:</label>
-            <textarea class="form-control" id="diagnostico" name="diagnostico" required></textarea>
+            @Html.Label("Fecha")
+            @Html.TextBoxFor(m => m.FechaConsulta, new { @type = "Date", @class = "form-control", @placeholder = "Fecha de la consulta" })
         </div>
         <div class="form-group">
-            <label for="tratamiento">Tratamiento Aplicado:</label>
-            <textarea class="form-control" id="tratamiento" name="tratamiento" required></textarea>
+            @Html.Label("Diagnostico")
+            @Html.TextBoxFor(m => m.Diagnostico, new { @type = "text", @class = "form-control", @placeholder = "Diagnostico" })
         </div>
         <div class="form-group">
-            <label for="medicacion">Medicación Recetada:</label>
-            <textarea class="form-control" id="medicacion" name="medicacion"></textarea>
+            @Html.Label("Tratamiento")
+            @Html.TextBoxFor(m => m.Tratamiento, new { @type = "text", @class = "form-control", @placeholder = "Tratamiento aplicado" })
         </div>
         <div class="form-group">
-            <label for="observaciones">Observaciones:</label>
-            <textarea class="form-control" id="observaciones" name="observaciones" rows="6"></textarea>
+            @Html.Label("Medicacion")
+            @Html.TextBoxFor(m => m.Medicacion, new { @type = "text", @class = "form-control", @placeholder = "Medicacion aplicada" })
         </div>
-
-        <!-- Apartado para subir archivos -->
         <div class="form-group">
-            <label for="archivos">Subir Archivos (opcional):</label>
-            <input type="file" class="form-control" id="archivos" name="archivos" multiple>
+            @Html.Label("Observaciones")
+            @Html.TextBoxFor(m => m.Observaciones, new { @type = "text", @class = "form-control", @placeholder = "Observaciones" })
+        </div>
+        @Html.Label("Archivo")
+        <div class="input-group mb-3">
+            <input type="file" id="Archivo" name="Archivo" class="form-control form-control-user">
         </div>
 
         <div>
             <button type="submit" class="btn btn-dark">Registrar</button>
         </div>
-        <div class="historial-section text-center">
-            @if (Session["RolUsuario"].ToString() == "1")
-            {
-                <!-- Regresar para el Admin -->
-                <a href="@Url.Action("IndexHistorialAdmin", "Historial")" class="btn btn-info">Regresar al Historial</a>
-            }
-            else if (Session["RolUsuario"].ToString() == "2")
-            {
-                <!-- Regresar para el Usuario -->
-                <a href="@Url.Action("IndexHistorial", "Historial")" class="btn btn-info">Regresar al Historial</a>
-            }
-        </div>
-    </form>
+    }
 </div>
-
-<script>
-    document.getElementById("registroForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        Swal.fire({
-            title: 'Registro Exitoso',
-            text: 'El historial clínico ha sido registrado con éxito.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-        }).then(function() {
-
-            window.location.href = '@Url.Action("Index", "Historial")';
-        });
-    });
-</script>

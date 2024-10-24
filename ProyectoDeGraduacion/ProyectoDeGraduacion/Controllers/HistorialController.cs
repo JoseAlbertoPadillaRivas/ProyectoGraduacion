@@ -1,25 +1,56 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web;
+using System;
+using System.Web.Mvc;
+using ProyectoDeGraduacion.BaseDatos;
+using ProyectoDeGraduacion.Models;
 
 namespace ProyectoDeGraduacion.Controllers
 {
     public class HistorialController : Controller
     {
+        HistorialModel historialM = new HistorialModel();
         // GET: Historial
         public ActionResult IndexHistorial()
         {
             return View();
         }
 
-        // GET: VISTA PROVISIONAL
+        [HttpGet]
         public ActionResult IndexHistorialAdmin()
+        {
+            var respuesta = historialM.ConsultarHistoriales();
+            return View(respuesta);
+        }
+
+        [HttpGet]
+        public ActionResult RegistrarHistoria()
         {
             return View();
         }
 
-        // GET: Historial/RegistrarHistoria
-        public ActionResult RegistrarHistoria()
+        [HttpPost]
+        public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist)
         {
-            return View();
+            var consecutivo = historialM.RegistrarHistoria(hist);
+
+            if (consecutivo > 0)
+            {
+                string extension = Path.GetExtension(Path.GetFileName(Archivo.FileName));
+                string ruta = AppDomain.CurrentDomain.BaseDirectory + "ArchivosHistorial\\" + consecutivo + extension;
+                Archivo.SaveAs(ruta);
+
+                hist.idHistorial = consecutivo;
+                hist.Archivo = "/ArchivosHistorial/" + consecutivo + extension;
+                historialM.ActualizarArchivo(hist);
+
+                return RedirectToAction("IndexHistorial", "Historial");
+            }
+            else
+            {
+                ViewBag.msj = "No se ha podido registrar la información del producto";
+                return View();
+            }
         }
 
         // GET: Historial/ModificarHistoria

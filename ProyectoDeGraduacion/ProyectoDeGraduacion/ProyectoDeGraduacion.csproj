@@ -157,6 +157,9 @@
     <Compile Include="BaseDatos\tCitas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\tHistorial.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tInventario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -206,6 +209,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FiltroSeguridad.cs" />
+    <Compile Include="Models\HistorialModel.cs" />
     <Compile Include="Models\InventarioModel.cs" />
     <Compile Include="Models\PacientesModel.cs" />
     <Compile Include="Models\ReabastecimientoModel.cs" />
@@ -601,7 +605,6 @@
     <Content Include="Views\Calificacion\verCalificaciones.cshtml" />
     <Content Include="Views\Calificacion\NuevaCalificacion.cshtml" />
     <Content Include="Views\Historial\RegistrarHistoria.cshtml" />
-    <Content Include="Views\Historial\AñadirDocumentos.cshtml" />
     <Content Include="Views\Historial\VerHistoria.cshtml" />
     <Content Include="Views\Historial\DescargarDocumentos.cshtml" />
     <Content Include="Views\Historial\IndexHistorial.cshtml" />
@@ -625,6 +628,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ArchivosHistorial\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>

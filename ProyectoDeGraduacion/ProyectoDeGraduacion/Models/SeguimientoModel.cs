@@ -14,28 +14,28 @@ namespace ProyectoDeGraduacion.Models
             using (var context = new ProyectoGraduacionEntities())
             {
                 //// Ajusta el método RegistrarSeguimientoProducto con los campos correspondientes
-                //rowsAffected = context.RegistrarSeguimiento(seguimiento.idPaciente, seguimiento.idProducto, seguimiento.FechaEntregaEstimada, seguimiento.Estado);
+                //rowsAffected = context.RegistrarSeguimientoProducto(seguimiento.idPaciente, seguimiento.idProducto, seguimiento.FechaEntregaEstimada, seguimiento.Estado);
             }
 
             return (rowsAffected > 0 ? true : false);
         }
 
-        //public List<tSeguimientoProducto> ConsultarSeguimiento()
-        //{
-        //    using (var context = new ProyectoGraduacionEntities())
-        //    {
-        //        return (from x in context.tSeguimientoProducto
-        //                select x).ToList();
-        //    }
-        //}
+        public List<tSeguimientoProducto> ConsultarSeguimiento()
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                return (from x in context.tSeguimientoProducto
+                        select x).ToList();
+            }
+        }
 
         //public tSeguimientoProducto ConsultarSeguimientoID(int idSeguimiento)
         //{
         //    using (var context = new ProyectoGraduacionEntities())
         //    {
-        //        return (from x in context.tSeguimientoProducto
-        //                where x.idSeguimiento == idSeguimiento
-        //                select x).FirstOrDefault();
+        //        //return (from x in context.tSeguimientoProducto
+        //        //        where x.idSeguimiento == idSeguimiento
+        //        //        select x).FirstOrDefault();
         //    }
         //}
 
@@ -43,9 +43,9 @@ namespace ProyectoDeGraduacion.Models
         //{
         //    using (var context = new ProyectoGraduacionEntities())
         //    {
-        //        return (from x in context.tSeguimientoProducto
-        //                where x.idPaciente == idPaciente
-        //                select x).ToList();
+        //        //return (from x in context.tSeguimientoProducto
+        //        //        where x.idPaciente == idPaciente
+        //        //        select x).ToList();
         //    }
         //}
 
@@ -54,7 +54,7 @@ namespace ProyectoDeGraduacion.Models
             var rowsAffected = 0;
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.EliminarSeguimiento(seguimiento.idSeguimiento);
+                //rowsAffected = context.EliminarSeguimientoProducto(seguimiento.idSeguimiento);
             }
 
             return (rowsAffected > 0 ? true : false);
@@ -66,7 +66,7 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                //rowsAffected = context.ActualizarSeguimiento(seguimiento.idPaciente, seguimiento.idProducto, seguimiento.FechaEntregaEstimada, seguimiento.Estado, seguimiento.idSeguimiento);
+                //rowsAffected = context.ActualizarSeguimientoProducto(seguimiento.idPaciente, seguimiento.idProducto, seguimiento.FechaEntregaEstimada, seguimiento.Estado, seguimiento.idSeguimiento);
             }
 
             return (rowsAffected > 0 ? true : false);
