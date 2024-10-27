@@ -22,9 +22,13 @@ namespace ProyectoDeGraduacion.BaseDatos
     
         public int idOrdenCompra { get; set; }
         public int idProveedor { get; set; }
-        public System.DateTime FechaSolicitud { get; set; }
+        public string NombreProducto { get; set; }
+        public int CantidadTotalSolicitada { get; set; }
         public string EstadoOrden { get; set; }
+        public System.DateTime FechaSolicitud { get; set; }
+        public int idProducto { get; set; }
     
+        public virtual tInventario tInventario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrdenesProductos> tOrdenesProductos { get; set; }
         public virtual tProveedores tProveedores { get; set; }

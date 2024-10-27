@@ -51,5 +51,31 @@
         <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
         <a href="@Url.Action("ConfirmarRecepcion", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
     </div>
-
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    title: 'Orden Enviada',
+                    text: '@TempData["SuccessMessage"]',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
+            </text>
+        }
+        else if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    title: 'Error en Envío',
+                    text: '@TempData["ErrorMessage"]',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            </text>
+        }
+    });
+</script>

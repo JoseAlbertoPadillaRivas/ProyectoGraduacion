@@ -38,11 +38,11 @@ namespace ProyectoDeGraduacion.Controllers
                 var product = db.tInventario.FirstOrDefault(p => p.idProducto == updatedProduct.idProducto);
                 if (product != null)
                 {
-                    product.NivelMinimoStock = updatedProduct.NivelMinimoStock; // Actualizamos nivel mínimo de stock
+                    product.NivelMinimoStock = updatedProduct.NivelMinimoStock; 
                 }
             }
 
-            db.SaveChanges(); // Guardamos los cambios en la base de datos
+            db.SaveChanges(); 
             TempData["SuccessMessage"] = "Los valores de reabastecimiento se han configurado correctamente.";
             return RedirectToAction("ConfigurarValores");
         }
@@ -53,11 +53,9 @@ namespace ProyectoDeGraduacion.Controllers
         {
             using (var context = new ProyectoGraduacionEntities())
             {
-                // Obtener productos y proveedores
                 var productos = context.tInventario.ToList();
                 var proveedores = context.tProveedores.ToList();
 
-                // Pasar los productos y proveedores a la vista usando ViewBag
                 ViewBag.Proveedores = proveedores;
                 return View(productos);
             }
@@ -69,7 +67,6 @@ namespace ProyectoDeGraduacion.Controllers
         {
             bool ordenGenerada = false;
             int idOrdenCompra = 0;
-
             StringBuilder productosHtml = new StringBuilder();
 
             foreach (var key in form.AllKeys)
@@ -93,21 +90,26 @@ namespace ProyectoDeGraduacion.Controllers
 
                     if (!ordenGenerada)
                     {
+                        var productoInfo = db.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
+
                         tOrdenesCompra nuevaOrdenCompra = new tOrdenesCompra
                         {
                             idProveedor = idProveedor,
                             FechaSolicitud = DateTime.Now,
-                            EstadoOrden = "Pendiente"
+                            EstadoOrden = "Pendiente",
+                            NombreProducto = productoInfo.NombreProducto,
+                            CantidadTotalSolicitada = cantidadSolicitada,
+                            idProducto = idProducto
                         };
 
                         db.tOrdenesCompra.Add(nuevaOrdenCompra);
                         db.SaveChanges();
+
                         ordenGenerada = true;
                         idOrdenCompra = nuevaOrdenCompra.idOrdenCompra;
-                    }
 
-                    var productoInfo = db.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
-                    productosHtml.Append($"<tr><td>{productoInfo.NombreProducto}</td><td>{cantidadSolicitada}</td></tr>");
+                        productosHtml.Append($"<tr><td>{productoInfo.NombreProducto}</td><td>{cantidadSolicitada}</td></tr>");
+                    }
                 }
             }
 
@@ -141,80 +143,104 @@ namespace ProyectoDeGraduacion.Controllers
             return RedirectToAction("GenerarOrdenes");
         }
 
-
-        // Vista para Confirmar Recepción de Productos
         public ActionResult ConfirmarRecepcion()
         {
-            // Obtener las órdenes de compra pendientes
-            var ordenesPendientes = db.tOrdenesCompra
-                                      .Where(o => o.EstadoOrden == "Pendiente")
-                                      .ToList();
+            var productosPendientes = db.tOrdenesCompra
+                                        .Where(o => o.EstadoOrden == "Pendiente")
+                                        .Select(o => new ProductoPendiente
+                                        {
+                                            IdProducto = o.idProducto,
+                                            NombreProducto = o.NombreProducto,
+                                            CantidadSolicitada = o.CantidadTotalSolicitada,
+                                            Proveedor = o.tProveedores.Empresa,
+                                            FechaSolicitud = o.FechaSolicitud
+                                        })
+                                        .ToList();
 
-            // Crear una lista para pasar los productos de estas órdenes
-            var productosPendientes = new List<tOrdenesProductos>();
-
-            foreach (var orden in ordenesPendientes)
-            {
-                // Obtener los productos asociados a la orden de compra
-                var productosOrden = db.tOrdenesProductos
-                                       .Where(op => op.idOrdenCompra == orden.idOrdenCompra)
-                                       .ToList();
-
-                // Agregar los productos a la lista
-                productosPendientes.AddRange(productosOrden);
-            }
-
-            // Pasar los productos pendientes a la vista
             return View(productosPendientes);
         }
 
         [HttpPost]
-        public ActionResult ConfirmarRecepcion(FormCollection form)
+        public JsonResult ActualizarEstadoOrden(int idOrdenCompra)
         {
-            foreach (var key in form.AllKeys)
+            var orden = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == idOrdenCompra);
+
+            if (orden != null)
             {
-                if (key.StartsWith("cantidad_"))
+                orden.EstadoOrden = "Terminado";
+                db.SaveChanges();
+                return Json(new { success = true, message = "Recepción confirmada." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No se encontró la orden de compra." });
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult RegistrarDiscrepancia(int idProducto, string mensajeDiscrepancia)
+        {
+            try
+            {
+                var ordenCompra = db.tOrdenesCompra.FirstOrDefault(o => o.idProducto == idProducto && o.EstadoOrden == "Pendiente");
+
+                if (ordenCompra == null)
                 {
-                    // Extraer el idProducto desde el nombre del campo
-                    int idProducto = int.Parse(key.Split('_')[1]);
-
-                    // Obtener la cantidad recibida
-                    int cantidadRecibida = int.Parse(form[key]);
-
-                    // Buscar el producto en la base de datos
-                    var producto = db.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
-                    if (producto != null)
-                    {
-                        // Actualizar la cantidad en el inventario
-                        producto.Cantidad += cantidadRecibida;
-
-                        // Actualizar el estado de la orden de compra como completada
-                        var ordenProducto = db.tOrdenesProductos.FirstOrDefault(op => op.idProducto == idProducto);
-                        if (ordenProducto != null)
-                        {
-                            var orden = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == ordenProducto.idOrdenCompra);
-                            orden.EstadoOrden = "Completada";
-                        }
-
-                        // Guardar los cambios en la base de datos
-                        db.SaveChanges();
-                    }
+                    TempData["ErrorMessage"] = "No se encontró la orden de compra.";
+                    return RedirectToAction("ConfirmarRecepcion");
                 }
+
+                var proveedor = db.tProveedores.FirstOrDefault(p => p.idProveedor == ordenCompra.idProveedor);
+
+                if (proveedor == null)
+                {
+                    TempData["ErrorMessage"] = "No se pudo obtener la información del proveedor.";
+                    return RedirectToAction("ConfirmarRecepcion");
+                }
+
+                string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoDiscrepancia.html";
+                string contenido = System.IO.File.ReadAllText(ruta);
+
+                contenido = contenido.Replace("@@NombreProveedor", proveedor.Empresa);
+                contenido = contenido.Replace("@@Discrepancias", $"<tr><td>{ordenCompra.NombreProducto}</td><td>{ordenCompra.CantidadTotalSolicitada}</td></tr>");
+                contenido = contenido.Replace("@@Mensaje", mensajeDiscrepancia);
+
+                GeneralModel generalM = new GeneralModel();
+                generalM.EnviarCorreo(proveedor.Correo, "Discrepancia en Recepción - Clínica Dental Dra. Mariana Garro", contenido);
+
+                TempData["SuccessMessage"] = "La discrepancia fue registrada y se envió una notificación al proveedor.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error al registrar la discrepancia: {ex.Message}";
             }
 
-            // Mostrar ventana emergente de confirmación
-            TempData["mensaje"] = "La recepción de productos se ha registrado correctamente y el inventario ha sido actualizado.";
             return RedirectToAction("ConfirmarRecepcion");
         }
 
-
         // Vista para el Historial de Reabastecimientos
-        [HttpGet]
         public ActionResult HistorialReabastecimiento()
         {
-            var respuesta = reabastecimientoM.ConsultarCompras();
-            return View(respuesta);
+            var historialOrdenes = db.tOrdenesCompra
+                                     .Select(o => new HistorialOrdenes
+                                     {
+                                         NombreProducto = o.NombreProducto,
+                                         Cantidad = o.CantidadTotalSolicitada,
+                                         FechaCompra = o.FechaSolicitud,
+                                         Proveedor = o.tProveedores.Empresa
+                                     })
+                                     .ToList();
+
+            if (!historialOrdenes.Any())
+            {
+                ViewBag.msj = "No se encontraron órdenes de compra en el historial.";
+            }
+
+            return View(historialOrdenes);
         }
+
+
 
         // Vista específica para PDF
         public ActionResult HistorialReabastecimientoPDF()
@@ -235,7 +261,5 @@ namespace ProyectoDeGraduacion.Controllers
 
             return pdfResult;
         }
-
-
     }
 }

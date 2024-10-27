@@ -5,24 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="historial_compras">
-          <Key>
-            <PropertyRef Name="idProducto" />
-            <PropertyRef Name="NombreProducto" />
-            <PropertyRef Name="Cantidad" />
-            <PropertyRef Name="idProveedor" />
-            <PropertyRef Name="NivelMinimoStock" />
-          </Key>
-          <Property Name="idProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NombreProducto" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="CaducidadProducto" Type="date" />
-          <Property Name="idProveedor" Type="int" Nullable="false" />
-          <Property Name="NivelMinimoStock" Type="int" Nullable="false" />
-          <Property Name="FechaCompra" Type="datetime" />
-        </EntityType>
         <EntityType Name="tArchivosPaciente">
           <Key>
             <PropertyRef Name="idArchivo" />
@@ -85,8 +67,11 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           </Key>
           <Property Name="idOrdenCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idProveedor" Type="int" Nullable="false" />
+          <Property Name="NombreProducto" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CantidadTotalSolicitada" Type="int" Nullable="false" />
+          <Property Name="EstadoOrden" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="FechaSolicitud" Type="date" Nullable="false" />
-          <Property Name="EstadoOrden" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="idProducto" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tOrdenesProductos">
           <Key>
@@ -208,6 +193,18 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HistorialPaciente">
+          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
+          <End Role="tHistorial" Type="Self.tHistorial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPacientes">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="tHistorial">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrdenCompra">
           <End Role="tOrdenesCompra" Type="Self.tOrdenesCompra" Multiplicity="1" />
           <End Role="tOrdenesProductos" Type="Self.tOrdenesProductos" Multiplicity="*" />
@@ -252,6 +249,18 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
               <PropertyRef Name="idProducto" />
             </Principal>
             <Dependent Role="tOrdenesProductos">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoOrdenCompra">
+          <End Role="tInventario" Type="Self.tInventario" Multiplicity="1" />
+          <End Role="tOrdenesCompra" Type="Self.tOrdenesCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tInventario">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="tOrdenesCompra">
               <PropertyRef Name="idProducto" />
             </Dependent>
           </ReferentialConstraint>
@@ -328,18 +337,6 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tHistorial_Pacientes">
-          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
-          <End Role="tHistorial" Type="Self.tHistorial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tPacientes">
-              <PropertyRef Name="idPaciente" />
-            </Principal>
-            <Dependent Role="tHistorial">
-              <PropertyRef Name="idPaciente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="ActualizarArchivo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idHistorial" Type="int" Mode="In" />
           <Parameter Name="Archivo" Type="varchar" Mode="In" />
@@ -359,20 +356,11 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <Parameter Name="idProveedor" Type="int" Mode="In" />
           <Parameter Name="idProducto" Type="int" Mode="In" />
         </Function>
-        <Function Name="ActualizarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="idPaciente" Type="int" Mode="In" />
-          <Parameter Name="Nombre" Type="varchar" Mode="In" />
-          <Parameter Name="FechaEntrega" Type="date" Mode="In" />
-          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
-        </Function>
         <Function Name="CambiarEstadoPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idPaciente" Type="int" Mode="In" />
         </Function>
         <Function Name="EliminarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idProducto" Type="int" Mode="In" />
-        </Function>
-        <Function Name="EliminarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
         </Function>
         <Function Name="IniciarSesion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Correo" Type="varchar" Mode="In" />
@@ -403,7 +391,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
         <Function Name="RegistrarProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Empresa" Type="varchar" Mode="In" />
           <Parameter Name="Correo" Type="varchar" Mode="In" />
-          <Parameter Name="NumeroTelefono" Type="int" Mode="In" />
+          <Parameter Name="NumeroTelefono" Type="varchar" Mode="In" />
         </Function>
         <Function Name="RegistrarSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idPaciente" Type="int" Mode="In" />
@@ -425,17 +413,6 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <EntitySet Name="tRol" EntityType="Self.tRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSede" EntityType="Self.tSede" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSeguimientoProducto" EntityType="Self.tSeguimientoProducto" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="historial_compras" EntityType="Self.historial_compras" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [historial_compras].[idProducto] AS [idProducto], 
-    [historial_compras].[NombreProducto] AS [NombreProducto], 
-    [historial_compras].[Cantidad] AS [Cantidad], 
-    [historial_compras].[CaducidadProducto] AS [CaducidadProducto], 
-    [historial_compras].[idProveedor] AS [idProveedor], 
-    [historial_compras].[NivelMinimoStock] AS [NivelMinimoStock], 
-    [historial_compras].[FechaCompra] AS [FechaCompra]
-    FROM [dbo].[historial_compras] AS [historial_compras]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
@@ -452,6 +429,10 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
             <End Role="tCitas" EntitySet="tCitas" />
             <End Role="tProductosTratamiento" EntitySet="tProductosTratamiento" />
           </AssociationSet>
+          <AssociationSet Name="FK_HistorialPaciente" Association="Self.FK_HistorialPaciente">
+            <End Role="tPacientes" EntitySet="tPacientes" />
+            <End Role="tHistorial" EntitySet="tHistorial" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrdenCompra" Association="Self.FK_OrdenCompra">
             <End Role="tOrdenesCompra" EntitySet="tOrdenesCompra" />
             <End Role="tOrdenesProductos" EntitySet="tOrdenesProductos" />
@@ -467,6 +448,10 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <AssociationSet Name="FK_ProductoOrden" Association="Self.FK_ProductoOrden">
             <End Role="tInventario" EntitySet="tInventario" />
             <End Role="tOrdenesProductos" EntitySet="tOrdenesProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoOrdenCompra" Association="Self.FK_ProductoOrdenCompra">
+            <End Role="tInventario" EntitySet="tInventario" />
+            <End Role="tOrdenesCompra" EntitySet="tOrdenesCompra" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductoProveedor" Association="Self.FK_ProductoProveedor">
             <End Role="tProveedores" EntitySet="tProveedores" />
@@ -491,10 +476,6 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <AssociationSet Name="FK_SeguimientoProducto" Association="Self.FK_SeguimientoProducto">
             <End Role="tInventario" EntitySet="tInventario" />
             <End Role="tSeguimientoProducto" EntitySet="tSeguimientoProducto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tHistorial_Pacientes" Association="Self.FK_tHistorial_Pacientes">
-            <End Role="tPacientes" EntitySet="tPacientes" />
-            <End Role="tHistorial" EntitySet="tHistorial" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -539,7 +520,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <Property Name="Medicacion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Archivo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tPacientes" Relationship="Self.FK_tHistorial_Pacientes" FromRole="tHistorial" ToRole="tPacientes" />
+          <NavigationProperty Name="tPacientes" Relationship="Self.FK_HistorialPaciente" FromRole="tHistorial" ToRole="tPacientes" />
         </EntityType>
         <EntityType Name="tInventario">
           <Key>
@@ -553,6 +534,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <Property Name="NivelMinimoStock" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tMovimientosInventario" Relationship="Self.FK_ProductoMovimiento" FromRole="tInventario" ToRole="tMovimientosInventario" />
           <NavigationProperty Name="tOrdenesProductos" Relationship="Self.FK_ProductoOrden" FromRole="tInventario" ToRole="tOrdenesProductos" />
+          <NavigationProperty Name="tOrdenesCompra" Relationship="Self.FK_ProductoOrdenCompra" FromRole="tInventario" ToRole="tOrdenesCompra" />
           <NavigationProperty Name="tProveedores" Relationship="Self.FK_ProductoProveedor" FromRole="tInventario" ToRole="tProveedores" />
           <NavigationProperty Name="tProductosTratamiento" Relationship="Self.FK_ProductoTratamiento" FromRole="tInventario" ToRole="tProductosTratamiento" />
           <NavigationProperty Name="tSeguimientoProducto" Relationship="Self.FK_SeguimientoProducto" FromRole="tInventario" ToRole="tSeguimientoProducto" />
@@ -575,8 +557,12 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           </Key>
           <Property Name="idOrdenCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idProveedor" Type="Int32" Nullable="false" />
+          <Property Name="NombreProducto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CantidadTotalSolicitada" Type="Int32" Nullable="false" />
+          <Property Name="EstadoOrden" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FechaSolicitud" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EstadoOrden" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idProducto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tInventario" Relationship="Self.FK_ProductoOrdenCompra" FromRole="tOrdenesCompra" ToRole="tInventario" />
           <NavigationProperty Name="tOrdenesProductos" Relationship="Self.FK_OrdenCompra" FromRole="tOrdenesCompra" ToRole="tOrdenesProductos" />
           <NavigationProperty Name="tProveedores" Relationship="Self.FK_ProveedorOrdenCompra" FromRole="tOrdenesCompra" ToRole="tProveedores" />
         </EntityType>
@@ -605,7 +591,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <Property Name="IdRol" Type="Byte" Nullable="false" />
           <NavigationProperty Name="tArchivosPaciente" Relationship="Self.FK_ArchivoPaciente" FromRole="tPacientes" ToRole="tArchivosPaciente" />
           <NavigationProperty Name="tCitas" Relationship="Self.FK_CitaPaciente" FromRole="tPacientes" ToRole="tCitas" />
-          <NavigationProperty Name="tHistorial" Relationship="Self.FK_tHistorial_Pacientes" FromRole="tPacientes" ToRole="tHistorial" />
+          <NavigationProperty Name="tHistorial" Relationship="Self.FK_HistorialPaciente" FromRole="tPacientes" ToRole="tHistorial" />
           <NavigationProperty Name="tRol" Relationship="Self.FK_PacienteRol" FromRole="tPacientes" ToRole="tRol" />
           <NavigationProperty Name="tSeguimientoProducto" Relationship="Self.FK_SeguimientoPaciente" FromRole="tPacientes" ToRole="tSeguimientoProducto" />
         </EntityType>
@@ -669,22 +655,6 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <NavigationProperty Name="tPacientes" Relationship="Self.FK_SeguimientoPaciente" FromRole="tSeguimientoProducto" ToRole="tPacientes" />
           <NavigationProperty Name="tRecomendacionesProducto" Relationship="Self.FK_RecomendacionSeguimiento" FromRole="tSeguimientoProducto" ToRole="tRecomendacionesProducto" />
         </EntityType>
-        <EntityType Name="historial_compras">
-          <Key>
-            <PropertyRef Name="idProducto" />
-            <PropertyRef Name="NombreProducto" />
-            <PropertyRef Name="Cantidad" />
-            <PropertyRef Name="idProveedor" />
-            <PropertyRef Name="NivelMinimoStock" />
-          </Key>
-          <Property Name="idProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NombreProducto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="CaducidadProducto" Type="DateTime" Precision="0" />
-          <Property Name="idProveedor" Type="Int32" Nullable="false" />
-          <Property Name="NivelMinimoStock" Type="Int32" Nullable="false" />
-          <Property Name="FechaCompra" Type="DateTime" Precision="3" />
-        </EntityType>
         <Association Name="FK_ArchivoPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tArchivosPaciente" Type="Self.tArchivosPaciente" Multiplicity="*" />
@@ -733,7 +703,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tHistorial_Pacientes">
+        <Association Name="FK_HistorialPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tHistorial" Type="Self.tHistorial" Multiplicity="*" />
           <ReferentialConstraint>
@@ -765,6 +735,18 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
               <PropertyRef Name="idProducto" />
             </Principal>
             <Dependent Role="tOrdenesProductos">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoOrdenCompra">
+          <End Role="tInventario" Type="Self.tInventario" Multiplicity="1" />
+          <End Role="tOrdenesCompra" Type="Self.tOrdenesCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tInventario">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="tOrdenesCompra">
               <PropertyRef Name="idProducto" />
             </Dependent>
           </ReferentialConstraint>
@@ -880,7 +862,6 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <EntitySet Name="tRol" EntityType="Self.tRol" />
           <EntitySet Name="tSede" EntityType="Self.tSede" />
           <EntitySet Name="tSeguimientoProducto" EntityType="Self.tSeguimientoProducto" />
-          <EntitySet Name="historial_compras" EntityType="Self.historial_compras" />
           <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
@@ -897,7 +878,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
             <End Role="tCitas" EntitySet="tCitas" />
             <End Role="tProductosTratamiento" EntitySet="tProductosTratamiento" />
           </AssociationSet>
-          <AssociationSet Name="FK_tHistorial_Pacientes" Association="Self.FK_tHistorial_Pacientes">
+          <AssociationSet Name="FK_HistorialPaciente" Association="Self.FK_HistorialPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tHistorial" EntitySet="tHistorial" />
           </AssociationSet>
@@ -908,6 +889,10 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <AssociationSet Name="FK_ProductoOrden" Association="Self.FK_ProductoOrden">
             <End Role="tInventario" EntitySet="tInventario" />
             <End Role="tOrdenesProductos" EntitySet="tOrdenesProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoOrdenCompra" Association="Self.FK_ProductoOrdenCompra">
+            <End Role="tInventario" EntitySet="tInventario" />
+            <End Role="tOrdenesCompra" EntitySet="tOrdenesCompra" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductoProveedor" Association="Self.FK_ProductoProveedor">
             <End Role="tProveedores" EntitySet="tProveedores" />
@@ -960,20 +945,11 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
             <Parameter Name="idProveedor" Mode="In" Type="Int32" />
             <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="ActualizarSeguimiento">
-            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
-            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="CambiarEstadoPaciente">
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarProducto">
             <Parameter Name="idProducto" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="EliminarSeguimiento">
-            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IniciarSesion" ReturnType="Collection(ProyectoGraduacionModel.IniciarSesion_Result)">
             <Parameter Name="Correo" Mode="In" Type="String" />
@@ -1004,7 +980,7 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
           <FunctionImport Name="RegistrarProveedor">
             <Parameter Name="Empresa" Mode="In" Type="String" />
             <Parameter Name="Correo" Mode="In" Type="String" />
-            <Parameter Name="NumeroTelefono" Mode="In" Type="Int32" />
+            <Parameter Name="NumeroTelefono" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="RegistrarSeguimiento">
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
@@ -1093,8 +1069,11 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
               <MappingFragment StoreEntitySet="tOrdenesCompra">
                 <ScalarProperty Name="idOrdenCompra" ColumnName="idOrdenCompra" />
                 <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
-                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+                <ScalarProperty Name="CantidadTotalSolicitada" ColumnName="CantidadTotalSolicitada" />
                 <ScalarProperty Name="EstadoOrden" ColumnName="EstadoOrden" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1178,26 +1157,11 @@ warning 6002: The table/view 'ProyectoGraduacion.dbo.historial_compras' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="historial_compras">
-            <EntityTypeMapping TypeName="ProyectoGraduacionModel.historial_compras">
-              <MappingFragment StoreEntitySet="historial_compras">
-                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
-                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="CaducidadProducto" ColumnName="CaducidadProducto" />
-                <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
-                <ScalarProperty Name="NivelMinimoStock" ColumnName="NivelMinimoStock" />
-                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarArchivo" FunctionName="ProyectoGraduacionModel.Store.ActualizarArchivo" />
           <FunctionImportMapping FunctionImportName="ActualizarPaciente" FunctionName="ProyectoGraduacionModel.Store.ActualizarPaciente" />
           <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="ProyectoGraduacionModel.Store.ActualizarProducto" />
-          <FunctionImportMapping FunctionImportName="ActualizarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.ActualizarSeguimiento" />
           <FunctionImportMapping FunctionImportName="CambiarEstadoPaciente" FunctionName="ProyectoGraduacionModel.Store.CambiarEstadoPaciente" />
           <FunctionImportMapping FunctionImportName="EliminarProducto" FunctionName="ProyectoGraduacionModel.Store.EliminarProducto" />
-          <FunctionImportMapping FunctionImportName="EliminarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.EliminarSeguimiento" />
           <FunctionImportMapping FunctionImportName="IniciarSesion" FunctionName="ProyectoGraduacionModel.Store.IniciarSesion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoGraduacionModel.IniciarSesion_Result">

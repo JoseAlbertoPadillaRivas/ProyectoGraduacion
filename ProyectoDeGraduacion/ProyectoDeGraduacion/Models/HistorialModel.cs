@@ -10,7 +10,6 @@ namespace ProyectoDeGraduacion.Models
 {
     public class HistorialModel
     {
-
         public List<tHistorial> ConsultarHistoriales()
         {
             using (var context = new ProyectoGraduacionEntities())
@@ -42,17 +41,23 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-
         public bool ActualizarArchivo(tHistorial hist)
         {
-            var rowsAffected = 0;
-
-            using (var context = new ProyectoGraduacionEntities())
+            try
             {
-                rowsAffected = context.ActualizarArchivo(hist.idHistorial, hist.Archivo);
+                var rowsAffected = 0;
+                using (var context = new ProyectoGraduacionEntities())
+                {
+                    rowsAffected = context.ActualizarArchivo(hist.idHistorial, hist.Archivo);
+                    System.Diagnostics.Debug.WriteLine("Filas afectadas: " + rowsAffected);
+                }
+                return (rowsAffected > 0);
             }
-
-            return (rowsAffected > 0 ? true : false);
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error al actualizar archivo: " + ex.Message);
+                return false;
+            }
         }
     }
 }

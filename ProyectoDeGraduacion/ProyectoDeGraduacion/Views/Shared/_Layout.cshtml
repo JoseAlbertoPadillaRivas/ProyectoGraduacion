@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- Bootstrap  -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Theme Style -->
@@ -22,10 +22,11 @@
     <!-- Animation Style -->
     <link rel="stylesheet" type="text/css" href="~/css/animate.css">
 
+    <!-- FontAwesome and other styles -->
     <link href="~/root/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <link href="~/root/dist/css/adminlte.min.css" rel="stylesheet" />
     <link href="~/root/dist/css/styles.css" rel="stylesheet" />
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7x9lpzt8sE7L7L2it5RQQBf7ZxdF/cJpN/4" crossorigin="anonymous"></script>
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
@@ -45,7 +46,6 @@
                     <div class="btn-menu"></div>
                     <nav id="mainnav" class="navbar navbar-expand">
                         <ul class="navbar-nav ml-auto">
-
                             <li>
                                 <a href="@Url.Action("Index", "Login")" class="text-center">
                                     <img src="~/images/logoClinica.png" alt="image">
@@ -61,7 +61,6 @@
                                 <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
                                 <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
                                 <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
-
                             }
                             else if (Session["RolUsuario"].ToString() == "2")
                             {
@@ -70,7 +69,6 @@
                                 <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
                                 <li><a href="@Url.Action("IndexHistorial", "Historial")">Historia Clínica</a></li>
                             }
-
                             <li class="nav-item dropdown">
                                 <a class="nav-link" data-bs-toggle="dropdown" href="#">
                                     @Session["NombreUsuario"].ToString()
@@ -83,7 +81,6 @@
                                         <span class="float-right text-muted text-sm"></span>
                                     </a>
                                     <div class="dropdown-divider"></div>
-
                                     <a href="@Url.Action("CerrarSesion", "Login")" class="dropdown-item">
                                         <i class="fas fa-door-open mr-2"></i> Cerrar Sesión
                                         <span class="float-right text-muted text-sm"></span>
@@ -91,13 +88,12 @@
                                 </div>
                             </li>
                         </ul>
-                            
                     </nav>
                 </div>
             </div>
-        </header><!-- /.header -->
-        <!-- Contenido Principal -->
+        </header>
 
+        <!-- Contenido Principal -->
         <div class="container body-content">
             @RenderBody()
             <hr />
@@ -123,7 +119,6 @@
             <div class="footer-widgets">
                 <div class="container">
                     <div class="row">
-                        <!-- Descripción -->
                         <div class="col-md-4">
                             <div class="widget widget_text">
                                 <h5 class="widget-title">Sonríe más</h5>
@@ -133,8 +128,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Google Maps -->
                         <div class="col-md-4">
                             <div class="widget widget_text">
                                 <h5 class="widget-title">Ubicación</h5>
@@ -148,8 +141,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Redes Sociales -->
                         <div class="col-md-4">
                             <div class="widget widget_text">
                                 <h5 class="widget-title">Redes Sociales</h5>
@@ -169,7 +160,8 @@
         </footer>
     </div>
 
-    <script src="~/root/plugins/jquery/jquery.min.js"></script>
+    <!-- JavaScript Libraries and Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/root/dist/js/adminlte.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
@@ -177,6 +169,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.12.3/sweetalert2.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+            $('#discrepanciaModal').on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget); // Botón que activó la modal
+                const idProducto = button.data('id'); // Extraer información de atributos de datos
+
+                const modal = $(this);
+                modal.find('#registrarDiscrepanciaBtn').data('id', idProducto); // Guardar idProducto para usarlo al enviar
+            });
+
+            $('#registrarDiscrepanciaBtn').click(function () {
+                const idProducto = $(this).data('id');
+                const mensaje = $('#discrepanciaMensaje').val();
+
+                if (mensaje.trim() === "") {
+                    Swal.fire("Error", "Por favor ingrese un mensaje.", "error");
+                    return;
+                }
+
+                // Llamada a la API para enviar la discrepancia
+                fetch('@Url.Action("RegistrarDiscrepancia", "Reabastecimiento")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                    },
+                    body: JSON.stringify({ idProducto: idProducto, mensajeDiscrepancia: mensaje })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire("Éxito", "Discrepancia registrada correctamente.", "success");
+                        $('#discrepanciaModal').modal('hide');
+                    } else {
+                        Swal.fire("Error", data.message, "error");
+                    }
+                })
+                .catch(error => Swal.fire("Error", error.message, "error"));
+            });
+        });
+
+
         function mostrarAlerta(titulo, mensaje, tipo) {
             Swal.fire({
                 title: titulo,
@@ -193,9 +226,6 @@
                 content.style.display = "none";
             }
         }
-
     </script>
 </body>
-
 </html>
-

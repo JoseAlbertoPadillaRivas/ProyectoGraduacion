@@ -19,6 +19,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         {
             this.tMovimientosInventario = new HashSet<tMovimientosInventario>();
             this.tOrdenesProductos = new HashSet<tOrdenesProductos>();
+            this.tOrdenesCompra = new HashSet<tOrdenesCompra>();
             this.tProductosTratamiento = new HashSet<tProductosTratamiento>();
             this.tSeguimientoProducto = new HashSet<tSeguimientoProducto>();
         }
@@ -34,6 +35,8 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual ICollection<tMovimientosInventario> tMovimientosInventario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrdenesProductos> tOrdenesProductos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tOrdenesCompra> tOrdenesCompra { get; set; }
         public virtual tProveedores tProveedores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tProductosTratamiento> tProductosTratamiento { get; set; }

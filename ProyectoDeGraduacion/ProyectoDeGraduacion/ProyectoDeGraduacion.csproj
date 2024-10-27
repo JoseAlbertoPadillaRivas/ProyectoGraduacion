@@ -130,9 +130,6 @@
     <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="BaseDatos\historial_compras.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="BaseDatos\IniciarSesion_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -202,8 +199,10 @@
     <Compile Include="Controllers\ReabastecimientoController.cs" />
     <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Entidades\HistorialOrdenes.cs" />
     <Compile Include="Entidades\Inventario.cs" />
     <Compile Include="Entidades\Pacientes.cs" />
+    <Compile Include="Entidades\ProductoPendiente.cs" />
     <Compile Include="Entidades\SeguimientoProducto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -246,6 +245,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="correoDiscrepancia.html" />
+    <Content Include="correoProveedor.html" />
     <Content Include="css\animate.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\chatbot.css" />

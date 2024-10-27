@@ -31,12 +31,12 @@ namespace ProyectoGraduacion.Models
             NivelMinimoStock = nivelMinimoStock;
         }
 
-        public List<historial_compras> ConsultarCompras()
+        // Método actualizado para consultar las órdenes de compra
+        public List<tOrdenesCompra> ConsultarCompras()
         {
             using (var context = new ProyectoGraduacionEntities())
             {
-                return (from x in context.historial_compras
-                        select x).ToList();
+                return context.tOrdenesCompra.ToList();
             }
         }
     }

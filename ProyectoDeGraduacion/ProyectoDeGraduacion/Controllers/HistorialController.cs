@@ -32,18 +32,25 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpPost]
         public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist)
         {
+            if (Archivo == null || Archivo.ContentLength == 0)
+            {
+                ViewBag.msj = "Por favor, selecciona un archivo.";
+                return View();
+            }
+
+            string extension = Path.GetExtension(Path.GetFileName(Archivo.FileName));
+
+            string nombreArchivo = $"{Guid.NewGuid()}{extension}";
+            string ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ArchivosHistorial", nombreArchivo);
+
+            Archivo.SaveAs(ruta);
+
+            hist.Archivo = "/ArchivosHistorial/" + nombreArchivo;
+
             var consecutivo = historialM.RegistrarHistoria(hist);
 
             if (consecutivo > 0)
             {
-                string extension = Path.GetExtension(Path.GetFileName(Archivo.FileName));
-                string ruta = AppDomain.CurrentDomain.BaseDirectory + "ArchivosHistorial\\" + consecutivo + extension;
-                Archivo.SaveAs(ruta);
-
-                hist.idHistorial = consecutivo;
-                hist.Archivo = "/ArchivosHistorial/" + consecutivo + extension;
-                historialM.ActualizarArchivo(hist);
-
                 return RedirectToAction("IndexHistorial", "Historial");
             }
             else

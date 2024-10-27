@@ -1,4 +1,4 @@
-﻿@model List<ProyectoDeGraduacion.BaseDatos.tOrdenesProductos>
+﻿@model List<ProyectoDeGraduacion.Entidades.ProductoPendiente>
 
 @{
     ViewBag.Title = "Confirmar Recepción de Productos";
@@ -10,58 +10,116 @@
     <p class="text-center">Confirme la recepción de los productos y actualice el inventario.</p>
 
     <div class="table-responsive mt-4">
-        <form method="post" action="@Url.Action("ConfirmarRecepcion", "Reabastecimiento")">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad Recibida</th>
-                        <th>Acciones</th>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad Solicitada</th>
+                    <th>Proveedor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
+                @foreach (var orden in Model)
+                {
+                    <tr id="row-@orden.IdProducto">
+                        <td>@orden.NombreProducto</td>
+                        <td>@orden.CantidadSolicitada</td>
+                        <td>@orden.Proveedor</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-info btn-sm confirmar-recepcion-btn" data-id="@orden.IdProducto">Confirmar Recepción</button>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#discrepanciaModal" data-id="@orden.IdProducto">Registrar Discrepancia</button>
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var producto in Model)
-                    {
-                        <tr>
-                            <td>@producto.tInventario.NombreProducto</td>
-                            <td><input type="number" name="cantidad_@producto.idProducto" class="form-control" value="0" min="0"></td>
-                            <td>
-                                <button type="submit" class="btn btn-info">Confirmar Recepción</button>
-                                <button type="button" class="btn btn-warning btn-discrepancia" data-producto="@producto.idProducto">Registrar Discrepancia</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </form>
+                }
+            </tbody>
+        </table>
     </div>
-
     <div class="d-flex justify-content-between mt-4">
-        <a href="@Url.Action("GenerarOrdenes", "Reabastecimiento")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Anterior</a>
-        <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Regresar a Reabastecimiento</a>
-        <a href="@Url.Action("HistorialReabastecimiento", "Reabastecimiento")" class="btn btn-secondary">Siguiente <i class="fa fa-arrow-right"></i></a>
+        <a href="@Url.Action("GenerarOrdenes", "Reabastecimiento")" class="btn btn-secondary me-2"><i class="fa fa-arrow-left"></i> Anterior</a>
+        <a href="@Url.Action("IndexReabastecimiento", "Reabastecimiento")" class="btn btn-secondary mx-2">Regresar a Reabastecimiento</a>
+        <a href="@Url.Action("HistorialReabastecimiento", "Reabastecimiento")" class="btn btn-secondary ms-2">Siguiente <i class="fa fa-arrow-right"></i></a>
     </div>
 </div>
 
+<!-- Modal Bootstrap para registrar discrepancia -->
+<div class="modal fade" id="discrepanciaModal" tabindex="-1" aria-labelledby="discrepanciaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="@Url.Action("RegistrarDiscrepancia", "Reabastecimiento")" onsubmit="mostrarAlertaEnvio();">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="discrepanciaModalLabel">Registrar Discrepancia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="discrepanciaMensaje" class="form-label">Detalle la discrepancia</label>
+                        <textarea class="form-control" id="discrepanciaMensaje" name="mensajeDiscrepancia" rows="4" required></textarea>
+                        <input type="hidden" id="modalIdProducto" name="idProducto" value="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Registrar Discrepancia</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script para gestionar el ID del producto en la modal -->
 <script>
-    document.querySelectorAll('.btn-discrepancia').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var productoId = this.getAttribute('data-producto');
-            Swal.fire({
-                title: 'Registrar Discrepancia',
-                text: 'Por favor, detalle la discrepancia para el producto con ID: ' + productoId,
-                input: 'text',
-                showCancelButton: true,
-                confirmButtonText: 'Registrar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Discrepancia Registrada',
-                        'La discrepancia ha sido registrada y se ha notificado al proveedor.',
-                        'success'
-                    );
+    var modal = document.getElementById('discrepanciaModal');
+    modal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var idProducto = button.getAttribute('data-id');
+        document.getElementById('modalIdProducto').value = idProducto;
+    });
+
+    // SweetAlert para confirmar el envío
+    function mostrarAlertaEnvio() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Discrepancia Enviada',
+            text: 'La discrepancia se registró y el correo fue enviado correctamente.',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+
+   document.querySelectorAll('.confirmar-recepcion-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const idOrdenCompra = this.getAttribute('data-id');
+
+            // Verificación de evento
+            console.log("Botón de Confirmar Recepción clickeado para ID:", idOrdenCompra);
+
+            fetch('@Url.Action("ActualizarEstadoOrden", "Reabastecimiento")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                },
+                body: JSON.stringify({ idOrdenCompra: idOrdenCompra })
+            })
+            .then(response => {
+                console.log("Respuesta recibida del servidor:", response);
+                if (!response.ok) throw new Error("Error en la confirmación.");
+                return response.json();
+            })
+            .then(data => {
+                console.log("Datos procesados:", data);
+                if (data.success) {
+                    document.getElementById(`row-${idOrdenCompra}`).remove();
+                    Swal.fire("Éxito", "Recepción confirmada correctamente.", "success");
+                } else {
+                    Swal.fire("Error", data.message, "error");
                 }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                Swal.fire("Error", error.message, "error");
             });
         });
     });
