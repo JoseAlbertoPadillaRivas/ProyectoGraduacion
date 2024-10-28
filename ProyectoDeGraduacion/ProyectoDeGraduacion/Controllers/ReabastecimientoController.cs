@@ -12,8 +12,7 @@ namespace ProyectoDeGraduacion.Controllers
 {
     public class ReabastecimientoController : Controller
     {
-        private ProyectoGraduacionEntities db = new ProyectoGraduacionEntities(); // Contexto de la base de datos
-       ReabastecimientoModel reabastecimientoM = new ReabastecimientoModel();
+        private ProyectoGraduacionEntities db = new ProyectoGraduacionEntities();
 
         // Vista principal del módulo de Reabastecimiento
         public ActionResult IndexReabastecimiento()
@@ -222,39 +221,52 @@ namespace ProyectoDeGraduacion.Controllers
         // Vista para el Historial de Reabastecimientos
         public ActionResult HistorialReabastecimiento()
         {
-            var historialOrdenes = db.tOrdenesCompra
-                                     .Select(o => new HistorialOrdenes
-                                     {
-                                         NombreProducto = o.NombreProducto,
-                                         Cantidad = o.CantidadTotalSolicitada,
-                                         FechaCompra = o.FechaSolicitud,
-                                         Proveedor = o.tProveedores.Empresa
-                                     })
-                                     .ToList();
-
-            if (!historialOrdenes.Any())
-            {
-                ViewBag.msj = "No se encontraron órdenes de compra en el historial.";
-            }
+            var historialOrdenes = (from orden in db.tOrdenesCompra
+                                    join proveedor in db.tProveedores
+                                    on orden.idProveedor equals proveedor.idProveedor
+                                    select new HistorialORD
+                                    {
+                                        NombreProducto = orden.NombreProducto,
+                                        CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
+                                        FechaSolicitud = orden.FechaSolicitud,
+                                        NombreProveedor = proveedor.Empresa
+                                    }).ToList();
 
             return View(historialOrdenes);
         }
 
-
-
         // Vista específica para PDF
         public ActionResult HistorialReabastecimientoPDF()
         {
-            var respuesta = reabastecimientoM.ConsultarCompras();
-            return View(respuesta);
+            var historialOrdenes = (from orden in db.tOrdenesCompra
+                                    join proveedor in db.tProveedores
+                                    on orden.idProveedor equals proveedor.idProveedor
+                                    select new HistorialORD
+                                    {
+                                        NombreProducto = orden.NombreProducto,
+                                        CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
+                                        FechaSolicitud = orden.FechaSolicitud,
+                                        NombreProveedor = proveedor.Empresa
+                                    }).ToList();
+
+            return View(historialOrdenes);
         }
 
         [HttpPost]
         public ActionResult GenerarPdf()
         {
-            var respuesta = reabastecimientoM.ConsultarCompras();
+            var historialOrdenes = (from orden in db.tOrdenesCompra
+                                    join proveedor in db.tProveedores
+                                    on orden.idProveedor equals proveedor.idProveedor
+                                    select new HistorialORD
+                                    {
+                                        NombreProducto = orden.NombreProducto,
+                                        CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
+                                        FechaSolicitud = orden.FechaSolicitud,
+                                        NombreProveedor = proveedor.Empresa
+                                    }).ToList();
 
-            var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", respuesta)
+            var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", historialOrdenes)
             {
                 FileName = "Historial.pdf"
             };

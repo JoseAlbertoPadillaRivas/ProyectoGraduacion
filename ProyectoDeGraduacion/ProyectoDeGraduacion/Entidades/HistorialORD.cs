@@ -5,12 +5,11 @@ using System.Web;
 
 namespace ProyectoDeGraduacion.Entidades
 {
-    public class HistorialOrdenes
+    public class HistorialORD
     {
         public string NombreProducto { get; set; }
-        public int Cantidad { get; set; }
-        public DateTime FechaCompra { get; set; }
-        public string Proveedor { get; set; }
-
+        public int CantidadTotalSolicitada { get; set; }
+        public DateTime FechaSolicitud { get; set; }
+        public string NombreProveedor { get; set; }
     }
 }

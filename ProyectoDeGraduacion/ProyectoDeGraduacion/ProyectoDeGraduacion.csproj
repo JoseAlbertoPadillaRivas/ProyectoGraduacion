@@ -199,6 +199,7 @@
     <Compile Include="Controllers\ReabastecimientoController.cs" />
     <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Entidades\HistorialORD.cs" />
     <Compile Include="Entidades\HistorialOrdenes.cs" />
     <Compile Include="Entidades\Inventario.cs" />
     <Compile Include="Entidades\Pacientes.cs" />

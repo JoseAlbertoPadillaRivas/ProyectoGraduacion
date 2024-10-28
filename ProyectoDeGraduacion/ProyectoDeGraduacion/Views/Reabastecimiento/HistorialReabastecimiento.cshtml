@@ -1,4 +1,4 @@
-﻿@model List<ProyectoDeGraduacion.Entidades.HistorialOrdenes>
+﻿@model List<ProyectoDeGraduacion.Entidades.HistorialORD>
 @{
     ViewBag.Title = "Historial de Reabastecimientos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -35,9 +35,9 @@
                 {
                     <tr>
                         <td>@item.NombreProducto</td>
-                        <td>@item.Cantidad</td>
-                        <td>@item.FechaCompra.ToString("dd/MM/yyyy")</td>
-                        <td>@item.Proveedor</td>
+                        <td>@item.CantidadTotalSolicitada</td>
+                        <td>@item.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                        <td>@item.NombreProveedor</td>
                     </tr>
                 }
             </tbody>

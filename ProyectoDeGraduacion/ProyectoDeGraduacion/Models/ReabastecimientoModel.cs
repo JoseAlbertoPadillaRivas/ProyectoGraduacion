@@ -30,14 +30,5 @@ namespace ProyectoGraduacion.Models
             CantidadActual = cantidadActual;
             NivelMinimoStock = nivelMinimoStock;
         }
-
-        // Método actualizado para consultar las órdenes de compra
-        public List<tOrdenesCompra> ConsultarCompras()
-        {
-            using (var context = new ProyectoGraduacionEntities())
-            {
-                return context.tOrdenesCompra.ToList();
-            }
-        }
     }
 }
