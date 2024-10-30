@@ -28,6 +28,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         }
     
         public virtual DbSet<tArchivosPaciente> tArchivosPaciente { get; set; }
+        public virtual DbSet<tCalificaciones> tCalificaciones { get; set; }
         public virtual DbSet<tCitas> tCitas { get; set; }
         public virtual DbSet<tHistorial> tHistorial { get; set; }
         public virtual DbSet<tInventario> tInventario { get; set; }
@@ -41,6 +42,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual DbSet<tRol> tRol { get; set; }
         public virtual DbSet<tSede> tSede { get; set; }
         public virtual DbSet<tSeguimientoProducto> tSeguimientoProducto { get; set; }
+        public virtual DbSet<tServicio> tServicio { get; set; }
 
         public virtual int ActualizarArchivo(Nullable<int> idHistorial, string archivo)
         {
@@ -123,6 +125,27 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("idProducto", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarProducto", idProductoParameter);
+        }
+    
+        public virtual int GenerarCalificacion(Nullable<int> calificaciones, Nullable<int> idPaciente, string servicio, string opinion)
+        {
+            var calificacionesParameter = calificaciones.HasValue ?
+                new ObjectParameter("Calificaciones", calificaciones) :
+                new ObjectParameter("Calificaciones", typeof(int));
+    
+            var idPacienteParameter = idPaciente.HasValue ?
+                new ObjectParameter("idPaciente", idPaciente) :
+                new ObjectParameter("idPaciente", typeof(int));
+    
+            var servicioParameter = servicio != null ?
+                new ObjectParameter("Servicio", servicio) :
+                new ObjectParameter("Servicio", typeof(string));
+    
+            var opinionParameter = opinion != null ?
+                new ObjectParameter("Opinion", opinion) :
+                new ObjectParameter("Opinion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerarCalificacion", calificacionesParameter, idPacienteParameter, servicioParameter, opinionParameter);
         }
     
         public virtual ObjectResult<IniciarSesion_Result> IniciarSesion(string correo, string contrasenna)

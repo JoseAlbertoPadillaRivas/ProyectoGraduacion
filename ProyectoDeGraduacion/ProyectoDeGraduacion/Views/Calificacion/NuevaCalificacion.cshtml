@@ -1,4 +1,5 @@
-﻿
+﻿@model ProyectoDeGraduacion.Entidades.Calificacion
+
 @{
     ViewBag.Title = "NuevaCalificacion";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,63 +11,78 @@
 </head>
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4" style="max-width: 400px; width: 100%;">
-        <form>
-            <h1 id="ratingcard">
-                <i id="star1" class="fa-regular fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-regular fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-regular fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-regular fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-regular fa-star" style="color:yellow"></i>
-            </h1>
+    <div class="card p-4 shadow-lg rounded" style="max-width: 400px; width: 100%;">
+        @using (Html.BeginForm("NuevaCalificacion", "Calificacion", FormMethod.Post))
+        {
+            <div class="text-center mb-4">
+                <h1 id="ratingcard" class="mb-3">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="fa-regular fa-star" id="star@i" style="color: yellow;"></i>
+                    }
+                </h1>
+                <h5 class="fw-bold">Califica nuestro servicio</h5>
+            </div>
+            <input type="hidden" id="Calificaciones" name="Calificaciones" value="@(Model?.Calificaciones ?? 0)" />
+
+
+
             <div class="mb-3">
-                <label for="Nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="Nombre" value="Josue Herrrera" readonly>
+                <label for="Nombre" class="form-label fw-semibold">Nombre:</label>
+                @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @placeholder = "Id Paciente", value = Session["idPaciente"] })
             </div>
-            <div class="container">
-                <label for="dentalServices">Selecciona un servicio:</label>
-                <select id="dentalServices" name="dentalServices" class="form-control">
-                    <option value="" disabled selected>Seleccione un servicio</option>
-                    <option value="limpieza">Limpieza Dental</option>
-                    <option value="extraccion">Extracción de Dientes</option>
-                    <option value="relleno">Relleno Dental</option>
-                    <option value="blanqueamiento">Blanqueamiento Dental</option>
-                    <option value="ortodoncia">Ortodoncia</option>
-                    <option value="endodoncia">Endodoncia</option>
-                    <option value="implantes">Implantes Dentales</option>
-                    <option value="coronas">Coronas Dentales</option>
-                    <option value="puentes">Puentes Dentales</option>
-                    <option value="limpieza_profunda">Limpieza Profunda</option>
-                </select>
+
+            <div class="input-group mb-3">
+                @Html.DropDownListFor(m => m.idServicio, (SelectList)ViewBag.Servicio, "Seleccione su servicio: ", new { @class = "form-control" })
+                <div class="input-group-append">
+                </div>
             </div>
-            <label for="opinions">Deja tu opinión:</label>
-            <textarea id="opinions" name="opinions" rows="5" class="form-control" placeholder="Escribe tu opinión aquí..."></textarea>
-            <a class="btn btn-primary" href="@Url.Action("verCalificaciones","Calificacion")">Enviar</a>
-        </form>
+
+            <div class="form-group mt-3">
+                <label for="opinions" class="form-label fw-semibold">Deja tu opinión:</label>
+                <div class="input-group">
+                    @Html.TextAreaFor(m => m.Opinion, new { @type = "text", @class = "form-control", @placeholder = "Escribe tu opinión aquí..." })
+                    <div class="input-group-append">
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a class="btn btn-secondary" href="@Url.Action("verCalificaciones","Calificacion")">Regresar</a>
+            </div>
+        }
     </div>
 </div>
 
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#ratingcard i").click(function () {
-            var starIndex = $(this).index() + 1;
+        function setRating(rating) {
+            $('#Calificaciones').val(rating);
 
-            if ($(this).hasClass("fa-solid")) {
-                // Si la estrella está rellena, elimina el relleno de esta y las anteriores
-                for (var i = starIndex; i >= 1; i--) {
-                    $("#star" + i).removeClass("fa-solid").addClass("fa-regular");
+            $('#ratingcard i').each(function (index) {
+                if (index < rating) {
+                    $(this).removeClass("fa-regular").addClass("fa-solid");
+                } else {
+                    $(this).removeClass("fa-solid").addClass("fa-regular");
                 }
-            } else {
-                // Si la estrella no está rellena, rellena esta y las anteriores
-                for (var i = 1; i <= starIndex; i++) {
-                    $("#star" + i).removeClass("fa-regular").addClass("fa-solid");
-                }
-            }
+            });
+        }
+
+        $('#ratingcard i').on('click', function () {
+            var starIndex = $(this).index() + 1;
+            setRating(starIndex);
         });
     });
 </script>
+
+
+
+
 
 
 

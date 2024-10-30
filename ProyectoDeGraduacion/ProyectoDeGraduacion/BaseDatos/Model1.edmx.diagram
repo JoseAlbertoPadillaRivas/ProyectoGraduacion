@@ -4,22 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2db1d679ebc94955bc5108db7d7caa01" Name="Diagram1">
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tArchivosPaciente" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tCitas" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tHistorial" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tInventario" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tMovimientosInventario" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tOrdenesCompra" Width="1.5" PointX="8.25" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tOrdenesProductos" Width="1.5" PointX="10.5" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tPacientes" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProductosTratamiento" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProveedores" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tRecomendacionesProducto" Width="1.5" PointX="7.5" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tRol" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tSede" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tSeguimientoProducto" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+      <Diagram DiagramId="a1001a7d730d4b50b8f5888c08ea3803" Name="Diagram1">
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tArchivosPaciente" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tCalificaciones" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tCitas" Width="1.5" PointX="8.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tHistorial" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tInventario" Width="1.5" PointX="6" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tMovimientosInventario" Width="1.5" PointX="8.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tOrdenesCompra" Width="1.5" PointX="11.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tOrdenesProductos" Width="1.5" PointX="13.5" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tPacientes" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProductosTratamiento" Width="1.5" PointX="10.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProveedores" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tRecomendacionesProducto" Width="1.5" PointX="10.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tRol" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tSede" Width="1.5" PointX="6" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tSeguimientoProducto" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tServicio" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_ArchivoPaciente" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_idPacientes" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_idServicio" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaPaciente" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaSede" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaTratamiento" ManuallyRouted="false" />

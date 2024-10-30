@@ -9,13 +9,22 @@
 </head>
 
 <div class="container mt-4">
-    <h2 class="text-center">Calificaciones</h2>
-    <p class="text-center">Revisa las calificaciones y comentarios de los pacientes sobre sus tratamientos.</p>
+    <h2 class="text-center">
+        Calificaciones </h2 >
+        <p class="text-center"> Revisa las calificaciones y comentarios de los pacientes sobre sus tratamientos.</p>
 </div>
 
 <div class="d-flex justify-content-center mt-4">
-    <a class="btn btn-info mb-3 mx-2" href=@Url.Action("NuevaCalificacion","Calificacion")>Agregar Calificación</a>
-    <a class="btn btn-info mb-3 mx-2" href=@Url.Action("AdminCalificacion","Calificacion")>Vista Admin</a>
+    @if (Session["RolUsuario"] != null && Session["RolUsuario"].ToString() == "1")
+    {
+        <a class="btn btn-info mb-3 mx-2" href="@Url.Action("NuevaCalificacion", "Calificacion")">Agregar Calificación</a>
+        <a class="btn btn-info mb-3 mx-2" href="@Url.Action("AdminCalificacion", "Calificacion")">Vista Admin</a>
+    }
+    else if (Session["RolUsuario"] != null && Session["RolUsuario"].ToString() == "2")
+    {
+        <a class="btn btn-info mb-3 mx-2" href="@Url.Action("NuevaCalificacion", "Calificacion")">Agregar Calificación</a>
+        <a class="btn btn-info mb-3 mx-2" href="@Url.Action("AdminCalificacion", "Calificacion")">Vista Admin</a>
+    }
 </div>
 
 <input type="text" id="searchInput" placeholder="Buscar..." class="form-control mb-3">
@@ -26,8 +35,8 @@
             Paciente: Josue Herrera
         </div>
         <div class="card-body">
-            <h5 class="card-title">Limpieza Dental</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
+            <h5 class="card-title"> Limpieza Dental </h5>
+            <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
             <div class="card-footer text-body-secondary">
                 <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
@@ -43,8 +52,8 @@
             Paciente: Maria Perez
         </div>
         <div class="card-body">
-            <h5 class="card-title">Extracción</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
+            <h5 class="card-title"> Extracción </h5>
+            <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
             <div class="card-footer text-body-secondary">
                 <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
@@ -60,8 +69,8 @@
             Paciente: Carlos Mendez
         </div>
         <div class="card-body">
-            <h5 class="card-title">Ortodoncia</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
+            <h5 class="card-title"> Ortodoncia </h5>
+            <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
             <div class="card-footer text-body-secondary">
                 <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
                 <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
@@ -77,15 +86,16 @@
             Paciente: Laura Gutierrez
         </div>
         <div class="card-body">
-            <h5 class="card-title">Relleno Dental</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
+            <h5 class="card-title">
+                Relleno Dental </h5 >
+                <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
+                <div class="card-footer text-body-secondary">
+                    <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
+                    <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
+                    <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
+                    <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
+                    <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+                </div>
         </div>
     </div>
 </div>
@@ -99,7 +109,8 @@
             let text = card.textContent.toLowerCase();
             if (text.includes(filter)) {
                 card.style.display = '';
-            } else {
+            }
+            else {
                 card.style.display = 'none';
             }
         });

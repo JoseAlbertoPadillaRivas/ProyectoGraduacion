@@ -56,7 +56,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+      <HintPath>..\packages\Rotativa.1.7.4-rc\lib\net45\Rotativa.dll</HintPath>
     </Reference>
     <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Rotativa.Core.2.0.2.1\lib\net45\Rotativa.Core.dll</HintPath>
@@ -151,6 +151,9 @@
     <Compile Include="BaseDatos\tArchivosPaciente.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\tCalificaciones.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tCitas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -190,6 +193,9 @@
     <Compile Include="BaseDatos\tSeguimientoProducto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\tServicio.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\CalificacionController.cs" />
     <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\HistorialController.cs" />
@@ -199,6 +205,8 @@
     <Compile Include="Controllers\ReabastecimientoController.cs" />
     <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Entidades\Servicio.cs" />
+    <Compile Include="Entidades\Calificacion.cs" />
     <Compile Include="Entidades\HistorialORD.cs" />
     <Compile Include="Entidades\HistorialOrdenes.cs" />
     <Compile Include="Entidades\Inventario.cs" />
@@ -208,6 +216,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CalificacionModel.cs" />
     <Compile Include="Models\FiltroSeguridad.cs" />
     <Compile Include="Models\GeneralModel.cs" />
     <Compile Include="Models\HistorialModel.cs" />
@@ -605,7 +614,6 @@
     <Content Include="Views\Citas\MisCitas.cshtml" />
     <Content Include="Views\Citas\CitasProgramadas.cshtml" />
     <Content Include="Views\Citas\ReprogramarCita.cshtml" />
-    <Content Include="Views\Calificacion\verCalificaciones.cshtml" />
     <Content Include="Views\Calificacion\NuevaCalificacion.cshtml" />
     <Content Include="Views\Historial\RegistrarHistoria.cshtml" />
     <Content Include="Views\Historial\VerHistoria.cshtml" />
@@ -628,6 +636,7 @@
     <Content Include="Views\Reabastecimiento\ConfirmarRecepcion.cshtml" />
     <Content Include="Views\Reabastecimiento\HistorialReabastecimiento.cshtml" />
     <Content Include="Views\Reabastecimiento\HistorialReabastecimientoPDF.cshtml" />
+    <Content Include="Views\Calificacion\verCalificaciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
