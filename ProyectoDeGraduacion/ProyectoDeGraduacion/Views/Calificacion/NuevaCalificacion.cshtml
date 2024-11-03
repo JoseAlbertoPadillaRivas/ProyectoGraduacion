@@ -29,7 +29,7 @@
 
             <div class="mb-3">
                 <label for="Nombre" class="form-label fw-semibold">Nombre:</label>
-                @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @placeholder = "Id Paciente", value = Session["idPaciente"] })
+                @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @readonly = "readonly" })
             </div>
 
             <div class="input-group mb-3">
@@ -58,7 +58,6 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         function setRating(rating) {
@@ -79,10 +78,4 @@
         });
     });
 </script>
-
-
-
-
-
-
 

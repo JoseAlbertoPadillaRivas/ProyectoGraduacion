@@ -16,7 +16,6 @@ namespace ProyectoDeGraduacion.Entidades
         public int idCalificaciones { get; set; }
         public int Calificaciones { get; set; }
         public int idPaciente { get; set; }
-        public string Servicio { get; set; }
         public string Opinion { get; set; }
         public int idServicio { get; set; }
     }

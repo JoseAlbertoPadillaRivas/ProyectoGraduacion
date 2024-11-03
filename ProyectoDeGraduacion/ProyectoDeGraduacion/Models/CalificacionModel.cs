@@ -15,10 +15,11 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.GenerarCalificacion(calificacion.Calificaciones, calificacion.idPaciente, calificacion.Servicio, calificacion.Opinion);
+                rowsAffected = context.GenerarCalificacion(calificacion.Calificaciones, calificacion.idPaciente, calificacion.Opinion, calificacion.idServicio);
             }
 
             return (rowsAffected > 0 ? true : false);
         }
+
     }
 }

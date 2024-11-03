@@ -127,7 +127,7 @@ namespace ProyectoDeGraduacion.BaseDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarProducto", idProductoParameter);
         }
     
-        public virtual int GenerarCalificacion(Nullable<int> calificaciones, Nullable<int> idPaciente, string servicio, string opinion)
+        public virtual int GenerarCalificacion(Nullable<int> calificaciones, Nullable<int> idPaciente, string opinion, Nullable<int> idServicio)
         {
             var calificacionesParameter = calificaciones.HasValue ?
                 new ObjectParameter("Calificaciones", calificaciones) :
@@ -137,15 +137,15 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("idPaciente", idPaciente) :
                 new ObjectParameter("idPaciente", typeof(int));
     
-            var servicioParameter = servicio != null ?
-                new ObjectParameter("Servicio", servicio) :
-                new ObjectParameter("Servicio", typeof(string));
-    
             var opinionParameter = opinion != null ?
                 new ObjectParameter("Opinion", opinion) :
                 new ObjectParameter("Opinion", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerarCalificacion", calificacionesParameter, idPacienteParameter, servicioParameter, opinionParameter);
+            var idServicioParameter = idServicio.HasValue ?
+                new ObjectParameter("idServicio", idServicio) :
+                new ObjectParameter("idServicio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerarCalificacion", calificacionesParameter, idPacienteParameter, opinionParameter, idServicioParameter);
         }
     
         public virtual ObjectResult<IniciarSesion_Result> IniciarSesion(string correo, string contrasenna)
