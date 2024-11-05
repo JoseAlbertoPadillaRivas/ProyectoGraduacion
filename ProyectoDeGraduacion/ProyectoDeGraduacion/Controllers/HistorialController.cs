@@ -4,20 +4,26 @@ using System;
 using System.Web.Mvc;
 using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Models;
+using ProyectoDeGraduacion.Entidades;
+using System.Linq;
 
 namespace ProyectoDeGraduacion.Controllers
 {
     public class HistorialController : Controller
     {
         HistorialModel historialM = new HistorialModel();
-        // GET: Historial
-        public ActionResult IndexHistorial()
+        private ProyectoGraduacionEntities _context = new ProyectoGraduacionEntities();
+
+
+        [HttpGet]
+        public ActionResult HistorialPaciente()
         {
-            return View();
+            var respuesta = historialM.ConsultarHistorialIDPaciente(int.Parse(Session["idUsuario"].ToString()));
+            return View(respuesta);
         }
 
         [HttpGet]
-        public ActionResult IndexHistorialAdmin()
+        public ActionResult HistorialesAdmin()
         {
             var respuesta = historialM.ConsultarHistoriales();
             return View(respuesta);
@@ -26,11 +32,13 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult RegistrarHistoria()
         {
+            var pacientes = _context.tPacientes.ToList();
+            ViewBag.NombrePaciente = new SelectList(pacientes, "idPaciente", "Nombre");
             return View();
         }
 
         [HttpPost]
-        public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist)
+        public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist, tPacientes paciente)
         {
             if (Archivo == null || Archivo.ContentLength == 0)
             {
@@ -40,7 +48,13 @@ namespace ProyectoDeGraduacion.Controllers
 
             string extension = Path.GetExtension(Path.GetFileName(Archivo.FileName));
 
-            string nombreArchivo = $"{Guid.NewGuid()}{extension}";
+
+
+            //PRUEBA DE RENOMBRAR EL ARCHIVO CON UN NOMBRE LEGIBLE Y UNICO, ESTA NO ES EL NOMBRE FINAL, LO IDEAL SERIA PONER EL NOMBRE DEL PACIENTE
+            string nombrePaciente = hist.idHistorial.ToString();
+            nombrePaciente = string.Join("_", nombrePaciente.Split(Path.GetInvalidFileNameChars()));
+
+            string nombreArchivo = $"{nombrePaciente}_{new Random().Next(10000, 99999)}{extension}";
             string ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ArchivosHistorial", nombreArchivo);
 
             Archivo.SaveAs(ruta);
@@ -51,7 +65,7 @@ namespace ProyectoDeGraduacion.Controllers
 
             if (consecutivo > 0)
             {
-                return RedirectToAction("IndexHistorial", "Historial");
+                return RedirectToAction("HistorialesAdmin", "Historial");
             }
             else
             {
@@ -59,29 +73,48 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
-        // GET: Historial/ModificarHistoria
-        public ActionResult ModificarHistoria()
+        [HttpGet]
+        public ActionResult ActualizarHistorial(int idHistorial)
         {
-            return View();
+            var pacientes = _context.tPacientes.Select(p => new { p.idPaciente, p.Nombre }).ToList();
+            ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
+            var respuesta = historialM.ConsultarHistorialID(idHistorial);
+            return View(respuesta);
         }
 
-        // GET: Historial/AñadirDocumentos
-        public ActionResult AñadirDocumentos()
+        [HttpPost]
+        public ActionResult ActualizarHistorial(tHistorial historial)
         {
-            return View();
+            var respuesta = historialM.ActualizarHistorial(historial);
+
+            if (respuesta)
+                return RedirectToAction("HistorialesAdmin", "Historial");
+            else
+            {
+                ViewBag.msj = "Error al actualizar";
+                return View();
+            }
         }
 
-        // GET: Historial/VerHistoria
-        public ActionResult VerHistoria()
+        [HttpPost]
+        public ActionResult EliminarHistoria(int idHistorial)
         {
-            return View();
+            var respuesta = historialM.EliminarHistorial(idHistorial);
+
+            if (respuesta)
+            {
+                return RedirectToAction("HistorialesAdmin", "Historial");
+            }
+            else
+            {
+                return RedirectToAction("HistorialesAdmin", "Historial");
+            }
         }
 
-        // GET: Historial/DescargarDocumentos
-        public ActionResult DescargarDocumentos()
-        {
-            return View();
-        }
+
+
+
+
+
     }
 }

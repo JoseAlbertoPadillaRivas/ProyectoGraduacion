@@ -1,0 +1,48 @@
+﻿@model List<ProyectoDeGraduacion.BaseDatos.tHistorial>
+
+@{
+    ViewBag.Title = "Historial Clínico - Paciente";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Historial Clínico</h2>
+    <p class="text-center">Administra, revisa y gestiona tu historial clínico desde esta sección</p>
+</div>
+<div class="historial-section">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered historial-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID Historial</th>
+                    <th>ID Paciente</th>
+                    <th>Fecha de consulta</th>
+                    <th>Diagnostico</th>
+                    <th>Tratamiento</th>
+                    <th>Medicación</th>
+                    <th>Observaciones</th>
+                    <th>Archivos</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.idHistorial</td>
+                        <td>@item.idPaciente</td>
+                        <td>@item.FechaConsulta</td>
+                        <td>@item.Diagnostico</td>
+                        <td>@item.Tratamiento</td>
+                        <td>@item.Medicacion</td>
+                        <td>@item.Observaciones</td>
+                        <td style="text-align:center">
+                            <a class="btn btn-secondary" href="@item.Archivo" download>
+                                <i class="fa fa-download"></i> Descargar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -565,6 +565,7 @@
     <Content Include="BaseDatos\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -616,11 +617,9 @@
     <Content Include="Views\Citas\ReprogramarCita.cshtml" />
     <Content Include="Views\Calificacion\NuevaCalificacion.cshtml" />
     <Content Include="Views\Historial\RegistrarHistoria.cshtml" />
-    <Content Include="Views\Historial\VerHistoria.cshtml" />
-    <Content Include="Views\Historial\DescargarDocumentos.cshtml" />
-    <Content Include="Views\Historial\IndexHistorial.cshtml" />
-    <Content Include="Views\Historial\IndexHistorialAdmin.cshtml" />
-    <Content Include="Views\Historial\ModificarHistoria.cshtml" />
+    <Content Include="Views\Historial\HistorialPaciente.cshtml" />
+    <Content Include="Views\Historial\HistorialesAdmin.cshtml" />
+    <Content Include="Views\Historial\ActualizarHistorial.cshtml" />
     <Content Include="Views\Calificacion\AdminCalificacion.cshtml" />
     <Content Include="Views\Calificacion\AnalizarCalificaciones.cshtml" />
     <Content Include="Views\Pacientes\ConsultarPacientes.cshtml" />

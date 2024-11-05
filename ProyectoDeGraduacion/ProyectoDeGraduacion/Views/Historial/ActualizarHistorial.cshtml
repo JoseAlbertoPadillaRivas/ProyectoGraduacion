@@ -1,0 +1,56 @@
+﻿@model ProyectoDeGraduacion.BaseDatos.tHistorial
+@{
+    ViewBag.Title = "Modificar Historia Clínica";
+}
+
+<h2 class="historial-header">Modificar Historia Clínica</h2>
+
+<div class="historial-section">
+    @using (Html.BeginForm("ActualizarHistorial", "Historial", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.idHistorial)
+
+        <div class="form-group">
+            @Html.Label("Paciente")
+            @Html.DropDownList("idPaciente", (SelectList)ViewBag.Pacientes, "Seleccione un paciente", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="fechaConsulta">Fecha de Consulta:</label>
+            @Html.TextBoxFor(m => m.FechaConsulta, new { @type = "Date", @class = "form-control", @placeholder = "Fecha de la consulta" })
+        </div>
+        <div class="form-group">
+            <label for="diagnostico">Diagnóstico:</label>
+            @Html.TextBoxFor(m => m.Diagnostico, new { @type = "text", @class = "form-control", @placeholder = "Diagnostico" })
+        </div>
+        <div class="form-group">
+            <label for="tratamiento">Tratamiento Aplicado:</label>
+            @Html.TextBoxFor(m => m.Tratamiento, new { @type = "text", @class = "form-control", @placeholder = "Tratamiento aplicado" })
+        </div>
+        <div class="form-group">
+            <label for="medicacion">Medicación Recetada:</label>
+            @Html.TextBoxFor(m => m.Medicacion, new { @type = "text", @class = "form-control", @placeholder = "Medicacion aplicada" })
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            @Html.TextBoxFor(m => m.Observaciones, new { @type = "text", @class = "form-control", @placeholder = "Observaciones" })
+        </div>
+        <div>
+            <button type="submit" class="btn btn-dark">Actualizar Historial</button>
+        </div>
+    }
+</div>
+
+<script>
+    document.getElementById("modificarForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Modificación Exitosa',
+            text: 'Los cambios en la historia clínica han sido guardados con éxito.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then(function() {
+            window.location.href = '@Url.Action("IndexHistorialAdmin", "Historial")';
+        });
+    });
+</script>
