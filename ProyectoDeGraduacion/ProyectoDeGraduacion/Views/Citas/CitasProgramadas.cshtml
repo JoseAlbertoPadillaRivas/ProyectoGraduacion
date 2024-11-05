@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Citas Programadas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -23,54 +24,34 @@
                 <caption class="text-center"><strong>Citas Programadas</strong></caption>
                 <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
+                        <th style="display:none" >ID Cita</th>
                         <th>Paciente</th>
                         <th>Fecha</th>
                         <th>Hora</th>
+                        <th>Sede</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Jose Padilla Rivas</td>
-                        <td>10/08/2024</td>
-                        <td>8:30</td>
-                        <td class="text-center">
-                            <span style="color: #dc3545;">&#x25CF;</span> Cancelada <span style="color: #dc3545;">&#x25CF;</span>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Jose Padilla Rivas</td>
-                        <td>14/08/2024</td>
-                        <td>8:30</td>
-                        <td class="text-center">
-                            <span style="color: #28a745;">&#x25CF;</span> Finalizada <span style="color: #28a745;">&#x25CF;</span>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Josué Herrera</td>
-                        <td>14/08/2024</td>
-                        <td>8:30</td>
-                        <td class="text-center">
-                            <span style="color: #ffc107;">&#x25CF;</span> Próxima <span style="color: #ffc107;">&#x25CF;</span>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info btn-sm btn-cancelar">
-                                Cancelar
-                            </button>
-                        </td>
-                        <td><a class="btn btn-info btn-sm" href="@Url.Action("ReprogramarCita", "Citas")">Reprogramar</a></td>
-                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="display:none">@item.idCita</td>
+                            <td>@item.NombrePaciente</td>
+                            <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                            <td>@item.Hora.ToString(@"hh\:mm")</td>
+                            <td>@item.NombreSede</td>
+                            <td>Estado
+                            </td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="@Url.Action("ReprogramarCita", "Citas", new { id = item.idCita })">Reprogramar</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
+
             </table>
         </div>
     </div>

@@ -413,6 +413,12 @@
           <Parameter Name="Correo" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="RegistrarCita" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+          <Parameter Name="idSede" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="hora" Type="time" Mode="In" />
+        </Function>
         <Function Name="RegistrarHistorial" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idPaciente" Type="int" Mode="In" />
           <Parameter Name="FechaConsulta" Type="date" Mode="In" />
@@ -1073,6 +1079,12 @@
             <Parameter Name="Correo" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="RegistrarCita">
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="idSede" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="hora" Mode="In" Type="Time" />
+          </FunctionImport>
           <FunctionImport Name="RegistrarHistorial" ReturnType="Collection(Decimal)">
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
             <Parameter Name="FechaConsulta" Mode="In" Type="DateTime" />
@@ -1313,6 +1325,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarCita" FunctionName="ProyectoGraduacionModel.Store.RegistrarCita" />
           <FunctionImportMapping FunctionImportName="RegistrarHistorial" FunctionName="ProyectoGraduacionModel.Store.RegistrarHistorial" />
           <FunctionImportMapping FunctionImportName="RegistrarInventario" FunctionName="ProyectoGraduacionModel.Store.RegistrarInventario" />
           <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
