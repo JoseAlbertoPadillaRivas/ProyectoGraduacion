@@ -16,13 +16,13 @@
 <!-- Botones para analizar y exportar calificaciones -->
 <div class="d-flex justify-content-end mb-3">
     <a class="btn btn-info mx-2" href=@Url.Action("AnalizarCalificaciones","Calificacion")>Analizar Calificaciones</a>
-    <button id="exportButton" class="btn btn-success">Exportar Datos</button>
+    <button class="btn btn-info" id="btn-exportar">Exportar Calificaciones</button>
 </div>
 
 <!-- Barra de búsqueda y filtros por mes y año -->
 <div class="d-flex justify-content-between mb-3">
     <div>
-        <input type="text" id="searchInput" placeholder="Buscar..." class="form-control">
+        <input type="text" id="searchInput" placeholder="Buscar por nombre del paciente..." class="form-control">
     </div>
     <div>
         <select id="filterMonthYear" class="form-select">
@@ -37,161 +37,59 @@
 
 <!-- Tarjetas de calificaciones -->
 <div class="row justify-content-center">
-    <!-- Ejemplo de tarjeta 1 -->
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Josue Herrera
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Limpieza Dental</h5>
-            <p class="card-text">Comentario sobre la limpieza dental realizada en enero de 2024.</p>
-            <div class="card-footer text-body-secondary">
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
+    @foreach (var item in Model)
+    {
+        <div class="card text-center col-12 col-md-3 mx-2 mb-4" style="border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 10px;">
+            <div class="card-header" style="background-color: #343a40; color: white; font-weight: bold; padding: 10px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="fa-solid fa-user" style="margin-right: 5px;"></i>
+                <span class="nombre-paciente" data-nombre="@item.NombrePaciente">Paciente: @item.NombrePaciente</span>
             </div>
-            <div class="mt-2">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
-                    Ver
-                </button>
-                <button type="button" class="btn btn-danger eliminar-calificacion">
-                    Eliminar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ejemplo de tarjeta 2 -->
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Maria Pérez
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Ortodoncia</h5>
-            <p class="card-text">Comentario sobre la ortodoncia realizada en enero de 2024.</p>
-            <div class="card-footer text-body-secondary">
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:gray"></i>
-            </div>
-            <div class="mt-2">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
-                    Ver
-                </button>
-                <button type="button" class="btn btn-danger eliminar-calificacion">
-                    Eliminar
-                </button>
+            <div class="card-body" style="padding: 20px;">
+                <h5 class="card-title" style="color: #343a40; font-weight: bold; margin-bottom: 15px; text-align: center;">
+                    <i class="fa-solid fa-stethoscope" style="margin-right: 5px;"></i> @item.NombreServicio
+                </h5>
+                <p class="card-text" style="font-style: italic; color: #555; margin-bottom: 20px;">"@item.Opinion"</p>
+                <div class="card-footer text-body-secondary" style="background-color: #f8f9fa; padding: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa-star @(i <= item.Calificaciones ? "fa-solid" : "fa-regular")" style="color: #FFD700; font-size: 1.2em; margin: 0 2px;"></i>
+                        }
+                    </div>
+                    <small style="display: block; color: #999;">Calificación: @item.Calificaciones de 5</small>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                    <button type="button" class="btn btn-danger btn-sm btn-eliminar" data-id="@item.idCalificaciones" title="Eliminar">Eliminar</button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Ejemplo de tarjeta 3 -->
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Carlos Gómez
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Extracción de Molar</h5>
-            <p class="card-text">Comentario sobre la extracción realizada en febrero de 2024.</p>
-            <div class="card-footer text-body-secondary">
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:gray"></i>
-            </div>
-            <div class="mt-2">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
-                    Ver
-                </button>
-                <button type="button" class="btn btn-danger eliminar-calificacion">
-                    Eliminar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ejemplo de tarjeta 4 -->
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Laura Rodríguez
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Endodoncia</h5>
-            <p class="card-text">Comentario sobre la endodoncia realizada en febrero de 2024.</p>
-            <div class="card-footer text-body-secondary">
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-                <i class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-            <div class="mt-2">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalVerCalificacion">
-                    Ver
-                </button>
-                <button type="button" class="btn btn-danger eliminar-calificacion">
-                    Eliminar
-                </button>
-            </div>
-        </div>
-    </div>
+    }
 </div>
 
-<!-- Modal para ver calificación (Usado para todas las tarjetas) -->
-<div class="modal fade" id="ModalVerCalificacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalle de la Calificación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Paciente:</strong> Josue Herrera</p>
-                <p><strong>Título:</strong> Limpieza Dental</p>
-                <p><strong>Comentario:</strong> Comentario sobre la limpieza dental realizada en enero de 2024.</p>
-                <p>
-                    <strong>Calificación:</strong>
-                    <i class="fa-solid fa-star" style="color:yellow"></i>
-                    <i class="fa-solid fa-star" style="color:yellow"></i>
-                    <i class="fa-solid fa-star" style="color:yellow"></i>
-                    <i class="fa-solid fa-star" style="color:yellow"></i>
-                    <i class="fa-solid fa-star" style="color:yellow"></i>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function () {
         let filter = this.value.toLowerCase();
         let cards = document.querySelectorAll('.card');
 
         cards.forEach(function (card) {
-            let text = card.textContent.toLowerCase();
-            if (text.includes(filter)) {
-                card.style.display = '';
+            let nombrePaciente = card.querySelector('.nombre-paciente').getAttribute('data-nombre').toLowerCase();
+            if (nombrePaciente.includes(filter)) {
+                card.style.display = ''; // Muestra la tarjeta si coincide con la búsqueda
             } else {
-                card.style.display = 'none';
+                card.style.display = 'none'; // Oculta la tarjeta si no coincide
             }
         });
     });
 
     document.getElementById('filterMonthYear').addEventListener('change', function () {
-        let selectedMonthYear = this.value.toLowerCase();
+        let selectedValue = this.value.toLowerCase();
         let cards = document.querySelectorAll('.card');
 
         cards.forEach(function (card) {
-            let monthYearText = card.querySelector('.card-body').textContent.toLowerCase();
-            if (selectedMonthYear === "" || monthYearText.includes(selectedMonthYear)) {
+            let fecha = card.getAttribute('data-fecha');
+            if (fecha === selectedValue || selectedValue === "") {
                 card.style.display = '';
             } else {
                 card.style.display = 'none';
@@ -199,47 +97,87 @@
         });
     });
 
-    document.getElementById('exportButton').addEventListener('click', function() {
+    // Exportar historial a PDF con SweetAlert
+    document.getElementById('btn-exportar').addEventListener('click', function() {
+    Swal.fire({
+        title: '¿Desea exportar las calificaciones?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, exportar',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '@Url.Action("GenerarPdf", "Calificacion")',
+                type: 'POST',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data) {
+                    const url = window.URL.createObjectURL(new Blob([data]));
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Historial.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+
+                    Swal.fire(
+                        'Exportación Completa',
+                        'Las Calificaciones ha sido exportado como PDF.',
+                        'success'
+                    );
+                },
+                error: function () {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al exportar las calificaciones.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+});
+
+    $(document).ready(function () {
+    $(document).on("click", ".btn-eliminar", function () {
+
+        var calificacionId = $(this).attr('data-id');
+
         Swal.fire({
-            title: '¿Desea descargar el reporte?',
-            icon: 'question',
+
+            title: '¿Deseas eliminar la Calificacion?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No'
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    'Descarga Iniciada',
-                    'El reporte se está descargando.',
-                    'success'
-                ).then(() => {
-                    // Redirige de nuevo a la misma página
-                    window.location.href = '@Url.Action("AdminCalificacion", "Calificacion")';
+                $.ajax({
+                    url: '@Url.Action("EliminarCalificacion", "Calificacion")',
+                    type: 'POST',
+                    data: { idCalificaciones: calificacionId },
+                    success: function (response) {
+                        Swal.fire(
+                            'Eliminado',
+                            'La calificacion ha sido eliminado.',
+                            'success'
+                        ).then(function () {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar la calificacion.',
+                            'error'
+                        );
+                    }
                 });
             }
         });
     });
-
-    document.querySelectorAll('.eliminar-calificacion').forEach(function(button) {
-        button.addEventListener('click', function() {
-            Swal.fire({
-                title: '¿Eliminar Calificación?',
-                text: 'Esta acción no se puede deshacer.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Calificación Eliminada',
-                        'La calificación ha sido eliminada con éxito.',
-                        'success'
-                    ).then(() => {
-                        window.location.href = '@Url.Action("AdminCalificacion", "Calificacion")';
-                    });
-                }
-            });
-        });
-    });
+});
 </script>

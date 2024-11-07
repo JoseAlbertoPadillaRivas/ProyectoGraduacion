@@ -5,11 +5,14 @@ using System.Web.Mvc;
 using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Entidades;
 using ProyectoDeGraduacion.Models;
+using Rotativa;
 
 namespace ProyectoDeGraduacion.Controllers
 {
     public class CalificacionController : Controller
     {
+
+        private ProyectoGraduacionEntities db = new ProyectoGraduacionEntities();
 
         PacientesModel pacienteM = new PacientesModel();
         CalificacionModel calificacionM = new CalificacionModel();
@@ -19,16 +22,17 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult verCalificaciones()
         {
-            return View();
+            var respuesta = calificacionM.verCalificaciones();
+            return View(respuesta);
         }
         
         [HttpGet]
         public ActionResult NuevaCalificacion()
         {
-            // Obtén el valor de `Session` para `idPaciente`
+            // Obtener el idPaciente de la sesión
             int idPaciente = (int)Session["idUsuario"];
 
-            // Crear una instancia del modelo Calificacion y asignar el valor de `idPaciente`
+            // Crear una instancia del modelo Calificacion y asignar el valor de idPaciente
             var model = new Calificacion
             {
                 idPaciente = idPaciente
@@ -38,7 +42,7 @@ namespace ProyectoDeGraduacion.Controllers
             var servicios = _context.tServicio.ToList();
             ViewBag.Servicio = new SelectList(servicios, "idServicio", "Nombre");
 
-            return View(model); // Pasar el modelo con `idPaciente` a la vista
+            return View(model); 
         }
 
 
@@ -56,17 +60,80 @@ namespace ProyectoDeGraduacion.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult EliminarCalificacion(int idCalificaciones)
+        {
+            var respuesta = calificacionM.EliminarCalificacion(idCalificaciones);
+
+            if (respuesta)
+            {
+                return RedirectToAction("AdminCalificacion", "Calificacion");
+            }
+            else
+            {
+                return RedirectToAction("AdminCalificacion", "Calificacion");
+            }
+        }
+
         [HttpGet]
         public ActionResult AdminCalificacion()
         {
-            return View();
+            var respuesta = calificacionM.verCalificaciones();
+            return View(respuesta);
         }
 
         [HttpGet]
         public ActionResult AnalizarCalificaciones()
         {
-            return View();
+            var calificacionModel = new CalificacionModel();
+            var reporteCalificaciones = calificacionModel.ObtenerCalificaciones();
+
+            return View(reporteCalificaciones);
         }
 
+
+        //Vista específica para PDF
+            public ActionResult CalificacionPDF()
+        {
+            var calificacion = (from calificaciones in db.tCalificaciones
+                                    join paciente in db.tPacientes on calificaciones.idPaciente equals paciente.idPaciente
+                                    join servicio in db.tServicio on calificaciones.idServicio equals servicio.idServicio
+                                    select new Calificacion
+                                    {
+                                        idCalificaciones = calificaciones.idCalificaciones,
+                                        Calificaciones = calificaciones.Calificaciones,
+                                        idPaciente = calificaciones.idPaciente,
+                                        Opinion = calificaciones.Opinion,
+                                        NombrePaciente = paciente.Nombre, // Nombre del paciente
+                                        NombreServicio = servicio.Nombre  // Nombre del servicio
+                                    }).ToList();
+
+            return View(calificacion);
+        }
+
+        [HttpPost]
+        public ActionResult GenerarPdf()
+        {
+            var calificacion = (from calificaciones in db.tCalificaciones
+                                join paciente in db.tPacientes on calificaciones.idPaciente equals paciente.idPaciente
+                                join servicio in db.tServicio on calificaciones.idServicio equals servicio.idServicio
+                                select new Calificacion
+                                {
+                                    idCalificaciones = calificaciones.idCalificaciones,
+                                    Calificaciones = calificaciones.Calificaciones,
+                                    idPaciente = calificaciones.idPaciente,
+                                    Opinion = calificaciones.Opinion,
+                                    Fecha = calificaciones.Fecha,
+                                    NombrePaciente = paciente.Nombre, // Nombre del paciente
+                                    NombreServicio = servicio.Nombre  // Nombre del servicio
+                                }).ToList();
+
+            var pdfResult = new ActionAsPdf("CalificacionPDF", calificacion)
+            {
+                FileName = "Calificacion.pdf"
+            };
+
+            return pdfResult;
+        }
     }
 }

@@ -21,19 +21,19 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
-        //[HttpPost]
-        //public ActionResult EliminarProducto(Inventario inventario)
-        //{
-        //    var respuesta = inventarioM.EliminarProducto(inventario);
+        /*[HttpPost]
+        public ActionResult EliminarProducto(Inventario inventario)
+        {
+            var respuesta = inventarioM.EliminarProducto(inventario);
 
-        //    if (respuesta)
-        //        return RedirectToAction("MostrarInventario", "Inventario");
-        //    else
-        //    {
-        //        ViewBag.msj = "Error al eliminar";
-        //        return View();
-        //    }
-        //}
+            if (respuesta)
+                return RedirectToAction("MostrarInventario", "Inventario");
+            else
+            {
+                ViewBag.msj = "Error al eliminar";
+                return View();
+            }
+        }*/
 
         [HttpGet]
         public ActionResult ActualizarProducto(int idProducto)

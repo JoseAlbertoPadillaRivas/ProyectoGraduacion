@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<ProyectoDeGraduacion.Entidades.Calificacion>
+
+@{
     ViewBag.Title = "Analizar Calificaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,127 +11,24 @@
 
 <div class="container mt-4">
     <h2 class="text-center">Reporte de Calificaciones Mensuales</h2>
-    <p class="text-center">Período: Enero - Diciembre 2024</p>
 
     <table class="table table-bordered mt-4">
-        <thead class="thead-dark">
+        <thead>
             <tr>
-                <th>Mes</th>
-                <th>Año</th>
-                <th>Calificaciones Totales</th>
-                <th>Promedio de Estrellas</th>
-                <th>Acciones</th>
+                <th style="background-color: #343a40; color: white; text-align: center;">Fecha</th>
+                <th style="background-color: #343a40; color: white; text-align: center;">Calificaciones Totales</th>
+                <th style="background-color: #343a40; color: white; text-align: center;">Promedio de Estrellas</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Enero</td>
-                <td>2024</td>
-                <td>20</td>
-                <td>4.5</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Enero">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Febrero</td>
-                <td>2024</td>
-                <td>18</td>
-                <td>4.3</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Febrero">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Marzo</td>
-                <td>2024</td>
-                <td>22</td>
-                <td>4.7</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Marzo">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Abril</td>
-                <td>2024</td>
-                <td>25</td>
-                <td>4.6</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Abril">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Mayo</td>
-                <td>2024</td>
-                <td>17</td>
-                <td>4.4</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Mayo">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Junio</td>
-                <td>2024</td>
-                <td>15</td>
-                <td>4.3</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Junio">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Julio</td>
-                <td>2024</td>
-                <td>23</td>
-                <td>4.6</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Julio">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Agosto</td>
-                <td>2024</td>
-                <td>19</td>
-                <td>4.5</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Agosto">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Septiembre</td>
-                <td>2024</td>
-                <td>20</td>
-                <td>4.7</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Septiembre">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Octubre</td>
-                <td>2024</td>
-                <td>24</td>
-                <td>4.8</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Octubre">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Noviembre</td>
-                <td>2024</td>
-                <td>21</td>
-                <td>4.6</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Noviembre">Descargar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Diciembre</td>
-                <td>2024</td>
-                <td>18</td>
-                <td>4.4</td>
-                <td>
-                    <button class="btn btn-success btn-descargar" data-mes="Diciembre">Descargar</button>
-                </td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Fecha.ToString("MMMM yyyy")</td>
+                    <td>@item.CalificacionesTotales</td>
+                    <td>@item.PromedioCalificaciones</td>
+                </tr>
+            }
         </tbody>
     </table>
 
@@ -137,6 +36,9 @@
         <a href="@Url.Action("AdminCalificacion", "Calificacion")" class="btn btn-info">Regresar</a>
     </div>
 </div>
+
+
+
 
 <script>
     document.querySelectorAll('.btn-descargar').forEach(function(btn) {

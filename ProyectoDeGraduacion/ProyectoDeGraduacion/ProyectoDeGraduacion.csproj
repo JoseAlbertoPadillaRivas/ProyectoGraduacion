@@ -148,6 +148,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\ObtenerCalificaciones_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tArchivosPaciente.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -638,6 +641,7 @@
     <Content Include="Views\Reabastecimiento\HistorialReabastecimiento.cshtml" />
     <Content Include="Views\Reabastecimiento\HistorialReabastecimientoPDF.cshtml" />
     <Content Include="Views\Calificacion\verCalificaciones.cshtml" />
+    <Content Include="Views\Calificacion\CalificacionPDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

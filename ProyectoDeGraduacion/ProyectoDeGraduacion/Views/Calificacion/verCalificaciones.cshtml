@@ -10,8 +10,9 @@
 
 <div class="container mt-4">
     <h2 class="text-center">
-        Calificaciones </h2 >
-        <p class="text-center"> Revisa las calificaciones y comentarios de los pacientes sobre sus tratamientos.</p>
+        Calificaciones
+    </h2>
+    <p class="text-center"> Revisa las calificaciones y comentarios de los pacientes sobre sus tratamientos.</p>
 </div>
 
 <div class="d-flex justify-content-center mt-4">
@@ -27,77 +28,33 @@
     }
 </div>
 
-<input type="text" id="searchInput" placeholder="Buscar..." class="form-control mb-3">
+<input type="text" id="searchInput" placeholder="Buscar por nombre del paciente..." class="form-control mb-3">
 
 <div class="row justify-content-center">
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Josue Herrera
-        </div>
-        <div class="card-body">
-            <h5 class="card-title"> Limpieza Dental </h5>
-            <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+    @foreach (var item in Model)
+    {
+        <div class="card text-center col-12 col-md-3 mx-2 mb-4" style="border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 10px;">
+            <div class="card-header" style="background-color: #343a40; color: white; font-weight: bold; padding: 10px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="fa-solid fa-user" style="margin-right: 5px;"></i>
+                <span class="nombre-paciente" data-nombre="@item.NombrePaciente">Paciente: @item.NombrePaciente</span>
             </div>
-        </div>
-    </div>
-
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Maria Perez
-        </div>
-        <div class="card-body">
-            <h5 class="card-title"> Extracción </h5>
-            <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Carlos Mendez
-        </div>
-        <div class="card-body">
-            <h5 class="card-title"> Ortodoncia </h5>
-            <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-            <div class="card-footer text-body-secondary">
-                <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="card text-center col-12 col-md-3 mx-2 mb-4">
-        <div class="card-header">
-            Paciente: Laura Gutierrez
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Relleno Dental </h5 >
-                <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales nisl in lacus dignissim, ac maximus enim congue. Nulla interdum tortor at porttitor laoreet. Maecenas vitae feugiat turpis. Curabitur in magna imperdiet, egestas tellus ac, viverra eros.</p>
-                <div class="card-footer text-body-secondary">
-                    <i id="star1" class="fa-solid fa-star" style="color:yellow"></i>
-                    <i id="star2" class="fa-solid fa-star" style="color:yellow"></i>
-                    <i id="star3" class="fa-solid fa-star" style="color:yellow"></i>
-                    <i id="star4" class="fa-solid fa-star" style="color:yellow"></i>
-                    <i id="star5" class="fa-solid fa-star" style="color:yellow"></i>
+            <div class="card-body" style="padding: 20px;">
+                <h5 class="card-title" style="color: #343a40; font-weight: bold; margin-bottom: 15px; text-align: center;">
+                    <i class="fa-solid fa-stethoscope" style="margin-right: 5px;"></i> @item.NombreServicio
+                </h5>
+                <p class="card-text" style="font-style: italic; color: #555; margin-bottom: 20px;">"@item.Opinion"</p>
+                <div class="card-footer text-body-secondary" style="background-color: #f8f9fa; padding: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                    <div style="display: flex; justify-content: center; margin-bottom: 5px;">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa-star @(i <= item.Calificaciones ? "fa-solid" : "fa-regular")" style="color: #FFD700; font-size: 1.2em; margin: 0 2px;"></i>
+                        }
+                    </div>
+                    <small style="display: block; color: #999;">Calificación: @item.Calificaciones de 5</small>
                 </div>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 <script>
@@ -106,12 +63,11 @@
         let cards = document.querySelectorAll('.card');
 
         cards.forEach(function (card) {
-            let text = card.textContent.toLowerCase();
-            if (text.includes(filter)) {
-                card.style.display = '';
-            }
-            else {
-                card.style.display = 'none';
+            let nombrePaciente = card.querySelector('.nombre-paciente').getAttribute('data-nombre').toLowerCase();
+            if (nombrePaciente.includes(filter)) {
+                card.style.display = ''; // Muestra la tarjeta si coincide con la búsqueda
+            } else {
+                card.style.display = 'none'; // Oculta la tarjeta si no coincide
             }
         });
     });

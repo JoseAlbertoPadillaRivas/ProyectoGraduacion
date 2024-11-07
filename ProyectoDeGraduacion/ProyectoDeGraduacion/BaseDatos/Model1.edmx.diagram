@@ -4,9 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3a1a5cf0508647afa326044eef0eacb2" Name="Diagram1">
+      <Diagram DiagramId="3a1a5cf0508647afa326044eef0eacb2" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tArchivosPaciente" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tCalificaciones" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tCitas" Width="1.5" PointX="8.25" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tHistorial" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tInventario" Width="1.5" PointX="6" PointY="2.5" IsExpanded="true" />
@@ -22,8 +21,6 @@
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tSeguimientoProducto" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tServicio" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_ArchivoPaciente" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_idPacientes" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_idServicio" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaPaciente" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaSede" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaTratamiento" ManuallyRouted="false" />
@@ -39,6 +36,9 @@
         <AssociationConnector Association="ProyectoGraduacionModel.FK_PacienteRol" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_SeguimientoPaciente" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_RecomendacionSeguimiento" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tCalificaciones" Width="1.5" PointX="5.25" PointY="10.375" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_idPacientes" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_idServicio" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

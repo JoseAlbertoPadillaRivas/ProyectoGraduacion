@@ -10,19 +10,15 @@
 namespace ProyectoDeGraduacion.BaseDatos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tHistorial
+    public partial class ObtenerCalificaciones_Result
     {
-        public int idHistorial { get; set; }
+        public int idCalificaciones { get; set; }
+        public int Calificaciones { get; set; }
         public int idPaciente { get; set; }
-        public System.DateTime FechaConsulta { get; set; }
-        public string Diagnostico { get; set; }
-        public string Tratamiento { get; set; }
-        public string Medicacion { get; set; }
-        public string Observaciones { get; set; }
-        public string Archivo { get; set; }
-    
-        public virtual tPacientes tPacientes { get; set; }
+        public string NombrePaciente { get; set; }
+        public string Opinion { get; set; }
+        public Nullable<int> idServicio { get; set; }
+        public string ServicioNombre { get; set; }
     }
 }

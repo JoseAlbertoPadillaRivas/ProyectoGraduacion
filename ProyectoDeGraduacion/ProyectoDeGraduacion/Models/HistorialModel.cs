@@ -33,23 +33,6 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-
-        //public int RegistrarHistoria(tHistorial hist)
-        //{
-        //    using (var context = new ProyectoGraduacionEntities())
-        //    {
-        //        return context.RegistrarHistorial(
-        //            hist.idPaciente,
-        //            hist.FechaConsulta,
-        //            hist.Diagnostico,
-        //            hist.Tratamiento,
-        //            hist.Medicacion,
-        //            hist.Observaciones,
-        //            hist.Archivo);
-        //    }
-        //}
-
-
         public int RegistrarHistoria(tHistorial hist)
         {
             using (var context = new ProyectoGraduacionEntities())

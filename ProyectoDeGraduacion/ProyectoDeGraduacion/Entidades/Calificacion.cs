@@ -18,5 +18,10 @@ namespace ProyectoDeGraduacion.Entidades
         public int idPaciente { get; set; }
         public string Opinion { get; set; }
         public int idServicio { get; set; }
+        public DateTime Fecha { get; set; }
+        public string NombrePaciente { get; set; }
+        public string NombreServicio { get; set; }
+        public int CalificacionesTotales { get; set; }  // Total de calificaciones del mes
+        public double PromedioCalificaciones { get; set; }
     }
 }
