@@ -14,6 +14,6 @@ namespace ProyectoDeGraduacion.Entidades
         public byte idRol { get; set; }
 
         // Agregar propiedad de navegación para los productos en seguimiento
-        public virtual ICollection<SeguimientoProducto> SeguimientoProductos { get; set; }
+        public virtual ICollection<Seguimiento> SeguimientoProductos { get; set; }
     }
 }

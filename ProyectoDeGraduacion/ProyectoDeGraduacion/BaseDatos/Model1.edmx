@@ -146,6 +146,16 @@
           <Property Name="idSede" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="tSeguimiento">
+          <Key>
+            <PropertyRef Name="idSeguimiento" />
+          </Key>
+          <Property Name="idSeguimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPaciente" Type="int" Nullable="false" />
+          <Property Name="NombreProducto" Type="varchar" MaxLength="100" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="FechaEntrega" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="tSeguimientoProducto">
           <Key>
             <PropertyRef Name="idSeguimiento" />
@@ -163,6 +173,30 @@
           <Property Name="idServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="120" Nullable="false" />
         </EntityType>
+        <Association Name="FK__tCalifica__idPac__29221CFB">
+          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
+          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPacientes">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="tCalificaciones">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tCalifica__idSer__2A164134">
+          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
+          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tServicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="tCalificaciones">
+              <PropertyRef Name="idServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ArchivoPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tArchivosPaciente" Type="Self.tArchivosPaciente" Multiplicity="*" />
@@ -223,27 +257,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_idPacientes">
+        <Association Name="FK_idPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
-          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <End Role="tSeguimiento" Type="Self.tSeguimiento" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tPacientes">
               <PropertyRef Name="idPaciente" />
             </Principal>
-            <Dependent Role="tCalificaciones">
+            <Dependent Role="tSeguimiento">
               <PropertyRef Name="idPaciente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_idServicio">
-          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
-          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tServicio">
-              <PropertyRef Name="idServicio" />
-            </Principal>
-            <Dependent Role="tCalificaciones">
-              <PropertyRef Name="idServicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -401,6 +423,9 @@
         <Function Name="CambiarEstadoPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idPaciente" Type="int" Mode="In" />
         </Function>
+        <Function Name="CambiarEstadoSeguimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSeguimiento" Type="int" Mode="In" />
+        </Function>
         <Function Name="EliminarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idProducto" Type="int" Mode="In" />
         </Function>
@@ -468,8 +493,17 @@
           <EntitySet Name="tRecomendacionesProducto" EntityType="Self.tRecomendacionesProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tRol" EntityType="Self.tRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSede" EntityType="Self.tSede" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tSeguimiento" EntityType="Self.tSeguimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSeguimientoProducto" EntityType="Self.tSeguimientoProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tServicio" EntityType="Self.tServicio" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tCalifica__idPac__29221CFB" Association="Self.FK__tCalifica__idPac__29221CFB">
+            <End Role="tPacientes" EntitySet="tPacientes" />
+            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tCalifica__idSer__2A164134" Association="Self.FK__tCalifica__idSer__2A164134">
+            <End Role="tServicio" EntitySet="tServicio" />
+            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+          </AssociationSet>
           <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
@@ -490,13 +524,9 @@
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tHistorial" EntitySet="tHistorial" />
           </AssociationSet>
-          <AssociationSet Name="FK_idPacientes" Association="Self.FK_idPacientes">
+          <AssociationSet Name="FK_idPaciente" Association="Self.FK_idPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
-            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_idServicio" Association="Self.FK_idServicio">
-            <End Role="tServicio" EntitySet="tServicio" />
-            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+            <End Role="tSeguimiento" EntitySet="tSeguimiento" />
           </AssociationSet>
           <AssociationSet Name="FK_OrdenCompra" Association="Self.FK_OrdenCompra">
             <End Role="tOrdenesCompra" EntitySet="tOrdenesCompra" />
@@ -558,6 +588,19 @@
           <Property Name="Archivo" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="FechaSubida" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="tPacientes" Relationship="Self.FK_ArchivoPaciente" FromRole="tArchivosPaciente" ToRole="tPacientes" />
+        </EntityType>
+        <EntityType Name="tCalificaciones">
+          <Key>
+            <PropertyRef Name="idCalificaciones" />
+          </Key>
+          <Property Name="idCalificaciones" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Calificaciones" Type="Int32" Nullable="false" />
+          <Property Name="idPaciente" Type="Int32" Nullable="false" />
+          <Property Name="Opinion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idServicio" Type="Int32" />
+          <NavigationProperty Name="tPacientes" Relationship="Self.FK_idPacientes" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tServicio" Relationship="Self.FK_idServicio" FromRole="tCalificaciones" ToRole="tServicio" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="tCitas">
           <Key>
@@ -654,11 +697,12 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdRol" Type="Byte" Nullable="false" />
           <NavigationProperty Name="tArchivosPaciente" Relationship="Self.FK_ArchivoPaciente" FromRole="tPacientes" ToRole="tArchivosPaciente" />
+          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK_idPacientes" FromRole="tPacientes" ToRole="tCalificaciones" />
           <NavigationProperty Name="tCitas" Relationship="Self.FK_CitaPaciente" FromRole="tPacientes" ToRole="tCitas" />
           <NavigationProperty Name="tHistorial" Relationship="Self.FK_HistorialPaciente" FromRole="tPacientes" ToRole="tHistorial" />
           <NavigationProperty Name="tRol" Relationship="Self.FK_PacienteRol" FromRole="tPacientes" ToRole="tRol" />
           <NavigationProperty Name="tSeguimientoProducto" Relationship="Self.FK_SeguimientoPaciente" FromRole="tPacientes" ToRole="tSeguimientoProducto" />
-          <NavigationProperty Name="tCalificaciones" Relationship="ProyectoGraduacionModel.FK_idPacientes" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tSeguimiento" Relationship="ProyectoGraduacionModel.FK_idPaciente" FromRole="tPacientes" ToRole="tSeguimiento" />
         </EntityType>
         <EntityType Name="tProductosTratamiento">
           <Key>
@@ -726,7 +770,7 @@
           </Key>
           <Property Name="idServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tCalificaciones" Relationship="ProyectoGraduacionModel.FK_idServicio" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK_idServicio" FromRole="tServicio" ToRole="tCalificaciones" />
         </EntityType>
         <Association Name="FK_ArchivoPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
@@ -737,6 +781,30 @@
             </Principal>
             <Dependent Role="tArchivosPaciente">
               <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idPacientes">
+          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
+          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPacientes">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="tCalificaciones">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idServicio">
+          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
+          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tServicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="tCalificaciones">
+              <PropertyRef Name="idServicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -922,6 +990,7 @@
         </Association>
         <EntityContainer Name="ProyectoGraduacionEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tArchivosPaciente" EntityType="Self.tArchivosPaciente" />
+          <EntitySet Name="tCalificaciones" EntityType="Self.tCalificaciones" />
           <EntitySet Name="tCitas" EntityType="Self.tCitas" />
           <EntitySet Name="tHistorial" EntityType="Self.tHistorial" />
           <EntitySet Name="tInventario" EntityType="Self.tInventario" />
@@ -939,6 +1008,14 @@
           <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idPacientes" Association="Self.FK_idPacientes">
+            <End Role="tPacientes" EntitySet="tPacientes" />
+            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idServicio" Association="Self.FK_idServicio">
+            <End Role="tServicio" EntitySet="tServicio" />
+            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
           <AssociationSet Name="FK_CitaPaciente" Association="Self.FK_CitaPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
@@ -1030,6 +1107,7 @@
             <Parameter Name="idPaciente" Mode="In" Type="Int32" />
             <Parameter Name="Opinion" Mode="In" Type="String" />
             <Parameter Name="idServicio" Mode="In" Type="Int32" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="IniciarSesion" ReturnType="Collection(ProyectoGraduacionModel.IniciarSesion_Result)">
             <Parameter Name="Correo" Mode="In" Type="String" />
@@ -1073,34 +1151,14 @@
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="ObtenerCalificaciones" ReturnType="Collection(ProyectoGraduacionModel.ObtenerCalificaciones_Result)" />
-          <FunctionImport Name="RegistrarCita1">
-            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
-            <Parameter Name="idSede" Mode="In" Type="Int32" />
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="hora" Mode="In" Type="Time" />
-          </FunctionImport>
-          <FunctionImport Name="GenerarCalificacion1">
-            <Parameter Name="Calificaciones" Mode="In" Type="Int32" />
-            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
-            <Parameter Name="Opinion" Mode="In" Type="String" />
-            <Parameter Name="idServicio" Mode="In" Type="Int32" />
-            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="EliminarCalificacion">
-          <Parameter Name="idCalificaciones" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="ObtenerPromedioCalificaciones" ReturnType="Collection(Int32)" />
-          <FunctionImport Name="ObtenerPromedioCalificaciones1" ReturnType="Collection(Int32)" />
-          <EntitySet Name="tCalificaciones" EntityType="ProyectoGraduacionModel.tCalificaciones" />
-          <AssociationSet Name="FK_idPacientes" Association="ProyectoGraduacionModel.FK_idPacientes">
+          <EntitySet Name="tSeguimiento" EntityType="ProyectoGraduacionModel.tSeguimiento" />
+          <AssociationSet Name="FK_idPaciente" Association="ProyectoGraduacionModel.FK_idPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
-            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+            <End Role="tSeguimiento" EntitySet="tSeguimiento" />
           </AssociationSet>
-          <AssociationSet Name="FK_idServicio" Association="ProyectoGraduacionModel.FK_idServicio">
-            <End Role="tServicio" EntitySet="tServicio" />
-            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
-          </AssociationSet>
+          <FunctionImport Name="CambiarEstadoSeguimiento">
+            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IniciarSesion_Result">
           <Property Type="Int32" Name="idPaciente" Nullable="false" />
@@ -1111,49 +1169,26 @@
           <Property Type="Boolean" Name="Estado" Nullable="false" />
           <Property Type="Byte" Name="IdRol" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="ObtenerCalificaciones_Result">
-          <Property Type="Int32" Name="idCalificaciones" Nullable="false" />
-          <Property Type="Int32" Name="Calificaciones" Nullable="false" />
-          <Property Type="Int32" Name="idPaciente" Nullable="false" />
-          <Property Type="String" Name="NombrePaciente" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Opinion" Nullable="false" MaxLength="Max" />
-          <Property Type="Int32" Name="idServicio" Nullable="true" />
-          <Property Type="String" Name="ServicioNombre" Nullable="false" MaxLength="120" />
-        </ComplexType>
-        <EntityType Name="tCalificaciones">
+        <EntityType Name="tSeguimiento">
           <Key>
-            <PropertyRef Name="idCalificaciones" />
+            <PropertyRef Name="idSeguimiento" />
           </Key>
-          <Property Name="idCalificaciones" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Calificaciones" Type="Int32" Nullable="false" />
+          <Property Name="idSeguimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idPaciente" Type="Int32" Nullable="false" />
-          <Property Name="Opinion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="idServicio" Type="Int32" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="tPacientes" Relationship="ProyectoGraduacionModel.FK_idPacientes" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tServicio" Relationship="ProyectoGraduacionModel.FK_idServicio" FromRole="tCalificaciones" ToRole="tServicio" />
+          <Property Name="NombreProducto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="FechaEntrega" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="tPacientes" Relationship="ProyectoGraduacionModel.FK_idPaciente" FromRole="tSeguimiento" ToRole="tPacientes" />
         </EntityType>
-        <Association Name="FK_idPacientes">
+        <Association Name="FK_idPaciente">
           <End Type="ProyectoGraduacionModel.tPacientes" Role="tPacientes" Multiplicity="1" />
-          <End Type="ProyectoGraduacionModel.tCalificaciones" Role="tCalificaciones" Multiplicity="*" />
+          <End Type="ProyectoGraduacionModel.tSeguimiento" Role="tSeguimiento" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tPacientes">
               <PropertyRef Name="idPaciente" />
             </Principal>
-            <Dependent Role="tCalificaciones">
+            <Dependent Role="tSeguimiento">
               <PropertyRef Name="idPaciente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_idServicio">
-          <End Type="ProyectoGraduacionModel.tServicio" Role="tServicio" Multiplicity="0..1" />
-          <End Type="ProyectoGraduacionModel.tCalificaciones" Role="tCalificaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tServicio">
-              <PropertyRef Name="idServicio" />
-            </Principal>
-            <Dependent Role="tCalificaciones">
-              <PropertyRef Name="idServicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1172,6 +1207,18 @@
                 <ScalarProperty Name="TipoArchivo" ColumnName="TipoArchivo" />
                 <ScalarProperty Name="Archivo" ColumnName="Archivo" />
                 <ScalarProperty Name="FechaSubida" ColumnName="FechaSubida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tCalificaciones">
+            <EntityTypeMapping TypeName="ProyectoGraduacionModel.tCalificaciones">
+              <MappingFragment StoreEntitySet="tCalificaciones">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="idCalificaciones" ColumnName="idCalificaciones" />
+                <ScalarProperty Name="Calificaciones" ColumnName="Calificaciones" />
+                <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+                <ScalarProperty Name="Opinion" ColumnName="Opinion" />
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1330,6 +1377,7 @@
           <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="ProyectoGraduacionModel.Store.ActualizarProducto" />
           <FunctionImportMapping FunctionImportName="CambiarEstadoPaciente" FunctionName="ProyectoGraduacionModel.Store.CambiarEstadoPaciente" />
           <FunctionImportMapping FunctionImportName="EliminarProducto" FunctionName="ProyectoGraduacionModel.Store.EliminarProducto" />
+          <FunctionImportMapping FunctionImportName="GenerarCalificacion" FunctionName="ProyectoGraduacionModel.Store.GenerarCalificacion" />
           <FunctionImportMapping FunctionImportName="IniciarSesion" FunctionName="ProyectoGraduacionModel.Store.IniciarSesion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoGraduacionModel.IniciarSesion_Result">
@@ -1343,25 +1391,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarCita" FunctionName="ProyectoGraduacionModel.Store.RegistrarCita" />
           <FunctionImportMapping FunctionImportName="RegistrarHistorial" FunctionName="ProyectoGraduacionModel.Store.RegistrarHistorial" />
           <FunctionImportMapping FunctionImportName="RegistrarInventario" FunctionName="ProyectoGraduacionModel.Store.RegistrarInventario" />
           <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
           <FunctionImportMapping FunctionImportName="RegistrarProveedor" FunctionName="ProyectoGraduacionModel.Store.RegistrarProveedor" />
           <FunctionImportMapping FunctionImportName="RegistrarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.RegistrarSeguimiento" />
-          <FunctionImportMapping FunctionImportName="RegistrarCita1" FunctionName="ProyectoGraduacionModel.Store.RegistrarCita" />
-          <FunctionImportMapping FunctionImportName="GenerarCalificacion1" FunctionName="ProyectoGraduacionModel.Store.GenerarCalificacion" />
-          <EntitySetMapping Name="tCalificaciones">
-            <EntityTypeMapping TypeName="ProyectoGraduacionModel.tCalificaciones">
-              <MappingFragment StoreEntitySet="tCalificaciones">
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
-                <ScalarProperty Name="Opinion" ColumnName="Opinion" />
+          <EntitySetMapping Name="tSeguimiento">
+            <EntityTypeMapping TypeName="ProyectoGraduacionModel.tSeguimiento">
+              <MappingFragment StoreEntitySet="tSeguimiento">
+                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
                 <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
-                <ScalarProperty Name="Calificaciones" ColumnName="Calificaciones" />
-                <ScalarProperty Name="idCalificaciones" ColumnName="idCalificaciones" />
+                <ScalarProperty Name="idSeguimiento" ColumnName="idSeguimiento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CambiarEstadoSeguimiento" FunctionName="ProyectoGraduacionModel.Store.CambiarEstadoSeguimiento" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

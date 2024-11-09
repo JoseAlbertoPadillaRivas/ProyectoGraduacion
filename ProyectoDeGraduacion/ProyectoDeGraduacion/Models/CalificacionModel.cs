@@ -16,11 +16,31 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.GenerarCalificacion1(calificacion.Calificaciones, calificacion.idPaciente, calificacion.Opinion, calificacion.idServicio, calificacion.Fecha);
+                rowsAffected = context.GenerarCalificacion(calificacion.Calificaciones, calificacion.idPaciente, calificacion.Opinion, calificacion.idServicio, calificacion.Fecha);
             }
 
             return (rowsAffected > 0 ? true : false);
         }
+
+        //public bool NuevaCalificacion(Calificacion calificacion)
+        //{
+        //    using (var context = new ProyectoGraduacionEntities())
+        //    {
+        //        tCalificaciones nuevoCalificacion = new tCalificaciones
+        //        {
+        //            Calificaciones = calificacion.Calificaciones,
+        //            idPaciente = calificacion.idPaciente,
+        //            Opinion = calificacion.Opinion,
+        //            idServicio = calificacion.idServicio,
+        //            Fecha = calificacion.Fecha  
+        //        };
+
+        //        context.tCalificaciones.Add(nuevoCalificacion);
+        //        context.SaveChanges();
+        //    }
+
+        //    return true;
+        //}
 
         public List<Calificacion> verCalificaciones()
         {

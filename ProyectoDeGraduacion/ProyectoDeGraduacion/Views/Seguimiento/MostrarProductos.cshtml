@@ -45,7 +45,7 @@
                         <tr>
                             <td>@item.idSeguimiento</td>
                             <td>@item.idPaciente</td>
-                            <td>@item.Nombre</td>
+                            <td>@item.NombreProducto</td>
                             <td>@item.FechaEntrega</td>
                             @if (item.Estado == true)
                             {
@@ -60,13 +60,13 @@
                                 </td>
                             }
                             <td style="text-align:center">
-                                <button type="button" class="btn btn-primary btn-cambiar-estado" data-id="@item.idSeguimiento" data-name="@item.Nombre">
+                                <button type="button" class="btn btn-primary btn-cambiar-estado" data-id="@item.idSeguimiento" data-name="@item.NombreProducto">
                                     <i class="fa fa-share-square"></i>
                                 </button>
                             </td>
 
                             <td style="text-align:center">
-                                <button type="button" class="btn btn-primary btn-eliminar" data-id="@item.idSeguimiento" data-name="@item.Nombre">
+                                <button type="button" class="btn btn-primary btn-eliminar" data-id="@item.idSeguimiento" data-name="@item.NombreProducto">
                                     <i class="fa fa-share-square"></i>
                                 </button>
                             </td>

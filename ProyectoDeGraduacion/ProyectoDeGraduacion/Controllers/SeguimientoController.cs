@@ -32,14 +32,12 @@ namespace ProyectoDeGraduacion.Controllers
         {
             var pacientes = _context.tPacientes.ToList();
             ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
-            var productos = _context.tInventario.ToList();
-            ViewBag.Productos = new SelectList(productos, "idProducto", "NombreProducto");
             return View();
         }
 
         // Agregar producto al seguimiento
         [HttpPost]
-        public ActionResult AgregarProducto(SeguimientoProducto seguimiento)
+        public ActionResult AgregarProducto(Seguimiento seguimiento)
         {
             var respuesta = seguimientoM.RegistrarSeguimiento(seguimiento);
 
@@ -50,8 +48,6 @@ namespace ProyectoDeGraduacion.Controllers
                 ViewBag.msj = "Error al registrar información";
                 var pacientes = _context.tPacientes.ToList();
                 ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
-                var productos = _context.tInventario.ToList();
-                ViewBag.Productos = new SelectList(productos, "idProducto", "NombreProducto");
                 return View();
             }
         }
@@ -65,45 +61,34 @@ namespace ProyectoDeGraduacion.Controllers
 
         // Cambiar estado del seguimiento de un producto
         [HttpPost]
-        public bool CambiarEstadoSeguimiento(SeguimientoProducto seguimiento)
+        public ActionResult CambiarEstadoSeguimiento(Seguimiento seguimiento)
         {
-            var rowsAffected = 0;
+            var respuesta = seguimientoM.CambiarEstadoSeguimiento(seguimiento);
 
-            using (var context = new ProyectoGraduacionEntities())
+            if (respuesta)
+                return RedirectToAction("MostrarProductos", "Seguimiento");
+            else
             {
-                // Obtener el seguimiento a modificar
-                var seguimientoExistente = context.tSeguimientoProducto.FirstOrDefault(s => s.idSeguimiento == seguimiento.idSeguimiento);
-
-                if (seguimientoExistente != null)
-                {
-                    // Cambiar el estado
-                    seguimientoExistente.Estado = seguimiento.Estado;
-
-                    // Guardar los cambios
-                    rowsAffected = context.SaveChanges();
-                }
+                ViewBag.msj = "No se ha podido inactivar la información del usuario";
+                return View();
             }
-
-            return (rowsAffected > 0 ? true : false);
         }
 
-        // Vista para actualizar un producto en seguimiento
-        //[FiltroAdmin]
-        //[HttpGet]
-        //public ActionResult ActualizarSeguimiento(int idSeguimiento)
-        //{
-        //    var pacientes = _context.tPacientes.ToList();
-        //    ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
-        //    var productos = _context.tInventario.ToList();
-        //    ViewBag.Productos = new SelectList(productos, "idProducto", "NombreProducto");
 
-        //    var respuesta = seguimientoM.ConsultarSeguimientoID(idSeguimiento);
-        //    return View(respuesta);
-        //}
+        [FiltroAdmin]
+       [HttpGet]
+        public ActionResult ActualizarSeguimiento(int idSeguimiento)
+        {
+            var pacientes = _context.tPacientes.ToList();
+            ViewBag.Pacientes = new SelectList(pacientes, "idPaciente", "Nombre");
 
-        // Actualizar un producto en seguimiento
-        [HttpPost]
-        public ActionResult ActualizarSeguimiento(SeguimientoProducto seguimiento)
+            var respuesta = seguimientoM.ConsultarSeguimientoID(idSeguimiento);
+            return View(respuesta);
+        }
+
+
+       [HttpPost]
+        public ActionResult ActualizarSeguimiento(Seguimiento seguimiento)
         {
             var respuesta = seguimientoM.ActualizarSeguimiento(seguimiento);
 
@@ -118,9 +103,9 @@ namespace ProyectoDeGraduacion.Controllers
 
         // Eliminar un seguimiento de producto
         [HttpPost]
-        public ActionResult EliminarSeguimiento(SeguimientoProducto seguimiento)
+        public ActionResult EliminarSeguimiento(int idSeguimiento)
         {
-            var respuesta = seguimientoM.EliminarSeguimiento(seguimiento);
+            var respuesta = seguimientoM.EliminarSeguimiento(idSeguimiento);
 
             if (respuesta)
                 return RedirectToAction("MostrarProductos", "Seguimiento");
