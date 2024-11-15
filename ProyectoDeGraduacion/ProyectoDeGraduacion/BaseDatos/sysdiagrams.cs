@@ -12,17 +12,12 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tHistorial
+    public partial class sysdiagrams
     {
-        public int idHistorial { get; set; }
-        public int idPaciente { get; set; }
-        public System.DateTime FechaConsulta { get; set; }
-        public string Diagnostico { get; set; }
-        public string Tratamiento { get; set; }
-        public string Medicacion { get; set; }
-        public string Observaciones { get; set; }
-        public string Archivo { get; set; }
-    
-        public virtual tPacientes tPacientes { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

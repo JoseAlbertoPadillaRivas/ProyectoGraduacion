@@ -32,6 +32,10 @@
                 @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @hidden = "hidden" })
             </div>
 
+            <div class="mb-3">
+                @Html.HiddenFor(m => m.Fecha, new { @value = DateTime.Now.ToString("yyyy-MM-dd") })
+            </div>
+
             <div class="input-group mb-3">
                 @Html.DropDownListFor(m => m.idServicio, (SelectList)ViewBag.Servicio, "Seleccione su servicio: ", new { @class = "form-control" })
                 <div class="input-group-append">

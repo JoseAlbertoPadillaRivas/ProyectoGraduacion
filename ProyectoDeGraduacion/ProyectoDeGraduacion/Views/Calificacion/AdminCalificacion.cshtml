@@ -19,21 +19,15 @@
     <button class="btn btn-info" id="btn-exportar">Exportar Calificaciones</button>
 </div>
 
-<!-- Barra de búsqueda y filtros por mes y año -->
 <div class="d-flex justify-content-between mb-3">
     <div>
         <input type="text" id="searchInput" placeholder="Buscar por nombre del paciente..." class="form-control">
     </div>
     <div>
-        <select id="filterMonthYear" class="form-select">
-            <option value="">Filtrar por Mes y Año</option>
-            <option value="enero-2024">Enero 2024</option>
-            <option value="febrero-2024">Febrero 2024</option>
-            <option value="marzo-2024">Marzo 2024</option>
-            <!-- Agrega más opciones de meses y años según sea necesario -->
-        </select>
+        <input type="date" id="filterDate" class="form-control" placeholder="Seleccionar fecha">
     </div>
 </div>
+
 
 <!-- Tarjetas de calificaciones -->
 <div class="row justify-content-center">
@@ -83,13 +77,14 @@
         });
     });
 
-    document.getElementById('filterMonthYear').addEventListener('change', function () {
-        let selectedValue = this.value.toLowerCase();
+    // Fecha
+    document.getElementById('filterDate').addEventListener('change', function () {
+        let selectedDate = this.value; // Formato: "yyyy-MM-dd"
         let cards = document.querySelectorAll('.card');
 
         cards.forEach(function (card) {
-            let fecha = card.getAttribute('data-fecha');
-            if (fecha === selectedValue || selectedValue === "") {
+            let cardDate = card.getAttribute('data-fecha');
+            if (cardDate === selectedDate || !selectedDate) {
                 card.style.display = '';
             } else {
                 card.style.display = 'none';
