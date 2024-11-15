@@ -21,14 +21,13 @@ namespace ProyectoDeGraduacion.BaseDatos
             this.tCalificaciones = new HashSet<tCalificaciones>();
             this.tCitas = new HashSet<tCitas>();
             this.tHistorial = new HashSet<tHistorial>();
-            this.tSeguimientoProducto = new HashSet<tSeguimientoProducto>();
             this.tSeguimiento = new HashSet<tSeguimiento>();
+            this.tSeguimientoProducto = new HashSet<tSeguimientoProducto>();
         }
     
         public int idPaciente { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
-        public string Apellidos { get; set; }
         public string Correo { get; set; }
         public string Contrasenna { get; set; }
         public bool Estado { get; set; }
@@ -42,10 +41,10 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual ICollection<tCitas> tCitas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tHistorial> tHistorial { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tSeguimiento> tSeguimiento { get; set; }
         public virtual tRol tRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tSeguimientoProducto> tSeguimientoProducto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tSeguimiento> tSeguimiento { get; set; }
     }
 }

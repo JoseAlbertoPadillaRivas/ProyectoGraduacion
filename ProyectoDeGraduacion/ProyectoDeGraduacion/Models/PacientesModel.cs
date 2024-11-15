@@ -14,7 +14,7 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.RegistrarPaciente(paciente.Cedula, paciente.Nombre, paciente.Apellidos, paciente.Correo, paciente.Contrasenna);
+                rowsAffected = context.RegistrarPaciente(paciente.Cedula, paciente.Nombre, paciente.Correo, paciente.Contrasenna);
             }
 
             return (rowsAffected > 0 ? true : false);
@@ -67,7 +67,7 @@ namespace ProyectoDeGraduacion.Models
 
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.ActualizarPaciente(paciente.Cedula, paciente.Nombre, paciente.Apellidos, paciente.Correo, paciente.idRol, paciente.idPaciente);
+                rowsAffected = context.ActualizarPaciente(paciente.Cedula, paciente.Nombre, paciente.Correo, paciente.idRol, paciente.idPaciente);
             }
 
             return (rowsAffected > 0 ? true : false);

@@ -41,9 +41,9 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual DbSet<tRecomendacionesProducto> tRecomendacionesProducto { get; set; }
         public virtual DbSet<tRol> tRol { get; set; }
         public virtual DbSet<tSede> tSede { get; set; }
+        public virtual DbSet<tSeguimiento> tSeguimiento { get; set; }
         public virtual DbSet<tSeguimientoProducto> tSeguimientoProducto { get; set; }
         public virtual DbSet<tServicio> tServicio { get; set; }
-        public virtual DbSet<tSeguimiento> tSeguimiento { get; set; }
     
         public virtual int ActualizarArchivo(Nullable<int> idHistorial, string archivo)
         {
@@ -58,7 +58,7 @@ namespace ProyectoDeGraduacion.BaseDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarArchivo", idHistorialParameter, archivoParameter);
         }
     
-        public virtual int ActualizarPaciente(string cedula, string nombre, string apellidos, string correo, Nullable<byte> idRol, Nullable<int> idPaciente)
+        public virtual int ActualizarPaciente(string cedula, string nombre, string correo, Nullable<byte> idRol, Nullable<int> idPaciente)
         {
             var cedulaParameter = cedula != null ?
                 new ObjectParameter("Cedula", cedula) :
@@ -67,10 +67,6 @@ namespace ProyectoDeGraduacion.BaseDatos
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
                 new ObjectParameter("Nombre", typeof(string));
-    
-            var apellidosParameter = apellidos != null ?
-                new ObjectParameter("Apellidos", apellidos) :
-                new ObjectParameter("Apellidos", typeof(string));
     
             var correoParameter = correo != null ?
                 new ObjectParameter("Correo", correo) :
@@ -84,7 +80,7 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("idPaciente", idPaciente) :
                 new ObjectParameter("idPaciente", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPaciente", cedulaParameter, nombreParameter, apellidosParameter, correoParameter, idRolParameter, idPacienteParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPaciente", cedulaParameter, nombreParameter, correoParameter, idRolParameter, idPacienteParameter);
         }
     
         public virtual int ActualizarProducto(string nombreProducto, Nullable<int> cantidad, Nullable<System.DateTime> caducidadProducto, Nullable<int> idProveedor, Nullable<int> idProducto)
@@ -119,6 +115,15 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("idPaciente", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoPaciente", idPacienteParameter);
+        }
+    
+        public virtual int CambiarEstadoSeguimiento(Nullable<int> idSeguimiento)
+        {
+            var idSeguimientoParameter = idSeguimiento.HasValue ?
+                new ObjectParameter("idSeguimiento", idSeguimiento) :
+                new ObjectParameter("idSeguimiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoSeguimiento", idSeguimientoParameter);
         }
     
         public virtual int EliminarProducto(Nullable<int> idProducto)
@@ -243,7 +248,7 @@ namespace ProyectoDeGraduacion.BaseDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInventario", nombreProductoParameter, cantidadParameter, caducidadProductoParameter, idProveedorParameter);
         }
     
-        public virtual int RegistrarPaciente(string cedula, string nombre, string apellidos, string correo, string contrasenna)
+        public virtual int RegistrarPaciente(string cedula, string nombre, string correo, string contrasenna)
         {
             var cedulaParameter = cedula != null ?
                 new ObjectParameter("Cedula", cedula) :
@@ -253,10 +258,6 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("Nombre", nombre) :
                 new ObjectParameter("Nombre", typeof(string));
     
-            var apellidosParameter = apellidos != null ?
-                new ObjectParameter("Apellidos", apellidos) :
-                new ObjectParameter("Apellidos", typeof(string));
-    
             var correoParameter = correo != null ?
                 new ObjectParameter("Correo", correo) :
                 new ObjectParameter("Correo", typeof(string));
@@ -265,7 +266,7 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("Contrasenna", contrasenna) :
                 new ObjectParameter("Contrasenna", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarPaciente", cedulaParameter, nombreParameter, apellidosParameter, correoParameter, contrasennaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarPaciente", cedulaParameter, nombreParameter, correoParameter, contrasennaParameter);
         }
     
         public virtual int RegistrarProveedor(string empresa, string correo, string numeroTelefono)
@@ -300,15 +301,6 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("FechaEntrega", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarSeguimiento", idPacienteParameter, nombreParameter, fechaEntregaParameter);
-        }
-    
-        public virtual int CambiarEstadoSeguimiento(Nullable<int> idSeguimiento)
-        {
-            var idSeguimientoParameter = idSeguimiento.HasValue ?
-                new ObjectParameter("idSeguimiento", idSeguimiento) :
-                new ObjectParameter("idSeguimiento", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoSeguimiento", idSeguimientoParameter);
         }
     }
 }

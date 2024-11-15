@@ -38,7 +38,7 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist, tPacientes paciente)
+        public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist)
         {
             if (Archivo == null || Archivo.ContentLength == 0)
             {
@@ -46,23 +46,31 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
 
-            string extension = Path.GetExtension(Path.GetFileName(Archivo.FileName));
+            // Obtén la extensión del archivo
+            string extension = Path.GetExtension(Archivo.FileName);
 
+            // Genera la fecha actual en el formato deseado
+            string fechaCreacion = DateTime.Now.ToString("yyyyMMdd");
 
+            // Genera un identificador único utilizando un número aleatorio
+            string idUnico = new Random().Next(10000, 99999).ToString();
 
-            //PRUEBA DE RENOMBRAR EL ARCHIVO CON UN NOMBRE LEGIBLE Y UNICO, ESTA NO ES EL NOMBRE FINAL, LO IDEAL SERIA PONER EL NOMBRE DEL PACIENTE
-            string nombrePaciente = hist.idHistorial.ToString();
-            nombrePaciente = string.Join("_", nombrePaciente.Split(Path.GetInvalidFileNameChars()));
+            // Crea el nombre del archivo con el formato deseado
+            string nombreArchivo = $"HistorialMedico_{fechaCreacion}_{idUnico}{extension}";
 
-            string nombreArchivo = $"{nombrePaciente}_{new Random().Next(10000, 99999)}{extension}";
+            // Define la ruta completa donde se guardará el archivo
             string ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ArchivosHistorial", nombreArchivo);
 
+            // Guarda el archivo en el servidor
             Archivo.SaveAs(ruta);
 
+            // Almacena la ruta relativa en la propiedad del historial
             hist.Archivo = "/ArchivosHistorial/" + nombreArchivo;
 
+            // Llama al método para registrar la información del historial
             var consecutivo = historialM.RegistrarHistoria(hist);
 
+            // Verifica si se registró correctamente
             if (consecutivo > 0)
             {
                 return RedirectToAction("HistorialesAdmin", "Historial");
@@ -73,6 +81,7 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
+
         [HttpGet]
         public ActionResult ActualizarHistorial(int idHistorial)
         {
