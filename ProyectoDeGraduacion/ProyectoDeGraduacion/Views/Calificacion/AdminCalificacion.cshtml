@@ -28,12 +28,11 @@
     </div>
 </div>
 
-
 <!-- Tarjetas de calificaciones -->
 <div class="row justify-content-center">
     @foreach (var item in Model)
     {
-        <div class="card text-center col-12 col-md-3 mx-2 mb-4" style="border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 10px;">
+        <div class="card text-center col-12 col-md-3 mx-2 mb-4" style="border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 10px;" data-fecha="@item.Fecha.ToString("yyyy-MM-dd")">
             <div class="card-header" style="background-color: #343a40; color: white; font-weight: bold; padding: 10px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 <i class="fa-solid fa-user" style="margin-right: 5px;"></i>
                 <span class="nombre-paciente" data-nombre="@item.NombrePaciente">Paciente: @item.NombrePaciente</span>
@@ -77,17 +76,16 @@
         });
     });
 
-    // Fecha
     document.getElementById('filterDate').addEventListener('change', function () {
         let selectedDate = this.value; // Formato: "yyyy-MM-dd"
-        let cards = document.querySelectorAll('.card');
+        let cards = document.querySelectorAll('.card'); // Selecciona todas las tarjetas
 
         cards.forEach(function (card) {
-            let cardDate = card.getAttribute('data-fecha');
-            if (cardDate === selectedDate || !selectedDate) {
-                card.style.display = '';
+            let cardDate = card.getAttribute('data-fecha'); // Obtiene la fecha de la tarjeta en formato "yyyy-MM-dd"
+            if (cardDate === selectedDate || selectedDate === "") {
+                card.style.display = ''; // Muestra la tarjeta si coincide
             } else {
-                card.style.display = 'none';
+                card.style.display = 'none'; // Oculta la tarjeta si no coincide
             }
         });
     });
@@ -119,7 +117,7 @@
 
                     Swal.fire(
                         'Exportación Completa',
-                        'Las Calificaciones ha sido exportado como PDF.',
+                        'Las Calificaciones han sido exportadas como PDF.',
                         'success'
                     );
                 },
@@ -136,43 +134,43 @@
 });
 
     $(document).ready(function () {
-    $(document).on("click", ".btn-eliminar", function () {
+        $(document).on("click", ".btn-eliminar", function () {
 
-        var calificacionId = $(this).attr('data-id');
+            var calificacionId = $(this).attr('data-id');
 
-        Swal.fire({
+            Swal.fire({
 
-            title: '¿Deseas eliminar la Calificacion?',
-            text: "Esta acción no se puede deshacer.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '@Url.Action("EliminarCalificacion", "Calificacion")',
-                    type: 'POST',
-                    data: { idCalificaciones: calificacionId },
-                    success: function (response) {
-                        Swal.fire(
-                            'Eliminado',
-                            'La calificacion ha sido eliminado.',
-                            'success'
-                        ).then(function () {
-                            location.reload();
-                        });
-                    },
-                    error: function () {
-                        Swal.fire(
-                            'Error',
-                            'No se pudo eliminar la calificacion.',
-                            'error'
-                        );
-                    }
-                });
-            }
+                title: '¿Deseas eliminar la Calificacion?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("EliminarCalificacion", "Calificacion")',
+                        type: 'POST',
+                        data: { idCalificaciones: calificacionId },
+                        success: function (response) {
+                            Swal.fire(
+                                'Eliminado',
+                                'La calificación ha sido eliminada.',
+                                'success'
+                            ).then(function () {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            Swal.fire(
+                                'Error',
+                                'No se pudo eliminar la calificación.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
         });
     });
-});
 </script>

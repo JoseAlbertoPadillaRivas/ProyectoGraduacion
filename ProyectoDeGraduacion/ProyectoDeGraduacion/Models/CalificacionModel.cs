@@ -10,37 +10,26 @@ namespace ProyectoDeGraduacion.Models
 {
     public class CalificacionModel
     {
+
         public bool NuevaCalificacion(Calificacion calificacion)
         {
-            var rowsAffected = 0;
-
             using (var context = new ProyectoGraduacionEntities())
             {
-                rowsAffected = context.GenerarCalificacion(calificacion.Calificaciones, calificacion.idPaciente, calificacion.Opinion, calificacion.idServicio, calificacion.Fecha);
+                tCalificaciones nuevoCalificacion = new tCalificaciones
+                {
+                    Calificaciones = calificacion.Calificaciones,
+                    idPaciente = calificacion.idPaciente,
+                    Opinion = calificacion.Opinion,
+                    idServicio = calificacion.idServicio,
+                    Fecha = DateTime.Now
+                };
+
+                context.tCalificaciones.Add(nuevoCalificacion);
+                context.SaveChanges();
             }
 
-            return (rowsAffected > 0 ? true : false);
+            return true;
         }
-
-        //public bool NuevaCalificacion(Calificacion calificacion)
-        //{
-        //    using (var context = new ProyectoGraduacionEntities())
-        //    {
-        //        tCalificaciones nuevoCalificacion = new tCalificaciones
-        //        {
-        //            Calificaciones = calificacion.Calificaciones,
-        //            idPaciente = calificacion.idPaciente,
-        //            Opinion = calificacion.Opinion,
-        //            idServicio = calificacion.idServicio,
-        //            Fecha = calificacion.Fecha  
-        //        };
-
-        //        context.tCalificaciones.Add(nuevoCalificacion);
-        //        context.SaveChanges();
-        //    }
-
-        //    return true;
-        //}
 
         public List<Calificacion> verCalificaciones()
         {
@@ -56,7 +45,8 @@ namespace ProyectoDeGraduacion.Models
                                 idPaciente = calificacion.idPaciente,
                                 Opinion = calificacion.Opinion,
                                 NombrePaciente = paciente.Nombre,// Nombre del paciente
-                                NombreServicio = servicio.Nombre// Nombre del servicio
+                                NombreServicio = servicio.Nombre,// Nombre del servicio
+                                Fecha = calificacion.Fecha
                             };
 
                 return query.ToList();

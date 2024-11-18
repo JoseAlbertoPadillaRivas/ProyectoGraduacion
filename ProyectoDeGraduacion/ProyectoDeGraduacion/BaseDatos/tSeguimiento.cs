@@ -12,12 +12,14 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tRecomendacionesProducto
+    public partial class tSeguimiento
     {
-        public int idRecomendacion { get; set; }
         public int idSeguimiento { get; set; }
-        public string RecomendacionTexto { get; set; }
+        public int idPaciente { get; set; }
+        public string NombreProducto { get; set; }
+        public bool Estado { get; set; }
+        public System.DateTime FechaEntrega { get; set; }
     
-        public virtual tSeguimientoProducto tSeguimientoProducto { get; set; }
+        public virtual tPacientes tPacientes { get; set; }
     }
 }
