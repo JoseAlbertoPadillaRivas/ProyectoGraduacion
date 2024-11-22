@@ -19,6 +19,8 @@ namespace ProyectoDeGraduacion.BaseDatos
         {
             this.tArchivosPaciente = new HashSet<tArchivosPaciente>();
             this.tCalificaciones = new HashSet<tCalificaciones>();
+            this.tCalificaciones1 = new HashSet<tCalificaciones>();
+            this.tCalificaciones2 = new HashSet<tCalificaciones>();
             this.tCitas = new HashSet<tCitas>();
             this.tHistorial = new HashSet<tHistorial>();
             this.tSeguimiento = new HashSet<tSeguimiento>();
@@ -37,6 +39,10 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual ICollection<tArchivosPaciente> tArchivosPaciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tCalificaciones> tCalificaciones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tCalificaciones> tCalificaciones1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tCalificaciones> tCalificaciones2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tCitas> tCitas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

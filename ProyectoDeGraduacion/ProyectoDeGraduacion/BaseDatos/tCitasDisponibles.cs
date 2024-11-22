@@ -12,20 +12,12 @@ namespace ProyectoDeGraduacion.BaseDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class tCalificaciones
+    public partial class tCitasDisponibles
     {
-        public int idCalificaciones { get; set; }
-        public int Calificaciones { get; set; }
-        public int idPaciente { get; set; }
-        public string Opinion { get; set; }
-        public Nullable<int> idServicio { get; set; }
+        public int idCitaDisponible { get; set; }
         public System.DateTime Fecha { get; set; }
+        public bool Estado { get; set; }
     
-        public virtual tPacientes tPacientes { get; set; }
-        public virtual tPacientes tPacientes1 { get; set; }
-        public virtual tPacientes tPacientes2 { get; set; }
-        public virtual tServicio tServicio { get; set; }
-        public virtual tServicio tServicio1 { get; set; }
-        public virtual tServicio tServicio2 { get; set; }
+        public virtual tCitas tCitas { get; set; }
     }
 }

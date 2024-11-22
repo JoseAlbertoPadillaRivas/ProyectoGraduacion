@@ -13,10 +13,10 @@ namespace ProyectoDeGraduacion.Entidades
 
         public DateTime Fecha { get; set; }
 
-        public TimeSpan Hora{ get; set; }
-
         public String NombrePaciente{ get; set; }
 
         public String NombreSede { get; set; }
+
+        public int idCitaDisponible { get; set; }
     }
 }

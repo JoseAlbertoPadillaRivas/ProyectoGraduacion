@@ -26,8 +26,7 @@
                     <tr>
                         <th style="display:none" >ID Cita</th>
                         <th>Paciente</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
+                        <th>Fecha Y Hora</th>                        
                         <th>Sede</th>
                         <th>Estado</th>
                         <th>Acciones</th>
@@ -40,8 +39,7 @@
                         <tr>
                             <td style="display:none">@item.idCita</td>
                             <td>@item.NombrePaciente</td>
-                            <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
-                            <td>@item.Hora.ToString(@"hh\:mm")</td>
+                            <td>@item.Fecha.ToString()</td>                            
                             <td>@item.NombreSede</td>
                             <td>Estado
                             </td>

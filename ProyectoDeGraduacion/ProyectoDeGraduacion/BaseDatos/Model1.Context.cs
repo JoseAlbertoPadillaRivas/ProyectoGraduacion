@@ -30,6 +30,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         public virtual DbSet<tArchivosPaciente> tArchivosPaciente { get; set; }
         public virtual DbSet<tCalificaciones> tCalificaciones { get; set; }
         public virtual DbSet<tCitas> tCitas { get; set; }
+        public virtual DbSet<tCitasDisponibles> tCitasDisponibles { get; set; }
         public virtual DbSet<tHistorial> tHistorial { get; set; }
         public virtual DbSet<tInventario> tInventario { get; set; }
         public virtual DbSet<tMovimientosInventario> tMovimientosInventario { get; set; }
@@ -173,7 +174,12 @@ namespace ProyectoDeGraduacion.BaseDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IniciarSesion_Result>("IniciarSesion", correoParameter, contrasennaParameter);
         }
     
-        public virtual int RegistrarCita(Nullable<int> idPaciente, Nullable<int> idSede, Nullable<System.DateTime> fecha, Nullable<System.TimeSpan> hora)
+        public virtual int insertar_citasDisponibles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertar_citasDisponibles");
+        }
+    
+        public virtual int RegistrarCita(Nullable<int> idPaciente, Nullable<int> idSede, Nullable<int> citaDisponible)
         {
             var idPacienteParameter = idPaciente.HasValue ?
                 new ObjectParameter("idPaciente", idPaciente) :
@@ -183,15 +189,11 @@ namespace ProyectoDeGraduacion.BaseDatos
                 new ObjectParameter("idSede", idSede) :
                 new ObjectParameter("idSede", typeof(int));
     
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
+            var citaDisponibleParameter = citaDisponible.HasValue ?
+                new ObjectParameter("citaDisponible", citaDisponible) :
+                new ObjectParameter("citaDisponible", typeof(int));
     
-            var horaParameter = hora.HasValue ?
-                new ObjectParameter("hora", hora) :
-                new ObjectParameter("hora", typeof(System.TimeSpan));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarCita", idPacienteParameter, idSedeParameter, fechaParameter, horaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarCita", idPacienteParameter, idSedeParameter, citaDisponibleParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> RegistrarHistorial(Nullable<int> idPaciente, Nullable<System.DateTime> fechaConsulta, string diagnostico, string tratamiento, string medicacion, string observaciones, string archivo)

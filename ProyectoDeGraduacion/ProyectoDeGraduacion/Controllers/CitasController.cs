@@ -33,6 +33,14 @@ namespace ProyectoDeGraduacion.Controllers
             var sedes = _context.tSede.ToList();
             ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
 
+
+            // Obtener la lista de servicios y pasarla a la vista
+            var citasDisponibles = _context.tCitasDisponibles
+                .Where(c => c.Estado == true) // Filtrar citas disponibles (Estado == 1)
+    .           ToList();
+            ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
+
+
             return View(model); // Pasar el modelo con `idPaciente` a la vista
         }
 

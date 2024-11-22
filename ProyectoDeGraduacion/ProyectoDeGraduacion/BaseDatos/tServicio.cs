@@ -18,6 +18,8 @@ namespace ProyectoDeGraduacion.BaseDatos
         public tServicio()
         {
             this.tCalificaciones = new HashSet<tCalificaciones>();
+            this.tCalificaciones1 = new HashSet<tCalificaciones>();
+            this.tCalificaciones2 = new HashSet<tCalificaciones>();
         }
     
         public int idServicio { get; set; }
@@ -25,5 +27,9 @@ namespace ProyectoDeGraduacion.BaseDatos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tCalificaciones> tCalificaciones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tCalificaciones> tCalificaciones1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tCalificaciones> tCalificaciones2 { get; set; }
     }
 }

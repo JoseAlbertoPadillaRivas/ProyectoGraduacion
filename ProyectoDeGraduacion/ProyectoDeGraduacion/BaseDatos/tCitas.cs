@@ -23,12 +23,12 @@ namespace ProyectoDeGraduacion.BaseDatos
         public int idCita { get; set; }
         public int idPaciente { get; set; }
         public int idSede { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Hora { get; set; }
+        public int idCitaDisponible { get; set; }
     
         public virtual tPacientes tPacientes { get; set; }
         public virtual tSede tSede { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tProductosTratamiento> tProductosTratamiento { get; set; }
+        public virtual tCitasDisponibles tCitasDisponibles { get; set; }
     }
 }

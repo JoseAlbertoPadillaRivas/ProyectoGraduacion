@@ -16,7 +16,7 @@
             @using (Html.BeginForm("RegistrarCita", "Citas", FormMethod.Post))
             {
                 <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @readonly = "readonly", @hidden = "hidden" })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -31,19 +31,8 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Fecha, new { @type = "date", @class = "form-control" })
+                    @Html.DropDownListFor(m => m.idCitaDisponible, (SelectList)ViewBag.CitasDisponibles, "Seleccione la fecha y hora de la cita:", new { @class = "form-control" })
                     <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Hora, new { @type = "time", @class = "form-control" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
                     </div>
                 </div>
                 <div class="row">

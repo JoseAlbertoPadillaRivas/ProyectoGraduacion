@@ -157,6 +157,9 @@
     <Compile Include="BaseDatos\tCitas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\tCitasDisponibles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tHistorial.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -209,6 +212,7 @@
     <Compile Include="Controllers\SeguimientoController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Entidades\Citas.cs" />
+    <Compile Include="Entidades\CitasDisponibles.cs" />
     <Compile Include="Entidades\Servicio.cs" />
     <Compile Include="Entidades\Calificacion.cs" />
     <Compile Include="Entidades\HistorialORD.cs" />
