@@ -30,7 +30,6 @@
                         <th>Sede</th>
                         <th>Estado</th>
                         <th>Acciones</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,10 +62,11 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
-            columnDefs: [{ type: 'string', target: [0, 1, 2, 3] }]
+            columnDefs: [
+                { type: 'string', targets: [0, 1, 2, 3] }
+            ]
         });
 
-        // Evento click para los botones de cancelar
         $(document).on("click", ".btn-cancelar", function () {
             const paciente = $(this).closest("tr").find("td:nth-child(2)").text();
             Swal.fire({
@@ -83,8 +83,6 @@
                         'La cita ha sido cancelada.',
                         'success'
                     ).then(() => {
-                        // Aquí puedes agregar la lógica para cancelar la cita en el backend
-                        // Redireccionar o recargar la página después de la confirmación
                         location.reload();
                     });
                 }

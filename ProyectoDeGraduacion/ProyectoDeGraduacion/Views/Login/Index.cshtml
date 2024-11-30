@@ -88,3 +88,31 @@
         SALUD DENTAL
     </div>
 </div>
+
+<div id="chatbot" class="card mx-auto mt-5" style="max-width: 400px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <div class="card-header text-center" style="background-color: #343a40; color: white; font-weight: bold;">
+        Asistente Virtual de la Clínica Dental
+    </div>
+    <div class="card-body">
+        <!-- Mostrar la respuesta si está disponible -->
+        @if (TempData["Respuesta"] != null)
+        {
+            <div class="alert alert-info text-center" id="respuesta-chatbot">
+                <strong>Respuesta:</strong> @TempData["Respuesta"]
+            </div>
+        }
+
+        <!-- Botones para las preguntas -->
+        <form method="post" action="@Url.Action("ObtenerRespuesta", "Chatbot")" id="chatbotForm" class="text-center">
+            <button style="background-color: #343a40; color: white;" type="submit" name="pregunta" value="¿Cuál es el horario de atención?" class="btn btn-block my-2">
+                ¿Cuál es el horario de atención?
+            </button>
+            <button style="background-color: #343a40; color: white;" type="submit" name="pregunta" value="¿Qué servicios ofrecen?" class="btn btn-block my-2">
+                ¿Qué servicios ofrecen?
+            </button>
+        </form>
+    </div>
+</div>
+
+
+

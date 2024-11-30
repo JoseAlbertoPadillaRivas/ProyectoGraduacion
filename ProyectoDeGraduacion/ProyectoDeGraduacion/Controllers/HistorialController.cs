@@ -104,22 +104,5 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
-        [HttpPost]
-        public ActionResult EliminarHistoria(int idHistorial)
-        {
-            var respuesta = historialM.EliminarHistorial(idHistorial);
-
-            if (respuesta)
-            {
-                return RedirectToAction("HistorialesAdmin", "Historial");
-            }
-            else
-            {
-                return RedirectToAction("HistorialesAdmin", "Historial");
-            }
-        }
-
-
     }
 }

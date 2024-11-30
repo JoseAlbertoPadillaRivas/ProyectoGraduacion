@@ -37,7 +37,7 @@ namespace ProyectoDeGraduacion.Controllers
             // Obtener la lista de servicios y pasarla a la vista
             var citasDisponibles = _context.tCitasDisponibles
                 .Where(c => c.Estado == true) // Filtrar citas disponibles (Estado == 1)
-    .           ToList();
+    .ToList();
             ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
 
 

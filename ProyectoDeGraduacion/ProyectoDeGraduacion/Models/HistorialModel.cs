@@ -98,22 +98,5 @@ namespace ProyectoDeGraduacion.Models
                 return false;
             }
         }
-
-
-        public bool EliminarHistorial(int idHistorial)
-        {
-            using (var context = new ProyectoGraduacionEntities())
-            {
-                var historia = context.tHistorial.FirstOrDefault(p => p.idHistorial == idHistorial);
-
-                if (historia != null)
-                {
-                    context.tHistorial.Remove(historia);
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-        }
     }
 }
