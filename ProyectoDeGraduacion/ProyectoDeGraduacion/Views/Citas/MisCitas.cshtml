@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Mis Citas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -29,18 +28,79 @@
                     {
                         <tr>
                             <td>@item.NombreSede</td>
-                            <td>@item.Fecha.ToString()</td>
+                            <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm tt")</td>
                             <td class="text-center">
                         </tr>
-                    }    
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<div class="mb-2">
-    <a class="btn btn-info" href="@Url.Action("RegistrarCita", "Citas")">
-        Nueva Cita
-    </a>
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistrarCita">
+    Registrar Cita
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalRegistrarCita" tabindex="-1" aria-labelledby="modalRegistrarCitaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistrarCitaLabel">Registrar Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario del modal -->
+                <form id="formRegistrarCita" action="@Url.Action("RegistrarCita", "Citas")" method="post">
+                    <!-- Campo oculto para el idPaciente -->
+                    @Html.Hidden("idPaciente", (int)ViewBag.IdPaciente)
+
+                    <div class="mb-3">
+                        <label for="Sede" class="form-label">Sede</label>
+                        @Html.DropDownList("idSede", (SelectList)ViewBag.Sede, "Seleccione una sede", new { @class = "form-select", id = "Sede" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="CitasDisponibles" class="form-label">Citas Disponibles</label>
+                        @Html.DropDownList("idCitaDisponible", (SelectList)ViewBag.CitasDisponibles, "Seleccione una cita", new { @class = "form-select", id = "CitasDisponibles" })
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // Manejo del formulario (puedes agregar validación aquí si es necesario)
+        $('#formRegistrarCita').submit(function (e) {
+            e.preventDefault(); // Prevenir el comportamiento por defecto (enviar el formulario)
+
+            // Obtener los datos del formulario
+            var formData = $(this).serialize();
+
+            // Enviar el formulario via AJAX
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response) {
+                        // Cerrar el modal si la cita fue registrada con éxito
+                        $('#modalRegistrarCita').modal('hide');
+                        // Aquí puedes agregar un mensaje de éxito o actualizar la lista de citas
+                    } else {
+                        alert('Hubo un error al registrar la cita');
+                    }
+                },
+                error: function () {
+                    alert('Hubo un error al registrar la cita');
+                }
+            });
+        });
+    });
+</script>

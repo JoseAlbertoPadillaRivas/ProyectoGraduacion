@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de Cita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0056b3;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Notificación de Cita</h1>
+        <p>Dr Mariana Garro,</p>
+        <p>Se ha registrado una nueva cita con los siguientes detalles:</p>
+        <ul>
+            <li><strong>Paciente:</strong> @@NombrePaciente</li>
+            <li><strong>Fecha y Hora:</strong> @@FechaHora</li>
+            <li><strong>Sede:</strong> @@NombreSede</li>
+        </ul>
+        <p>Por favor, revise su sistema para gestionar esta nueva cita.</p>
+        <p>Atentamente,</p>
+        <p>Equipo de Gestión de Citas</p>
+        <div class="footer">
+            Este es un mensaje automático. Por favor, no responda a este correo.
+        </div>
+    </div>
+</body>
+</html>

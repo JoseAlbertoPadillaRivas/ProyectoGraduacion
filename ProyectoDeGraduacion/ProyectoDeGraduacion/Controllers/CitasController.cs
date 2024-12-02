@@ -17,32 +17,32 @@ namespace ProyectoDeGraduacion.Controllers
         private ProyectoGraduacionEntities _context = new ProyectoGraduacionEntities();
 
 
-        [HttpGet]
-        public ActionResult RegistrarCita()
-        {
-            // Obtén el valor de `Session` para `idPaciente`
-            int idPaciente = (int)Session["idUsuario"];
+        //[HttpGet]
+        //public ActionResult RegistrarCita()
+        //{
+        //    // Obtén el valor de `Session` para `idPaciente`
+        //    int idPaciente = (int)Session["idUsuario"];
 
-            // Crear una instancia del modelo Citas y asignar el valor de `idPaciente`
-            var model = new Citas
-            {
-                idPaciente = idPaciente
-            };
+        //    // Crear una instancia del modelo Citas y asignar el valor de `idPaciente`
+        //    var model = new Citas
+        //    {
+        //        idPaciente = idPaciente
+        //    };
 
-            // Obtener la lista de servicios y pasarla a la vista
-            var sedes = _context.tSede.ToList();
-            ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
-
-
-            // Obtener la lista de servicios y pasarla a la vista
-            var citasDisponibles = _context.tCitasDisponibles
-                .Where(c => c.Estado == true) // Filtrar citas disponibles (Estado == 1)
-    .ToList();
-            ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
+        //    // Obtener la lista de servicios y pasarla a la vista
+        //    var sedes = _context.tSede.ToList();
+        //    ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
 
 
-            return View(model); // Pasar el modelo con `idPaciente` a la vista
-        }
+        //    // Obtener la lista de servicios y pasarla a la vista
+        //    var citasDisponibles = _context.tCitasDisponibles
+        //        .Where(c => c.Estado == true) // Filtrar citas disponibles (Estado == 1)
+        //        .ToList();
+        //    ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
+
+
+        //    return View(model); // Pasar el modelo con `idPaciente` a la vista
+        //}
 
 
         [HttpPost]
@@ -50,6 +50,7 @@ namespace ProyectoDeGraduacion.Controllers
         {
             var respuesta = citasM.RegistrarCita(cita);
             if (respuesta)
+                
                 return RedirectToAction("MisCitas", "Citas");
             else
             {
@@ -64,24 +65,76 @@ namespace ProyectoDeGraduacion.Controllers
             // Obtener el idPaciente de la sesión
             int idPaciente = (int)Session["idUsuario"];
 
-            // Llamar al método y pasar el idPaciente
+            // Pasar el idPaciente como parte del modelo o ViewBag
+            ViewBag.IdPaciente = idPaciente;
+
+            // Llamar al método que obtiene las citas del usuario
             var respuesta = citasM.MisCitas(idPaciente);
 
+            // Obtener la lista de sedes y citas disponibles
+            var sedes = _context.tSede.ToList();
+            ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
+
+            var citasDisponibles = _context.tCitasDisponibles
+                .Where(c => c.Estado == true) // Filtrar citas disponibles
+                .ToList();
+            ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
+
+            // Pasar la lista de citas y los datos adicionales a la vista
             return View(respuesta);
         }
+
 
 
         [HttpGet]
         public ActionResult CitasProgramadas()
         {
+            int idPaciente = (int)Session["idUsuario"];
+
+            // Pasar el idPaciente como parte del modelo o ViewBag
+            ViewBag.IdPaciente = idPaciente;
+
+            var sedes = _context.tSede.ToList();
+            ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
+
+            var citasDisponibles = _context.tCitasDisponibles
+                .Where(c => c.Estado == true) // Filtrar citas disponibles
+                .ToList();
+            ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
+
             var respuesta = citasM.CitasProgramadas();
             return View(respuesta);
         }
 
-        [HttpGet]
-        public ActionResult ReprogramarCita()
+        [HttpPost]
+        public ActionResult ReprogramarCita(Citas cita)
         {
-            return View();
+            var respuesta = citasM.ReprogramarCita(cita);
+            
+            if (respuesta)
+                return RedirectToAction("CitasProgramadas", "Citas");
+            else
+            {
+                ViewBag.msj = "No se ha podido actualizar la informacion de la cita";
+                return View();
+            }            
         }
+
+        [HttpPost]
+        public ActionResult CancelarCita(int idCita)
+        {
+            var respuesta = citasM.CancelarCita(idCita);
+
+            if (respuesta)
+            {
+                return Json(new { success = true, message = "Cita cancelada correctamente." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Hubo un error al cancelar la cita." });
+            }
+        }
+
+
     }
 }
