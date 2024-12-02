@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Configuration;
 using System.Net.Mail;
 
@@ -6,6 +7,7 @@ namespace ProyectoDeGraduacion.Models
 {
     public class GeneralModel
     {
+       
         public void EnviarCorreo(string destino, string asunto, string contenido)
         {
             string cuenta = ConfigurationManager.AppSettings["CuentaCorreo"].ToString();
@@ -24,5 +26,24 @@ namespace ProyectoDeGraduacion.Models
             client.EnableSsl = true;
             client.Send(message);
         }
+
+        //public void EnviarCorreoCitas(string contenido)
+        //{
+        //    string cuenta = ConfigurationManager.AppSettings["CuentaCorreo"].ToString();
+        //    string contrasenna = ConfigurationManager.AppSettings["ContrasennaCorreo"].ToString();
+
+        //    MailMessage message = new MailMessage();
+        //    message.From = new MailAddress(cuenta);
+        //    message.To.Add(new MailAddress("cherrera90114@ufide.ac.cr"));
+        //    message.Subject = "Solicitud de cita";
+        //    message.Body = contenido;
+        //    message.Priority = MailPriority.Normal;
+        //    message.IsBodyHtml = true;
+
+        //    SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+        //    client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
+        //    client.EnableSsl = true;
+        //    client.Send(message);
+        //}
     }
 }

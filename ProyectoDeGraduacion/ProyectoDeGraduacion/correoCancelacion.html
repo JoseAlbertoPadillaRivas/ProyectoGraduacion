@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de Cancelación de Cita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+            .content p {
+                margin: 10px 0;
+            }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+        }
+
+            .footer a {
+                color: #f44336;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Notificación de Cancelación de Cita</h2>
+        </div>
+        <div class="content">
+            <p>Estimado(a) @@NombrePaciente,</p>
+            <p>Le informamos que su cita programada ha sido cancelada.</p>
+            <p><strong>Sede:</strong> @@NombreSede</p>
+            <p><strong>Fecha y Hora:</strong> @@FechaHora</p>
+            <p>Lamentamos los inconvenientes y estaremos disponibles para reprogramar su cita si lo desea.</p>
+            <p>Gracias por su comprensión.</p>
+        </div>
+        <div class="footer">
+            <p>Para más información, por favor contáctenos a través de nuestro sitio web.</p>
+            <p>Si no desea recibir más correos, puede <a href="#">darse de baja aquí</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

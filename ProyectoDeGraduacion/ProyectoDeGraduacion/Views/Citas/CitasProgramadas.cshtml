@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Citas Programadas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -24,12 +23,12 @@
                 <caption class="text-center"><strong>Citas Programadas</strong></caption>
                 <thead class="thead-dark">
                     <tr>
-                        <th style="display:none" >ID Cita</th>
+                        <th style="display:none">ID Cita</th>
                         <th>Paciente</th>
-                        <th>Fecha Y Hora</th>                        
+                        <th>Fecha Y Hora</th>
                         <th>Sede</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th style="text-align:center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,13 +37,18 @@
                         <tr>
                             <td style="display:none">@item.idCita</td>
                             <td>@item.NombrePaciente</td>
-                            <td>@item.Fecha.ToString()</td>                            
+                            <td>@item.Fecha.ToString("dd/MM/yyyy HH:mm tt")</td>
                             <td>@item.NombreSede</td>
-                            <td>Estado
+                            <td>
+                                Estado
                             </td>
                             <td>
-                                <a class="btn btn-info btn-sm" href="@Url.Action("ReprogramarCita", "Citas", new { id = item.idCita })">Reprogramar</a>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalReprogramarCita" data-id="@item.idCita" data-fecha="@item.Fecha" data-sede="@item.NombreSede" data-paciente="@item.NombrePaciente">Reprogramar</button>
+                                    <button class="btn btn-danger btn-sm btn-eliminar-cita" data-id="@item.idCita" data-name="@item.NombrePaciente">Cancelar</button>
+                                </div>
                             </td>
+
                         </tr>
                     }
                 </tbody>
@@ -54,39 +58,117 @@
     </div>
 </div>
 
+<!-- Modal para Reprogramar Cita -->
+<div class="modal fade" id="modalReprogramarCita" tabindex="-1" aria-labelledby="modalReprogramarCitaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalReprogramarCitaLabel">Reprogramar Cita</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario del modal -->
+                <form id="formReprogramarCita" action="@Url.Action("ReprogramarCita", "Citas")" method="post">
+                    <input type="hidden" id="idCita" name="idCita" />
+                    <input type="hidden" id="idPaciente" name="idPaciente" value="@ViewBag.IdPaciente" />
+
+                    <div class="mb-3">
+                        <label for="Sede" class="form-label">Sede</label>
+                        <input type="text" class="form-control" id="Sede" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="FechaHora" class="form-label">Fecha y Hora</label>
+                        <input type="text" class="form-control" id="FechaHora" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="NuevaSede" class="form-label">Nueva Sede</label>
+                        @Html.DropDownList("idSede", (SelectList)ViewBag.Sede, "Seleccione una sede", new { @class = "form-select", id = "NuevaSede" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="NuevaCita" class="form-label">Nueva Cita Disponible</label>
+                        @Html.DropDownList("idCitaDisponible", (SelectList)ViewBag.CitasDisponibles, "Seleccione una cita", new { @class = "form-select", id = "NuevaCita" })
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Reprogramar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/root/plugins/jquery/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
+        // Inicializar DataTables
         $("#citasProgramadas").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
             columnDefs: [
-                { type: 'string', targets: [0, 1, 2, 3] }
+                { targets: 0, visible: false, searchable: false }, // Oculta la columna ID Cita
+                { type: 'string', targets: [1, 2, 3, 4] } // Define tipos para las otras columnas
             ]
         });
 
-        $(document).on("click", ".btn-cancelar", function () {
-            const paciente = $(this).closest("tr").find("td:nth-child(2)").text();
-            Swal.fire({
-                title: '¿Desea cancelar la cita?',
-                text: `Cita de: ${paciente}`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, cancelar',
-                cancelButtonText: 'No, mantener'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Cancelado',
-                        'La cita ha sido cancelada.',
-                        'success'
-                    ).then(() => {
-                        location.reload();
-                    });
-                }
-            });
+        // Cargar la información de la cita en el modal al hacer clic en "Reprogramar"
+        $('#modalReprogramarCita').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que abrió el modal
+            var idCita = button.data('id'); // Extraer el ID de la cita
+            var fecha = button.data('fecha'); // Extraer la fecha
+            var sede = button.data('sede'); // Extraer la sede
+            var paciente = button.data('paciente'); // Extraer el paciente
+
+            // Asignar los valores al formulario del modal
+            var modal = $(this);
+            modal.find('#idCita').val(idCita);
+            modal.find('#Sede').val(sede);
+            modal.find('#FechaHora').val(fecha);
+            modal.find('#NuevaSede').val(sede); // Puedes configurar la nueva sede si es necesario
         });
     });
+
+    $(document).on("click", ".btn-eliminar-cita", function () {
+    var citaID = $(this).attr('data-id');
+    var paciente = $(this).attr('data-name');
+
+    Swal.fire({
+        title: '¿Estás seguro de que deseas cancelar esta cita?',
+        text: 'Paciente: ' + paciente,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cancelar cita',
+        cancelButtonText: 'No, mantener cita',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Realizamos la solicitud AJAX para cancelar la cita
+            $.ajax({
+                url: '@Url.Action("CancelarCita", "Citas")', // URL del controlador
+                type: 'POST',
+                data: { idCita: citaID },
+                success: function (response) {
+                    Swal.fire(
+                        'Cita Cancelada',
+                        'La cita ha sido cancelada correctamente',
+                        'success'
+                    ).then(function () {
+                        location.reload(); // Recargar la página para reflejar los cambios
+                    });
+                },
+                error: function () {
+                    Swal.fire(
+                        'Error',
+                        'No se pudo cancelar la cita',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+});
+
 </script>

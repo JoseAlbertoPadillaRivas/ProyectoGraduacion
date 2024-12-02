@@ -304,5 +304,26 @@ namespace ProyectoDeGraduacion.BaseDatos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarSeguimiento", idPacienteParameter, nombreParameter, fechaEntregaParameter);
         }
+    
+        public virtual int ReprogramarCita(Nullable<int> idCita, Nullable<int> idPaciente, Nullable<int> idSede, Nullable<int> citaDisponibleNueva)
+        {
+            var idCitaParameter = idCita.HasValue ?
+                new ObjectParameter("idCita", idCita) :
+                new ObjectParameter("idCita", typeof(int));
+    
+            var idPacienteParameter = idPaciente.HasValue ?
+                new ObjectParameter("idPaciente", idPaciente) :
+                new ObjectParameter("idPaciente", typeof(int));
+    
+            var idSedeParameter = idSede.HasValue ?
+                new ObjectParameter("idSede", idSede) :
+                new ObjectParameter("idSede", typeof(int));
+    
+            var citaDisponibleNuevaParameter = citaDisponibleNueva.HasValue ?
+                new ObjectParameter("citaDisponibleNueva", citaDisponibleNueva) :
+                new ObjectParameter("citaDisponibleNueva", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ReprogramarCita", idCitaParameter, idPacienteParameter, idSedeParameter, citaDisponibleNuevaParameter);
+        }
     }
 }

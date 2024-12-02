@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tArchivosPaciente">
           <Key>
             <PropertyRef Name="idArchivo" />
@@ -179,7 +179,7 @@
           <Property Name="idServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="120" Nullable="false" />
         </EntityType>
-        <Association Name="FK__tCalifica__idPac__6B24EA82">
+        <Association Name="FK__tCalifica__idPac__5FB337D6">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -191,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__6C190EBB">
+        <Association Name="FK__tCalifica__idPac__6EF57B66">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -203,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__6D0D32F4">
+        <Association Name="FK__tCalifica__idPac__70DDC3D8">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -215,19 +215,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__6E01572D">
-          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
-          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tServicio">
-              <PropertyRef Name="idServicio" />
-            </Principal>
-            <Dependent Role="tCalificaciones">
-              <PropertyRef Name="idServicio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tCalifica__idSer__6EF57B66">
+        <Association Name="FK__tCalifica__idSer__60A75C0F">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -240,6 +228,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tCalifica__idSer__6FE99F9F">
+          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
+          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tServicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="tCalificaciones">
+              <PropertyRef Name="idServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tCalifica__idSer__71D1E811">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -457,13 +457,13 @@
         </Association>
         <Association Name="FK_tCitas_tCitasDisponibles">
           <End Role="tCitasDisponibles" Type="Self.tCitasDisponibles" Multiplicity="1" />
-          <End Role="tCitas" Type="Self.tCitas" Multiplicity="0..1" />
+          <End Role="tCitas" Type="Self.tCitas" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tCitasDisponibles">
               <PropertyRef Name="idCitaDisponible" />
             </Principal>
             <Dependent Role="tCitas">
-              <PropertyRef Name="idCita" />
+              <PropertyRef Name="idCitaDisponible" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -542,6 +542,12 @@
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="FechaEntrega" Type="date" Mode="In" />
         </Function>
+        <Function Name="ReprogramarCita" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idCita" Type="int" Mode="In" />
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+          <Parameter Name="idSede" Type="int" Mode="In" />
+          <Parameter Name="citaDisponibleNueva" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="ProyectoGraduacionModelStoreContainer">
           <EntitySet Name="tArchivosPaciente" EntityType="Self.tArchivosPaciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tCalificaciones" EntityType="Self.tCalificaciones" Schema="dbo" store:Type="Tables" />
@@ -561,27 +567,27 @@
           <EntitySet Name="tSeguimiento" EntityType="Self.tSeguimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSeguimientoProducto" EntityType="Self.tSeguimientoProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tServicio" EntityType="Self.tServicio" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__tCalifica__idPac__6B24EA82" Association="Self.FK__tCalifica__idPac__6B24EA82">
+          <AssociationSet Name="FK__tCalifica__idPac__5FB337D6" Association="Self.FK__tCalifica__idPac__5FB337D6">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__6C190EBB" Association="Self.FK__tCalifica__idPac__6C190EBB">
+          <AssociationSet Name="FK__tCalifica__idPac__6EF57B66" Association="Self.FK__tCalifica__idPac__6EF57B66">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__6D0D32F4" Association="Self.FK__tCalifica__idPac__6D0D32F4">
+          <AssociationSet Name="FK__tCalifica__idPac__70DDC3D8" Association="Self.FK__tCalifica__idPac__70DDC3D8">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__6E01572D" Association="Self.FK__tCalifica__idSer__6E01572D">
-            <End Role="tServicio" EntitySet="tServicio" />
-            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__6EF57B66" Association="Self.FK__tCalifica__idSer__6EF57B66">
+          <AssociationSet Name="FK__tCalifica__idSer__60A75C0F" Association="Self.FK__tCalifica__idSer__60A75C0F">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
           <AssociationSet Name="FK__tCalifica__idSer__6FE99F9F" Association="Self.FK__tCalifica__idSer__6FE99F9F">
+            <End Role="tServicio" EntitySet="tServicio" />
+            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tCalifica__idSer__71D1E811" Association="Self.FK__tCalifica__idSer__71D1E811">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
@@ -658,8 +664,7 @@
             <End Role="tCitas" EntitySet="tCitas" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoGraduacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -685,12 +690,12 @@
           <Property Name="Opinion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idServicio" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="tPacientes" Relationship="Self.FK__tCalifica__idPac__6B24EA82" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tPacientes1" Relationship="Self.FK__tCalifica__idPac__6C190EBB" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tPacientes2" Relationship="Self.FK__tCalifica__idPac__6D0D32F4" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tServicio" Relationship="Self.FK__tCalifica__idSer__6E01572D" FromRole="tCalificaciones" ToRole="tServicio" />
-          <NavigationProperty Name="tServicio1" Relationship="Self.FK__tCalifica__idSer__6EF57B66" FromRole="tCalificaciones" ToRole="tServicio" />
-          <NavigationProperty Name="tServicio2" Relationship="Self.FK__tCalifica__idSer__6FE99F9F" FromRole="tCalificaciones" ToRole="tServicio" />
+          <NavigationProperty Name="tPacientes" Relationship="Self.FK__tCalifica__idPac__5FB337D6" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tPacientes1" Relationship="Self.FK__tCalifica__idPac__6EF57B66" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tPacientes2" Relationship="Self.FK__tCalifica__idPac__70DDC3D8" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tServicio" Relationship="Self.FK__tCalifica__idSer__60A75C0F" FromRole="tCalificaciones" ToRole="tServicio" />
+          <NavigationProperty Name="tServicio1" Relationship="Self.FK__tCalifica__idSer__6FE99F9F" FromRole="tCalificaciones" ToRole="tServicio" />
+          <NavigationProperty Name="tServicio2" Relationship="Self.FK__tCalifica__idSer__71D1E811" FromRole="tCalificaciones" ToRole="tServicio" />
         </EntityType>
         <EntityType Name="tCitas">
           <Key>
@@ -704,6 +709,7 @@
           <NavigationProperty Name="tSede" Relationship="Self.FK_CitaSede" FromRole="tCitas" ToRole="tSede" />
           <NavigationProperty Name="tProductosTratamiento" Relationship="Self.FK_CitaTratamiento" FromRole="tCitas" ToRole="tProductosTratamiento" />
           <NavigationProperty Name="tCitasDisponibles" Relationship="Self.FK_tCitas_tCitasDisponibles" FromRole="tCitas" ToRole="tCitasDisponibles" />
+          <NavigationProperty Name="tCitasDisponibles1" Relationship="ProyectoGraduacionModel.FK_tCitas_tCitasDisponibles1" FromRole="tCitas" ToRole="tCitasDisponibles" />
         </EntityType>
         <EntityType Name="tCitasDisponibles">
           <Key>
@@ -713,6 +719,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tCitas" Relationship="Self.FK_tCitas_tCitasDisponibles" FromRole="tCitasDisponibles" ToRole="tCitas" />
+          <NavigationProperty Name="tCitas1" Relationship="ProyectoGraduacionModel.FK_tCitas_tCitasDisponibles1" FromRole="tCitasDisponibles" ToRole="tCitas" />
         </EntityType>
         <EntityType Name="tHistorial">
           <Key>
@@ -795,9 +802,9 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdRol" Type="Byte" Nullable="false" />
           <NavigationProperty Name="tArchivosPaciente" Relationship="Self.FK_ArchivoPaciente" FromRole="tPacientes" ToRole="tArchivosPaciente" />
-          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idPac__6B24EA82" FromRole="tPacientes" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idPac__6C190EBB" FromRole="tPacientes" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idPac__6D0D32F4" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idPac__5FB337D6" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idPac__6EF57B66" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idPac__70DDC3D8" FromRole="tPacientes" ToRole="tCalificaciones" />
           <NavigationProperty Name="tCitas" Relationship="Self.FK_CitaPaciente" FromRole="tPacientes" ToRole="tCitas" />
           <NavigationProperty Name="tHistorial" Relationship="Self.FK_HistorialPaciente" FromRole="tPacientes" ToRole="tHistorial" />
           <NavigationProperty Name="tSeguimiento" Relationship="Self.FK_idPaciente" FromRole="tPacientes" ToRole="tSeguimiento" />
@@ -881,9 +888,9 @@
           </Key>
           <Property Name="idServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idSer__6E01572D" FromRole="tServicio" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idSer__6EF57B66" FromRole="tServicio" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idSer__6FE99F9F" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idSer__60A75C0F" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idSer__6FE99F9F" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idSer__71D1E811" FromRole="tServicio" ToRole="tCalificaciones" />
         </EntityType>
         <Association Name="FK_ArchivoPaciente">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
@@ -897,7 +904,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__6B24EA82">
+        <Association Name="FK__tCalifica__idPac__5FB337D6">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -909,7 +916,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__6C190EBB">
+        <Association Name="FK__tCalifica__idPac__6EF57B66">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -921,7 +928,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__6D0D32F4">
+        <Association Name="FK__tCalifica__idPac__70DDC3D8">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -933,19 +940,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__6E01572D">
-          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
-          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tServicio">
-              <PropertyRef Name="idServicio" />
-            </Principal>
-            <Dependent Role="tCalificaciones">
-              <PropertyRef Name="idServicio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tCalifica__idSer__6EF57B66">
+        <Association Name="FK__tCalifica__idSer__60A75C0F">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -958,6 +953,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tCalifica__idSer__6FE99F9F">
+          <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
+          <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tServicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="tCalificaciones">
+              <PropertyRef Name="idServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tCalifica__idSer__71D1E811">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1196,27 +1203,27 @@
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__6B24EA82" Association="Self.FK__tCalifica__idPac__6B24EA82">
+          <AssociationSet Name="FK__tCalifica__idPac__5FB337D6" Association="Self.FK__tCalifica__idPac__5FB337D6">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__6C190EBB" Association="Self.FK__tCalifica__idPac__6C190EBB">
+          <AssociationSet Name="FK__tCalifica__idPac__6EF57B66" Association="Self.FK__tCalifica__idPac__6EF57B66">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__6D0D32F4" Association="Self.FK__tCalifica__idPac__6D0D32F4">
+          <AssociationSet Name="FK__tCalifica__idPac__70DDC3D8" Association="Self.FK__tCalifica__idPac__70DDC3D8">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__6E01572D" Association="Self.FK__tCalifica__idSer__6E01572D">
-            <End Role="tServicio" EntitySet="tServicio" />
-            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__6EF57B66" Association="Self.FK__tCalifica__idSer__6EF57B66">
+          <AssociationSet Name="FK__tCalifica__idSer__60A75C0F" Association="Self.FK__tCalifica__idSer__60A75C0F">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
           <AssociationSet Name="FK__tCalifica__idSer__6FE99F9F" Association="Self.FK__tCalifica__idSer__6FE99F9F">
+            <End Role="tServicio" EntitySet="tServicio" />
+            <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tCalifica__idSer__71D1E811" Association="Self.FK__tCalifica__idSer__71D1E811">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
@@ -1307,13 +1314,13 @@
             <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CambiarEstadoPaciente">
-            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+          <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CambiarEstadoSeguimiento">
-            <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
+          <Parameter Name="idSeguimiento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarProducto">
-            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GenerarCalificacion">
             <Parameter Name="Calificaciones" Mode="In" Type="Int32" />
@@ -1363,6 +1370,16 @@
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="FechaEntrega" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <AssociationSet Name="FK_tCitas_tCitasDisponibles1" Association="ProyectoGraduacionModel.FK_tCitas_tCitasDisponibles1">
+            <End Role="tCitasDisponibles" EntitySet="tCitasDisponibles" />
+            <End Role="tCitas" EntitySet="tCitas" />
+          </AssociationSet>
+          <FunctionImport Name="ReprogramarCita">
+            <Parameter Name="idCita" Mode="In" Type="Int32" />
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+            <Parameter Name="idSede" Mode="In" Type="Int32" />
+            <Parameter Name="citaDisponibleNueva" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IniciarSesion_Result">
           <Property Type="Int32" Name="idPaciente" Nullable="false" />
@@ -1372,6 +1389,18 @@
           <Property Type="Boolean" Name="Estado" Nullable="false" />
           <Property Type="Byte" Name="IdRol" Nullable="false" />
         </ComplexType>
+        <Association Name="FK_tCitas_tCitasDisponibles1">
+          <End Type="ProyectoGraduacionModel.tCitasDisponibles" Role="tCitasDisponibles" Multiplicity="1" />
+          <End Type="ProyectoGraduacionModel.tCitas" Role="tCitas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCitasDisponibles">
+              <PropertyRef Name="idCitaDisponible" />
+            </Principal>
+            <Dependent Role="tCitas">
+              <PropertyRef Name="idCitaDisponible" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1596,6 +1625,7 @@
           <FunctionImportMapping FunctionImportName="RegistrarPaciente" FunctionName="ProyectoGraduacionModel.Store.RegistrarPaciente" />
           <FunctionImportMapping FunctionImportName="RegistrarProveedor" FunctionName="ProyectoGraduacionModel.Store.RegistrarProveedor" />
           <FunctionImportMapping FunctionImportName="RegistrarSeguimiento" FunctionName="ProyectoGraduacionModel.Store.RegistrarSeguimiento" />
+          <FunctionImportMapping FunctionImportName="ReprogramarCita" FunctionName="ProyectoGraduacionModel.Store.ReprogramarCita" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
