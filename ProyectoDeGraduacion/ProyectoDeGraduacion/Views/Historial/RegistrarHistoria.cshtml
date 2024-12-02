@@ -6,6 +6,12 @@
 <h2 class="historial-header">Nuevo Registro para el paciente</h2>
 
 <div class="historial-section">
+    @if (ViewBag.msj != null)
+    {
+        <div class="alert alert-info" role="alert" style="text-align:center">
+            @ViewBag.msj
+        </div>
+    }
     @using (Html.BeginForm("RegistrarHistoria", "Historial", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
         <div class="form-group">

@@ -4,6 +4,7 @@ namespace ProyectoDeGraduacion.Entidades
 {
     public class ProductoPendiente
     {
+        public int idOrdenCompra { get; set; }
         public int IdProducto { get; set; }
         public string NombreProducto { get; set; }
         public int CantidadSolicitada { get; set; }
@@ -11,3 +12,4 @@ namespace ProyectoDeGraduacion.Entidades
         public DateTime FechaSolicitud { get; set; }
     }
 }
+

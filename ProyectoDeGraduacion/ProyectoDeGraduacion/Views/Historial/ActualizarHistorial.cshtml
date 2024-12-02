@@ -6,6 +6,12 @@
 <h2 class="historial-header">Modificar Historia Clínica</h2>
 
 <div class="historial-section">
+    @if (ViewBag.msj != null)
+    {
+        <div class="alert alert-info" role="alert" style="text-align:center">
+            @ViewBag.msj
+        </div>
+    }
     @using (Html.BeginForm("ActualizarHistorial", "Historial", FormMethod.Post))
     {
         @Html.HiddenFor(m => m.idHistorial)

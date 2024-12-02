@@ -46,31 +46,22 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
 
-            // Obtén la extensión del archivo
             string extension = Path.GetExtension(Archivo.FileName);
 
-            // Genera la fecha actual en el formato deseado
             string fechaCreacion = DateTime.Now.ToString("yyyyMMdd");
 
-            // Genera un identificador único utilizando un número aleatorio
             string idUnico = new Random().Next(10000, 99999).ToString();
 
-            // Crea el nombre del archivo con el formato deseado
             string nombreArchivo = $"HistorialMedico_{fechaCreacion}_{idUnico}{extension}";
 
-            // Define la ruta completa donde se guardará el archivo
             string ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ArchivosHistorial", nombreArchivo);
 
-            // Guarda el archivo en el servidor
             Archivo.SaveAs(ruta);
 
-            // Almacena la ruta relativa en la propiedad del historial
             hist.Archivo = "/ArchivosHistorial/" + nombreArchivo;
 
-            // Llama al método para registrar la información del historial
             var consecutivo = historialM.RegistrarHistoria(hist);
 
-            // Verifica si se registró correctamente
             if (consecutivo > 0)
             {
                 return RedirectToAction("HistorialesAdmin", "Historial");

@@ -144,6 +144,7 @@ namespace ProyectoDeGraduacion.Controllers
                                         .Where(o => o.EstadoOrden == "Pendiente")
                                         .Select(o => new ProductoPendiente
                                         {
+                                            idOrdenCompra = o.idOrdenCompra, // Usar IdOrdenCompra
                                             IdProducto = o.idProducto,
                                             NombreProducto = o.NombreProducto,
                                             CantidadSolicitada = o.CantidadTotalSolicitada,
@@ -155,30 +156,57 @@ namespace ProyectoDeGraduacion.Controllers
             return View(productosPendientes);
         }
 
+
         [HttpPost]
         public JsonResult ActualizarEstadoOrden(int idOrdenCompra)
         {
-            var orden = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == idOrdenCompra);
+            try
+            {
+                // Buscar la orden en la base de datos
+                var orden = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == idOrdenCompra);
 
-            if (orden != null)
-            {
-                orden.EstadoOrden = "Terminado";
-                db.SaveChanges();
-                return Json(new { success = true, message = "Recepción confirmada." });
+                if (orden == null)
+                {
+                    // Si no se encuentra la orden, devolver un error
+                    return Json(new { success = false, message = "No se encontró la orden de compra." });
+                }
+
+                // Verificar el estado actual de la orden
+                if (orden.EstadoOrden == "Pendiente")
+                {
+                    // Cambiar el estado a "Terminado"
+                    orden.EstadoOrden = "Terminado";
+                    db.SaveChanges();
+
+                    // Devolver éxito junto con el ID de la orden
+                    return Json(new { success = true, message = "Recepción confirmada correctamente.", idOrdenCompra = idOrdenCompra });
+                }
+
+                if (orden.EstadoOrden == "Terminado")
+                {
+                    // Si ya está terminado, devolver un mensaje informativo
+                    return Json(new { success = false, message = "La orden ya fue marcada como 'Terminado' previamente." });
+                }
+
+                // Manejar otros estados si fuera necesario
+                return Json(new { success = false, message = $"Estado inválido: {orden.EstadoOrden}." });
             }
-            else
+            catch (Exception ex)
             {
-                return Json(new { success = false, message = "No se encontró la orden de compra." });
+                // Manejo de errores inesperados
+                return Json(new { success = false, message = $"Error inesperado: {ex.Message}" });
             }
         }
 
 
+
+
         [HttpPost]
-        public ActionResult RegistrarDiscrepancia(int idProducto, string mensajeDiscrepancia)
+        public ActionResult RegistrarDiscrepancia(int idOrdenCompra, string mensajeDiscrepancia)
         {
             try
             {
-                var ordenCompra = db.tOrdenesCompra.FirstOrDefault(o => o.idProducto == idProducto && o.EstadoOrden == "Pendiente");
+                var ordenCompra = db.tOrdenesCompra.FirstOrDefault(o => o.idOrdenCompra == idOrdenCompra);
 
                 if (ordenCompra == null)
                 {
@@ -186,7 +214,8 @@ namespace ProyectoDeGraduacion.Controllers
                     return RedirectToAction("ConfirmarRecepcion");
                 }
 
-                var proveedor = db.tProveedores.FirstOrDefault(p => p.idProveedor == ordenCompra.idProveedor);
+                var proveedor = db.tProveedores.SingleOrDefault(p => p.idProveedor == ordenCompra.idProveedor);
+
 
                 if (proveedor == null)
                 {
