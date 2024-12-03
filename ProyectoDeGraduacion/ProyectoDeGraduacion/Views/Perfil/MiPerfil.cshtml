@@ -19,7 +19,7 @@
             </div>
         }
 
-        @using (Html.BeginForm("ActualizarPaciente", "Perfil", FormMethod.Post))
+        @using (Html.BeginForm("ActualizarPaciente", "Perfil", FormMethod.Post, new { @id = "perfilForm" }))
         {
             @Html.HiddenFor(m => m.idPaciente)
 
@@ -30,6 +30,7 @@
                     {
                         @class = "form-control",
                         @placeholder = "Identificación",
+                        @id = "Cedula",
                         onkeyup = "ConsultarIdentificacion();"
                     })
                     <div class="input-group-append">
@@ -48,7 +49,8 @@
                     {
                         @class = "form-control",
                         @placeholder = "Nombre",
-                        @readonly = "readonly"
+                        @readonly = "readonly",
+                        @id = "Nombre"
                     })
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -66,7 +68,8 @@
                     {
                         @class = "form-control",
                         @placeholder = "Correo Electrónico",
-                        @type = "email"
+                        @type = "email",
+                        @id = "Correo"
                     })
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -89,47 +92,80 @@
     </div>
 </div>
 
-<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<!-- Carga de jQuery y SweetAlert -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/root/funciones/Usuario.js"></script>
+
 <script>
-$(document).ready(function () {
-    $(document).on("click", ".btn-eliminar", function () {
+    $(document).ready(function () {
+        // Validación de campos vacíos
+        $("#perfilForm").on("submit", function (event) {
+            const cedula = $("#Cedula").val().trim();
+            const nombre = $("#Nombre").val().trim();
+            const correo = $("#Correo").val().trim();
 
-        var usuarioId = $(this).attr('data-id');
-
-        Swal.fire({
-
-            title: '¿Deseas eliminar este usuario?',
-            text: "Esta acción no se puede deshacer.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '@Url.Action("EliminarUsuario", "Perfil")',
-                    type: 'POST',
-                    data: { idPaciente: usuarioId },
-                    success: function (response) {
-                        Swal.fire(
-                            'Eliminado',
-                            'El usuario ha sido eliminado.',
-                            'success'
-                        ).then(function () {
-                            location.reload();
-                        });
-                    },
-                    error: function () {
-                        Swal.fire(
-                            'Error',
-                            'No se pudo eliminar el usuario.',
-                            'error'
-                        );
-                    }
-                });
+            if (!cedula) {
+                event.preventDefault();
+                Swal.fire("Error", "Por favor, ingresa la cédula del usuario.", "error");
+                return;
+            }
+            if (!nombre) {
+                event.preventDefault();
+                Swal.fire("Error", "Por favor, ingresa el nombre del usuario.", "error");
+                return;
+            }
+            if (!correo) {
+                event.preventDefault();
+                Swal.fire("Error", "Por favor, ingresa un correo electrónico válido.", "error");
+                return;
             }
         });
+
+        // Eliminación con confirmación
+        $(document).on("click", ".btn-eliminar", function () {
+            const usuarioId = $(this).data("id");
+
+            Swal.fire({
+                title: '¿Deseas eliminar este usuario?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("EliminarUsuario", "Perfil")',
+                        type: 'POST',
+                        data: { idPaciente: usuarioId },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Eliminado',
+                                    response.message,
+                                    'success'
+                                ).then(function () {
+                                    window.location.href = '@Url.Action("Login", "Login")'; // Redirigir después de eliminar
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function () {
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al intentar eliminar el usuario.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
     });
-});
 </script>

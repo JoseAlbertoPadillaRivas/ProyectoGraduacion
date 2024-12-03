@@ -34,21 +34,21 @@ namespace ProyectoDeGraduacion.Controllers
 
         [FiltroSeguridad]
         [HttpPost]
-        public ActionResult EliminarUsuario(Pacientes paciente)
+        public JsonResult EliminarUsuario(int idPaciente)
         {
-            var respuesta = pacienteM.EliminarUsuario(paciente);
+            var respuesta = pacienteM.EliminarUsuario(idPaciente);
 
             if (respuesta)
             {
-                Session.Clear();
-                return RedirectToAction("Login", "Login");
+                // Devuelve una respuesta JSON para que el cliente maneje el redireccionamiento
+                return Json(new { success = true, message = "El usuario ha sido eliminado correctamente." });
             }
             else
             {
-                ViewBag.msj = "No se ha eliminado el usuario";
-                return View();
+                return Json(new { success = false, message = "No se pudo eliminar el usuario." });
             }
         }
+
 
     }
 }

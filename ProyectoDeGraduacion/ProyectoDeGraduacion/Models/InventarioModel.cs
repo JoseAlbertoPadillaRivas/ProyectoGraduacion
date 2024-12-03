@@ -49,13 +49,27 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-        // Método para eliminar un producto del inventario usando LINQ
+        public bool VerificarRelacionOrden(int idProducto)
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                // Verificar si hay órdenes relacionadas en estado "Pendiente"
+                return context.tOrdenesCompra.Any(o => o.EstadoOrden == "Pendiente");
+            }
+        }
+
         public bool EliminarProducto(int idProducto)
         {
             using (var context = new ProyectoGraduacionEntities())
             {
-                var producto = context.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
+                // Validar si tiene órdenes relacionadas en estado "Pendiente"
+                if (VerificarRelacionOrden(idProducto))
+                {
+                    return false; // No eliminar si hay órdenes en estado "Pendiente"
+                }
 
+                // Eliminar el producto si no hay restricciones
+                var producto = context.tInventario.FirstOrDefault(p => p.idProducto == idProducto);
                 if (producto != null)
                 {
                     context.tInventario.Remove(producto);
@@ -65,6 +79,10 @@ namespace ProyectoDeGraduacion.Models
                 return false;
             }
         }
+
+
+
+
 
         // Método para actualizar un producto existente en el inventario usando LINQ
         public bool ActualizarProducto(Inventario inventario)

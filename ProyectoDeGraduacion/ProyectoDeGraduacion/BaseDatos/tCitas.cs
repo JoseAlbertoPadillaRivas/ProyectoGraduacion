@@ -30,6 +30,5 @@ namespace ProyectoDeGraduacion.BaseDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tProductosTratamiento> tProductosTratamiento { get; set; }
         public virtual tCitasDisponibles tCitasDisponibles { get; set; }
-        public virtual tCitasDisponibles tCitasDisponibles1 { get; set; }
     }
 }

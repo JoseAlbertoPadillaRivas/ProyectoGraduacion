@@ -68,7 +68,7 @@ namespace ProyectoDeGraduacion.Controllers
             }
             else
             {
-                ViewBag.msj = "No se ha podido registrar la información del producto";
+                ViewBag.historial = "No se ha podido registrar la información del producto";
                 return View();
             }
         }

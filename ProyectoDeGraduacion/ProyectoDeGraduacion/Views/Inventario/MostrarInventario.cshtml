@@ -13,10 +13,10 @@
 <div class="row">
     <div class="col-12">
 
-        @if (ViewBag.msj != null)
+        @if (ViewBag.ErrorEliminar != null)
         {
             <div class="alert alert-info" role="alert" style="text-align:center">
-                @ViewBag.msj
+                @ViewBag.ErrorEliminar
             </div>
         }
 
@@ -89,11 +89,11 @@
             var producto = $(this).attr('data-name');
 
             Swal.fire({
-                title: '¿Cambiar eliminar el producto?',
+                title: '¿Deseas eliminar este producto?',
                 text: producto,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Cambiar',
+                confirmButtonText: 'Sí, eliminar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -102,18 +102,26 @@
                         type: 'POST',
                         data: { idProducto: productoID },
                         success: function (response) {
-                            Swal.fire(
-                                'Producto Eliminado',
-                                'El producto ha sido eliminado',
-                                'success'
-                            ).then(function () {
-                                location.reload();
-                            });
+                            if (response.success) {
+                                Swal.fire(
+                                    'Producto Eliminado',
+                                    response.message,
+                                    'success'
+                                ).then(function () {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Operación Fallida',
+                                    response.message,
+                                    'error'
+                                );
+                            }
                         },
                         error: function () {
                             Swal.fire(
                                 'Error',
-                                'No se pudo eliminar el producto',
+                                'No se pudo procesar la solicitud.',
                                 'error'
                             );
                         }
@@ -123,3 +131,6 @@
         });
     });
 </script>
+
+
+

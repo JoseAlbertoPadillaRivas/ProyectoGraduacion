@@ -73,16 +73,20 @@ namespace ProyectoDeGraduacion.Models
             return (rowsAffected > 0 ? true : false);
         }
 
-        public bool EliminarUsuario(Pacientes paciente)
+        public bool EliminarUsuario(int idPaciente)
         {
-            var rowsAffected = 0;
-
             using (var context = new ProyectoGraduacionEntities())
             {
-                //rowsAffected = context.EliminarUsuario(paciente.idPaciente);
-            }
+                var paciente = context.tPacientes.FirstOrDefault(c => c.idPaciente == idPaciente);
 
-            return (rowsAffected > 0 ? true : false);
+                if (paciente != null)
+                {
+                    context.tPacientes.Remove(paciente);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }

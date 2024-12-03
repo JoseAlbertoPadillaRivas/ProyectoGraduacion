@@ -56,7 +56,8 @@ namespace ProyectoDeGraduacion.Controllers
         [HttpGet]
         public ActionResult MisProductos()
         {
-            throw new NotImplementedException("Este método depende de un SP que aún no está disponible.");
+            var respuesta = seguimientoM.ConsultarMisProductos(int.Parse(Session["idUsuario"].ToString()));
+            return View(respuesta);
         }
 
         // Cambiar estado del seguimiento de un producto

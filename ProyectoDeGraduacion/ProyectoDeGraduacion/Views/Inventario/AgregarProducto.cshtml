@@ -1,6 +1,5 @@
 ﻿@model ProyectoDeGraduacion.Entidades.Inventario
 
-
 @{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
     ViewBag.Title = "Registro";
@@ -17,7 +16,7 @@
             </div>
         }
 
-        @using (Html.BeginForm("AgregarProducto", "Inventario"))
+        @using (Html.BeginForm("AgregarProducto", "Inventario", FormMethod.Post, new { @id = "agregarProductoForm" }))
         {
             <div class="input-group mb-3">
                 @Html.TextBoxFor(m => m.NombreProducto, new
@@ -25,6 +24,7 @@
                     @type = "text",
                     @class = "form-control",
                     @placeholder = "Nombre",
+                    @id = "NombreProducto"
                 })
                 <div class="input-group-append">
                     <div class="input-group-text">
@@ -33,7 +33,13 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.Cantidad, new { @type = "text", @class = "form-control", @placeholder = "Cantidad" })
+                @Html.TextBoxFor(m => m.Cantidad, new
+                {
+                    @type = "text",
+                    @class = "form-control",
+                    @placeholder = "Cantidad",
+                    @id = "Cantidad"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -41,7 +47,13 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.CaducidadProducto, new { @type = "date", @class = "form-control", @placeholder = "Caducidad" })
+                @Html.TextBoxFor(m => m.CaducidadProducto, new
+                {
+                    @type = "date",
+                    @class = "form-control",
+                    @placeholder = "Caducidad",
+                    @id = "CaducidadProducto"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -49,7 +61,11 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.DropDownListFor(m => m.idProveedor, (SelectList)ViewBag.Proveedores, "Seleccione un proveedor", new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.idProveedor, (SelectList)ViewBag.Proveedores, "Seleccione un proveedor", new
+                {
+                    @class = "form-control",
+                    @id = "idProveedor"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>
@@ -69,5 +85,33 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById("agregarProductoForm").addEventListener("submit", function (event) {
+        const nombreProducto = document.getElementById("NombreProducto").value.trim();
+        const cantidad = document.getElementById("Cantidad").value.trim();
+        const caducidadProducto = document.getElementById("CaducidadProducto").value.trim();
+        const idProveedor = document.getElementById("idProveedor").value.trim();
 
-
+        if (!nombreProducto) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa el nombre del producto.", "error");
+            return;
+        }
+        if (!cantidad || isNaN(cantidad) || cantidad <= 0) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa una cantidad válida.", "error");
+            return;
+        }
+        if (!caducidadProducto) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona una fecha de caducidad.", "error");
+            return;
+        }
+        if (!idProveedor || idProveedor === "Seleccione un proveedor") {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona un proveedor.", "error");
+            return;
+        }
+    });
+</script>

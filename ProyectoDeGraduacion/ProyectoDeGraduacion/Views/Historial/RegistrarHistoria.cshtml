@@ -12,31 +12,31 @@
             @ViewBag.msj
         </div>
     }
-    @using (Html.BeginForm("RegistrarHistoria", "Historial", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("RegistrarHistoria", "Historial", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "historialForm" }))
     {
         <div class="form-group">
             @Html.Label("Paciente")
-            @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.NombrePaciente, "Seleccione un Paciente", new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.NombrePaciente, "Seleccione un Paciente", new { @class = "form-control", @id = "Paciente" })
         </div>
         <div class="form-group">
             @Html.Label("Fecha")
-            @Html.TextBoxFor(m => m.FechaConsulta, new { @type = "Date", @class = "form-control", @placeholder = "Fecha de la consulta" })
+            @Html.TextBoxFor(m => m.FechaConsulta, new { @type = "date", @class = "form-control", @placeholder = "Fecha de la consulta", @id = "FechaConsulta" })
         </div>
         <div class="form-group">
             @Html.Label("Diagnostico")
-            @Html.TextBoxFor(m => m.Diagnostico, new { @type = "text", @class = "form-control", @placeholder = "Diagnostico" })
+            @Html.TextBoxFor(m => m.Diagnostico, new { @type = "text", @class = "form-control", @placeholder = "Diagnostico", @id = "Diagnostico" })
         </div>
         <div class="form-group">
             @Html.Label("Tratamiento")
-            @Html.TextBoxFor(m => m.Tratamiento, new { @type = "text", @class = "form-control", @placeholder = "Tratamiento aplicado" })
+            @Html.TextBoxFor(m => m.Tratamiento, new { @type = "text", @class = "form-control", @placeholder = "Tratamiento aplicado", @id = "Tratamiento" })
         </div>
         <div class="form-group">
             @Html.Label("Medicacion")
-            @Html.TextBoxFor(m => m.Medicacion, new { @type = "text", @class = "form-control", @placeholder = "Medicacion aplicada" })
+            @Html.TextBoxFor(m => m.Medicacion, new { @type = "text", @class = "form-control", @placeholder = "Medicacion aplicada", @id = "Medicacion" })
         </div>
         <div class="form-group">
             @Html.Label("Observaciones")
-            @Html.TextBoxFor(m => m.Observaciones, new { @type = "text", @class = "form-control", @placeholder = "Observaciones" })
+            @Html.TextBoxFor(m => m.Observaciones, new { @type = "text", @class = "form-control", @placeholder = "Observaciones", @id = "Observaciones" })
         </div>
         @Html.Label("Archivo")
         <div class="input-group mb-3">
@@ -44,7 +44,51 @@
         </div>
 
         <div>
-            <button type="submit" class="btn btn-dark">Registrar</button>
+            <button type="submit" class="btn btn-dark" id="submitBtn">Registrar</button>
         </div>
     }
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function (e) {
+        // Validar campos antes de enviar
+        let paciente = document.getElementById("Paciente").value;
+        let fechaConsulta = document.getElementById("FechaConsulta").value;
+        let diagnostico = document.getElementById("Diagnostico").value;
+        let tratamiento = document.getElementById("Tratamiento").value;
+        let medicacion = document.getElementById("Medicacion").value;
+        let archivo = document.getElementById("Archivo").value;
+
+        if (!paciente || paciente === "Seleccione un Paciente") {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona un paciente.", "error");
+            return;
+        }
+        if (!fechaConsulta) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona una fecha de consulta.", "error");
+            return;
+        }
+        if (!diagnostico) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa un diagnóstico.", "error");
+            return;
+        }
+        if (!tratamiento) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa un tratamiento.", "error");
+            return;
+        }
+        if (!medicacion) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa una medicación.", "error");
+            return;
+        }
+        if (!archivo) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona un archivo.", "error");
+            return;
+        }
+    });
+</script>

@@ -730,7 +730,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="ArchivosHistorial\" />
     <Folder Include="Data\" />
-    <Folder Include="Views\Chatbot\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
