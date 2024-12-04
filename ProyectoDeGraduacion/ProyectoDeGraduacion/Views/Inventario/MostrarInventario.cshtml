@@ -1,4 +1,4 @@
-﻿@model List<ProyectoDeGraduacion.BaseDatos.tInventario>
+﻿@model List<ProyectoDeGraduacion.Entidades.Inventario>
 
 @{
     ViewBag.Title = "Consultar";
@@ -35,11 +35,10 @@
             <table id="tablaProductos" class="table table-striped table-bordered historial-table">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Id Producto</th>
                         <th>Nombre</th>
                         <th>Cantidad</th>
                         <th>Fecha de Caducidad</th>
-                        <th>Id Proveedor</th>
+                        <th>Proveedor</th>
                         <th>Eliminar</th>
                         <th>Actualizar</th>
                     </tr>
@@ -47,19 +46,23 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        var stockBajo = item.Cantidad < item.NivelMinimoStock;
                         <tr>
-                            <td>@item.idProducto</td>
                             <td>@item.NombreProducto</td>
-                            <td>@item.Cantidad</td>
-                            <td>@item.CaducidadProducto</td>
-                            <td>@item.idProveedor</td>
-
+                            <td style="color: @(stockBajo ? "red" : "black")">
+                                @item.Cantidad
+                                @if (stockBajo)
+                                {
+                                    <i class="fa fa-exclamation-triangle" title="Stock bajo"></i>
+                                }
+                            </td>
+                            <td>@(item.CaducidadProducto?.ToShortDateString())</td>
+                            <td>@item.NombreProveedor</td>
                             <td style="text-align:center">
                                 <button type="button" class="btn btn-primary btn-eliminar-producto" data-id="@item.idProducto" data-name="@item.NombreProducto">
                                     <i class="fa fa-share-square"></i>
                                 </button>
                             </td>
-
                             <td style="text-align:center">
                                 <a class="btn btn-primary" href="@Url.Action("ActualizarProducto","Inventario", new { idProducto = item.idProducto })">
                                     <i class="fa fa-user"></i>
@@ -68,6 +71,7 @@
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </div>

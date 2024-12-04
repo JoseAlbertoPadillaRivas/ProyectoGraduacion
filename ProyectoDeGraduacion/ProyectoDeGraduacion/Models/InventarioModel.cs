@@ -29,14 +29,27 @@ namespace ProyectoDeGraduacion.Models
         }
 
         // Método para consultar todo el inventario usando LINQ
-        public List<tInventario> ConsultarInventario()
+        public List<Inventario> ConsultarInventario()
         {
             using (var context = new ProyectoGraduacionEntities())
             {
-                return (from x in context.tInventario
-                        select x).ToList();
+                var inventario = (from inv in context.tInventario
+                                  join prov in context.tProveedores on inv.idProveedor equals prov.idProveedor
+                                  select new Inventario
+                                  {
+                                      idProducto = inv.idProducto,
+                                      NombreProducto = inv.NombreProducto,
+                                      Cantidad = inv.Cantidad,
+                                      CaducidadProducto = inv.CaducidadProducto,
+                                      idProveedor = inv.idProveedor,
+                                      NivelMinimoStock = inv.NivelMinimoStock,
+                                      NombreProveedor = prov.Empresa // Rellenamos el nombre del proveedor
+                                  }).ToList();
+                return inventario;
             }
         }
+
+
 
         // Método para consultar un producto en específico por su ID
         public tInventario ConsultarProductoID(int idProducto)
