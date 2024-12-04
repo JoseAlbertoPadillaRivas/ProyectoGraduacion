@@ -1,4 +1,4 @@
-﻿@model List<ProyectoDeGraduacion.BaseDatos.tSeguimiento>
+﻿@model List<ProyectoDeGraduacion.Entidades.Seguimiento>
 
 @{
     ViewBag.Title = "Consultar";
@@ -15,26 +15,24 @@
 
         @if (ViewBag.msj != null)
         {
-            <div class="alert alert-info" role="alert" style="text-align:center">
+            <div class="alert alert-info text-center">
                 @ViewBag.msj
             </div>
         }
-        <a class="btn btn-info" href="@Url.Action("AgregarProducto", "Seguimiento")">
+        <a class="btn btn-info mb-3" href="@Url.Action("AgregarProducto", "Seguimiento")">
             Agregar producto de pacientes
         </a>
-        <br>
-        <br>
 
         <div class="table-responsive">
             <table id="tablaProductos" class="table table-striped table-bordered historial-table">
                 <thead class="thead-dark">
                     <tr>
-                        <th>ID Seguimiento</th>
-                        <th>ID Paciente</th>
-                        <th>Nombre del producto</th>
-                        <th>Fecha de entrega</th>
+                        <th>Nombre del Paciente</th>
+                        <th>Nombre del Producto</th>
+                        <th>Fecha de Entrega</th>
                         <th>Estado</th>
-                        <th>Cambiar estado</th>
+                        <th>Comentario</th>
+                        <th>Cambiar Estado</th>
                         <th>Eliminar</th>
                         <th>Actualizar</th>
                     </tr>
@@ -43,10 +41,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.idSeguimiento</td>
-                            <td>@item.idPaciente</td>
+                            <td>@item.NombrePaciente</td> <!-- Mostramos el nombre del paciente -->
                             <td>@item.NombreProducto</td>
-                            <td>@item.FechaEntrega</td>
+                            <td>@item.FechaEntrega.ToShortDateString()</td>
                             @if (item.Estado == true)
                             {
                                 <td class="text-center">
@@ -59,21 +56,20 @@
                                     <span style="color: red;">&#x25CF;</span> Entregado <span style="color: red;">&#x25CF;</span>
                                 </td>
                             }
-                            <td style="text-align:center">
+                            <td>@item.Comentario</td> 
+                            <td class="text-center">
                                 <button type="button" class="btn btn-primary btn-cambiar-estado" data-id="@item.idSeguimiento" data-name="@item.NombreProducto">
-                                    <i class="fa fa-share-square"></i>
+                                    <i class="fa fa-exchange-alt"></i>
                                 </button>
                             </td>
-
-                            <td style="text-align:center">
-                                <button type="button" class="btn btn-primary btn-eliminar" data-id="@item.idSeguimiento" data-name="@item.NombreProducto">
-                                    <i class="fa fa-share-square"></i>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger btn-eliminar" data-id="@item.idSeguimiento" data-name="@item.NombreProducto">
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             </td>
-
-                            <td style="text-align:center">
-                                <a class="btn btn-primary" href="@Url.Action("ActualizarSeguimiento","Seguimiento", new { idSeguimiento = item.idSeguimiento })">
-                                    <i class="fa fa-user"></i>
+                            <td class="text-center">
+                                <a class="btn btn-warning" href="@Url.Action("ActualizarSeguimiento", "Seguimiento", new { idSeguimiento = item.idSeguimiento })">
+                                    <i class="fa fa-edit"></i>
                                 </a>
                             </td>
                         </tr>
@@ -89,7 +85,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
-        $("#tablaUsuarios").DataTable({
+        $("#tablaProductos").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },

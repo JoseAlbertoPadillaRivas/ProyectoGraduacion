@@ -17,25 +17,38 @@ namespace ProyectoDeGraduacion.Models
                     idPaciente = seguimiento.idPaciente,
                     NombreProducto = seguimiento.NombreProducto,
                     Estado = true,
-                    FechaEntrega = seguimiento.FechaEntrega
-
+                    FechaEntrega = seguimiento.FechaEntrega,
+                    Comentario = seguimiento.Comentario 
                 };
 
                 context.tSeguimiento.Add(nuevoProducto);
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
 
             return true;
         }
 
-        public List<tSeguimiento> ConsultarSeguimiento()
+        public List<Seguimiento> ConsultarSeguimiento()
         {
             using (var context = new ProyectoGraduacionEntities())
             {
-                return (from x in context.tSeguimiento
-                        select x).ToList();
+                var seguimiento = (from seg in context.tSeguimiento
+                                   join pac in context.tPacientes on seg.idPaciente equals pac.idPaciente
+                                   select new Seguimiento
+                                   {
+                                       idSeguimiento = seg.idSeguimiento,
+                                       idPaciente = seg.idPaciente,
+                                       NombrePaciente = pac.Nombre,
+                                       NombreProducto = seg.NombreProducto,
+                                       FechaEntrega = seg.FechaEntrega,
+                                       Estado = seg.Estado,
+                                       Comentario = seg.Comentario
+                                   }).ToList();
+
+                return seguimiento;
             }
         }
+
 
         public tSeguimiento ConsultarSeguimientoID(int idSeguimiento)
         {
@@ -47,13 +60,24 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-        public List<tSeguimiento> ConsultarMisProductos(int idPaciente)
+        public List<Seguimiento> ConsultarMisProductos(int idPaciente)
         {
             using (var context = new ProyectoGraduacionEntities())
             {
-                return (from x in context.tSeguimiento
-                        where x.idPaciente == idPaciente
-                        select x).ToList();
+                var datos = (from x in context.tSeguimiento
+                             where x.idPaciente == idPaciente
+                             select new Seguimiento
+                             {
+                                 idSeguimiento = x.idSeguimiento,
+                                 idPaciente = x.idPaciente,
+                                 NombrePaciente = x.tPacientes.Nombre,
+                                 NombreProducto = x.NombreProducto,
+                                 FechaEntrega = x.FechaEntrega,
+                                 Estado = x.Estado,
+                                 Comentario = x.Comentario
+                             }).ToList();
+
+                return datos;
             }
         }
 
@@ -79,13 +103,14 @@ namespace ProyectoDeGraduacion.Models
             {
                 var actualizarSeguimiento = context.tSeguimiento.FirstOrDefault(p => p.idSeguimiento == seguimiento.idSeguimiento);
 
-                if (seguimiento != null)
+                if (actualizarSeguimiento != null)
                 {
                     actualizarSeguimiento.NombreProducto = seguimiento.NombreProducto;
-                    actualizarSeguimiento.idPaciente= seguimiento.idPaciente;
+                    actualizarSeguimiento.idPaciente = seguimiento.idPaciente;
                     actualizarSeguimiento.FechaEntrega = seguimiento.FechaEntrega;
+                    actualizarSeguimiento.Comentario = seguimiento.Comentario; 
 
-                    context.SaveChanges(); 
+                    context.SaveChanges();
                     return true;
                 }
                 return false;

@@ -19,6 +19,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         public string NombreProducto { get; set; }
         public bool Estado { get; set; }
         public System.DateTime FechaEntrega { get; set; }
+        public string Comentario { get; set; }
     
         public virtual tPacientes tPacientes { get; set; }
     }

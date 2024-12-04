@@ -2,72 +2,72 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
-    ViewBag.Title = "Registro";
+    ViewBag.Title = "Agregar Producto de Pacientes";
 }
 
-<div class="card">
-    <div class="card-body register-card-body">
-        <p class="login-box-msg">Agregar productos de pacientes</p>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Agregar Producto para Seguimiento</h3>
+        </div>
+        <div class="card-body">
+            @if (ViewBag.msj != null)
+            {
+                <div class="alert alert-info text-center">
+                    @ViewBag.msj
+                </div>
+            }
 
-        @if (ViewBag.msj != null)
-        {
-            <div class="alert alert-info" role="alert" style="text-align:center">
-                @ViewBag.msj
-            </div>
-        }
+            <form method="post" action="@Url.Action("AgregarProducto", "Seguimiento")" id="seguimientoForm">
+                <div class="form-group">
+                    <label for="idPaciente" class="font-weight-bold">Seleccione un Paciente</label>
+                    @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.Pacientes, "Seleccione un paciente", new
+                    {
+                        @class = "form-control",
+                        @id = "idPaciente"
+                    })
+                </div>
 
-        @using (Html.BeginForm("AgregarProducto", "Seguimiento", FormMethod.Post, new { @id = "seguimientoForm" }))
-        {
-            <div class="input-group mb-3">
-                @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.Pacientes, "Seleccione un paciente", new
-                {
-                    @class = "form-control",
-                    @id = "idPaciente"
-                })
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-user"></span>
-                    </div>
+                <div class="form-group">
+                    <label for="NombreProducto" class="font-weight-bold">Nombre del Producto</label>
+                    @Html.TextBoxFor(m => m.NombreProducto, new
+                    {
+                        @type = "text",
+                        @class = "form-control",
+                        @placeholder = "Ingrese el nombre del producto",
+                        @id = "NombreProducto"
+                    })
                 </div>
-            </div>
-            <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.NombreProducto, new
-                {
-                    @type = "text",
-                    @class = "form-control",
-                    @placeholder = "Nombre del producto",
-                    @id = "NombreProducto"
-                })
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-envelope"></span>
-                    </div>
+
+                <div class="form-group">
+                    <label for="FechaEntrega" class="font-weight-bold">Fecha de Entrega</label>
+                    @Html.TextBoxFor(m => m.FechaEntrega, new
+                    {
+                        @type = "date",
+                        @class = "form-control",
+                        @placeholder = "Seleccione la fecha de entrega",
+                        @id = "FechaEntrega"
+                    })
                 </div>
-            </div>
-            <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.FechaEntrega, new
-                {
-                    @type = "date",
-                    @class = "form-control",
-                    @placeholder = "Fecha de entrega",
-                    @id = "FechaEntrega"
-                })
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                    </div>
+
+                <div class="form-group">
+                    <label for="Comentario" class="font-weight-bold">Comentario</label>
+                    @Html.TextAreaFor(m => m.Comentario, new
+                    {
+                        @class = "form-control",
+                        @placeholder = "Agregue un comentario (opcional)",
+                        @rows = 3
+                    })
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
+
+                <hr class="my-4">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg px-5">
+                        <i class="fas fa-save"></i> Registrar Producto
+                    </button>
                 </div>
-                <div class="col-6">
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success btn-block">Registrar</button>
-                    </div>
-                </div>
-            </div>
-        }
+            </form>
+        </div>
     </div>
 </div>
 

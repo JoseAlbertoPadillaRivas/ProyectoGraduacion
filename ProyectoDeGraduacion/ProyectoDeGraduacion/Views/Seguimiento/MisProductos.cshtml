@@ -1,4 +1,4 @@
-﻿@model List<ProyectoDeGraduacion.BaseDatos.tSeguimiento>
+﻿@model List<ProyectoDeGraduacion.Entidades.Seguimiento>
 
 @{
     ViewBag.Title = "Consultar";
@@ -7,7 +7,7 @@
 
 <div class="container mt-4">
     <h2 class="text-center">Gestión de Seguimiento de Productos</h2>
-    <p class="text-center">Supervisa el estado de tus productos </p>
+    <p class="text-center">Supervisa el estado de tus productos</p>
 </div>
 
 <div class="row">
@@ -15,7 +15,7 @@
 
         @if (ViewBag.msj != null)
         {
-            <div class="alert alert-info" role="alert" style="text-align:center">
+            <div class="alert alert-info text-center">
                 @ViewBag.msj
             </div>
         }
@@ -24,21 +24,18 @@
             <table id="tablaProductos" class="table table-striped table-bordered historial-table">
                 <thead class="thead-dark">
                     <tr>
-                        <th>ID Seguimiento</th>
-                        <th>ID Paciente</th>
-                        <th>Nombre del producto</th>
-                        <th>Fecha de entrega</th>
+                        <th>Nombre del Producto</th>
+                        <th>Fecha de Entrega</th>
                         <th>Estado</th>
+                        <th>Comentario</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.idSeguimiento</td>
-                            <td>@item.idPaciente</td>
                             <td>@item.NombreProducto</td>
-                            <td>@item.FechaEntrega</td>
+                            <td>@item.FechaEntrega.ToShortDateString()</td>
                             @if (item.Estado == true)
                             {
                                 <td class="text-center">
@@ -51,6 +48,7 @@
                                     <span style="color: red;">&#x25CF;</span> Entregado <span style="color: red;">&#x25CF;</span>
                                 </td>
                             }
+                            <td>@item.Comentario</td> 
                         </tr>
                     }
                 </tbody>
