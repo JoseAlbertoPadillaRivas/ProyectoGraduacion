@@ -55,18 +55,20 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarUsuario(Pacientes paciente)
+        public JsonResult EliminarUsuario(int idPaciente)
         {
-            var respuesta = pacienteM.EliminarUsuario(paciente);
+            var respuesta = pacienteM.EliminarUsuario(idPaciente);
 
             if (respuesta)
-                return RedirectToAction("ConsultarPacientes", "Pacientes");
+            {
+                return Json(new { success = true, message = "El usuario ha sido eliminado correctamente." });
+            }
             else
             {
-                ViewBag.msj = "No se ha eliminado el usuario";
-                return View();
+                return Json(new { success = false, message = "No se pudo eliminar el usuario." });
             }
         }
+
 
 
     }

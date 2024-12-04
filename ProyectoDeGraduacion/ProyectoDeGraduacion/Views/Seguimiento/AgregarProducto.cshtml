@@ -1,6 +1,5 @@
 ﻿@model ProyectoDeGraduacion.Entidades.Seguimiento
 
-
 @{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
     ViewBag.Title = "Registro";
@@ -17,10 +16,14 @@
             </div>
         }
 
-        @using (Html.BeginForm("AgregarProducto", "Seguimiento"))
+        @using (Html.BeginForm("AgregarProducto", "Seguimiento", FormMethod.Post, new { @id = "seguimientoForm" }))
         {
             <div class="input-group mb-3">
-                @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.Pacientes, "Seleccione un paciente", new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.idPaciente, (SelectList)ViewBag.Pacientes, "Seleccione un paciente", new
+                {
+                    @class = "form-control",
+                    @id = "idPaciente"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>
@@ -28,7 +31,13 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.NombreProducto, new { @type = "text", @class = "form-control", @placeholder = "Nombre del producto" })
+                @Html.TextBoxFor(m => m.NombreProducto, new
+                {
+                    @type = "text",
+                    @class = "form-control",
+                    @placeholder = "Nombre del producto",
+                    @id = "NombreProducto"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -36,7 +45,13 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.FechaEntrega, new { @type = "date", @class = "form-control", @placeholder = "Fecha de entrega" })
+                @Html.TextBoxFor(m => m.FechaEntrega, new
+                {
+                    @type = "date",
+                    @class = "form-control",
+                    @placeholder = "Fecha de entrega",
+                    @id = "FechaEntrega"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -56,3 +71,27 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById("seguimientoForm").addEventListener("submit", function (event) {
+        const idPaciente = document.getElementById("idPaciente").value.trim();
+        const nombreProducto = document.getElementById("NombreProducto").value.trim();
+        const fechaEntrega = document.getElementById("FechaEntrega").value.trim();
+
+        if (!idPaciente || idPaciente === "Seleccione un paciente") {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona un paciente.", "error");
+            return;
+        }
+        if (!nombreProducto) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa el nombre del producto.", "error");
+            return;
+        }
+        if (!fechaEntrega) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona una fecha de entrega.", "error");
+            return;
+        }
+    });
+</script>

@@ -84,9 +84,8 @@ namespace ProyectoDeGraduacion.Models
                     actualizarSeguimiento.NombreProducto = seguimiento.NombreProducto;
                     actualizarSeguimiento.idPaciente= seguimiento.idPaciente;
                     actualizarSeguimiento.FechaEntrega = seguimiento.FechaEntrega;
-                    actualizarSeguimiento.Estado = seguimiento.Estado;
 
-                    context.SaveChanges(); // Guardamos los cambios en la base de datos
+                    context.SaveChanges(); 
                     return true;
                 }
                 return false;

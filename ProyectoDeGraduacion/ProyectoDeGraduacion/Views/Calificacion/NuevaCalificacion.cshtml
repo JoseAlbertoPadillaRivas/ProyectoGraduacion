@@ -12,7 +12,13 @@
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-lg rounded" style="max-width: 400px; width: 100%;">
-        @using (Html.BeginForm("NuevaCalificacion", "Calificacion", FormMethod.Post))
+        @if (!string.IsNullOrEmpty(ViewBag.msj))
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                @ViewBag.msj
+            </div>
+        }
+        @using (Html.BeginForm("NuevaCalificacion", "Calificacion", FormMethod.Post, new { @id = "nuevaCalificacionForm" }))
         {
             <div class="text-center mb-4">
                 <h1 id="ratingcard" class="mb-3">
@@ -25,15 +31,13 @@
             </div>
             <input type="hidden" id="Calificaciones" name="Calificaciones" value="@(Model?.Calificaciones ?? 0)" />
 
-
-
             <div class="mb-3">
                 <label for="Nombre" class="form-label fw-semibold">Nombre:</label>
                 @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @hidden = "hidden" })
             </div>
 
             <div class="input-group mb-3">
-                @Html.DropDownListFor(m => m.idServicio, (SelectList)ViewBag.Servicio, "Seleccione su servicio: ", new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.idServicio, (SelectList)ViewBag.Servicio, "Seleccione su servicio: ", new { @class = "form-control", @id = "idServicio" })
                 <div class="input-group-append">
                 </div>
             </div>
@@ -41,7 +45,7 @@
             <div class="form-group mt-3">
                 <label for="opinions" class="form-label fw-semibold">Deja tu opinión:</label>
                 <div class="input-group">
-                    @Html.TextAreaFor(m => m.Opinion, new { @type = "text", @class = "form-control", @placeholder = "Escribe tu opinión aquí..." })
+                    @Html.TextAreaFor(m => m.Opinion, new { @type = "text", @class = "form-control", @placeholder = "Escribe tu opinión aquí...", @id = "opinion" })
                     <div class="input-group-append">
                     </div>
                 </div>
@@ -55,9 +59,8 @@
     </div>
 </div>
 
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
         function setRating(rating) {
@@ -76,6 +79,28 @@
             var starIndex = $(this).index() + 1;
             setRating(starIndex);
         });
+
+        // Validación de campos vacíos con SweetAlert
+        $('#nuevaCalificacionForm').on('submit', function (event) {
+            let calificaciones = $('#Calificaciones').val();
+            let idServicio = $('#idServicio').val();
+            let opinion = $('#opinion').val();
+
+            if (!calificaciones || calificaciones <= 0) {
+                event.preventDefault();
+                Swal.fire("Error", "Por favor, selecciona una calificación.", "error");
+                return;
+            }
+            if (!idServicio || idServicio === "Seleccione su servicio:") {
+                event.preventDefault();
+                Swal.fire("Error", "Por favor, selecciona un servicio.", "error");
+                return;
+            }
+            if (!opinion || opinion.trim() === "") {
+                event.preventDefault();
+                Swal.fire("Error", "Por favor, ingresa una opinión.", "error");
+                return;
+            }
+        });
     });
 </script>
-

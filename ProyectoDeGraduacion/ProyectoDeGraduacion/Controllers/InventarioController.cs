@@ -21,19 +21,32 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
-        /*[HttpPost]
-        public ActionResult EliminarProducto(Inventario inventario)
+        [HttpPost]
+        public ActionResult EliminarProducto(int idProducto)
         {
-            var respuesta = inventarioM.EliminarProducto(inventario);
+            // Verificar relación con órdenes en estado "Pendiente"
+            var relacionadoConPendiente = inventarioM.VerificarRelacionOrden(idProducto);
 
-            if (respuesta)
-                return RedirectToAction("MostrarInventario", "Inventario");
+            if (relacionadoConPendiente)
+            {
+                return Json(new { success = false, message = "No se puede eliminar el producto porque está asociado a una orden de compra en estado 'Pendiente'." });
+            }
+
+            // Intentar eliminar el producto
+            var eliminado = inventarioM.EliminarProducto(idProducto);
+            if (eliminado)
+            {
+                return Json(new { success = true, message = "Producto eliminado correctamente." });
+            }
             else
             {
-                ViewBag.msj = "Error al eliminar";
-                return View();
+                return Json(new { success = false, message = "No se pudo eliminar el producto. Intenta nuevamente." });
             }
-        }*/
+        }
+
+
+
+
 
         [HttpGet]
         public ActionResult ActualizarProducto(int idProducto)

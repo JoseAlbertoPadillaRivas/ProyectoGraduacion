@@ -16,31 +16,40 @@
             </div>
         }
 
-        @using (Html.BeginForm("Registrarse", "Login"))
+        @using (Html.BeginForm("Registrarse", "Login", FormMethod.Post, new { @id = "registroForm" }))
         {
             <div class="form-group">
                 <label for="Cedula" class="font-weight-bold">Cédula</label>
                 <div class="input-group">
                     @Html.TextBoxFor(m => m.Cedula, new
-                    {
-                        @type = "text",
-                        @class = "form-control",
-                        @placeholder = "Cedula",
-                        onkeyup = "ConsultarIdentificacion();"
-                    })
+               {
+                   @type = "text",
+                   @class = "form-control",
+                   @placeholder = "Cédula",
+                   @id = "Cedula",
+                   onkeyup = "ConsultarIdentificacion();",
+                   oninput = "this.value=this.value.replace(/[^0-9]/g,'');"
+               })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-id-card"></span>
                         </div>
                     </div>
                 </div>
-                <small class="form-text text-muted">Cédula (ej: 123456789)</small>
+                <small class="form-text text-muted">Cédula (solo números, ej: 123456789)</small>
             </div>
 
             <div class="form-group mt-3">
                 <label for="Nombre" class="font-weight-bold">Nombre Completo</label>
                 <div class="input-group">
-                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre", @readOnly = true })
+                    @Html.TextBoxFor(m => m.Nombre, new
+                    {
+                        @type = "text",
+                        @class = "form-control",
+                        @placeholder = "Nombre",
+                        @id = "Nombre",
+                        @readOnly = true
+                    })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -53,7 +62,13 @@
             <div class="form-group mt-3">
                 <label for="Correo" class="font-weight-bold">Correo Electrónico</label>
                 <div class="input-group">
-                    @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
+                    @Html.TextBoxFor(m => m.Correo, new
+                    {
+                        @type = "email",
+                        @class = "form-control",
+                        @placeholder = "Correo Electrónico",
+                        @id = "Correo"
+                    })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -66,7 +81,13 @@
             <div class="form-group mt-3">
                 <label for="Password" class="font-weight-bold">Contraseña</label>
                 <div class="input-group">
-                    @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña" })
+                    @Html.TextBoxFor(m => m.Contrasenna, new
+                    {
+                        @type = "password",
+                        @class = "form-control",
+                        @placeholder = "Contraseña",
+                        @id = "Password"
+                    })
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -89,4 +110,42 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/root/funciones/Usuario.js"></script>
+<script>
+    document.getElementById("registroForm").addEventListener("submit", function (event) {
+        const cedula = document.getElementById("Cedula").value.trim();
+        const nombre = document.getElementById("Nombre").value.trim();
+        const correo = document.getElementById("Correo").value.trim();
+        const password = document.getElementById("Password").value.trim();
 
+        if (!cedula) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa tu cédula.", "error");
+            return;
+        }
+        if (isNaN(cedula)) {
+            event.preventDefault();
+            Swal.fire("Error", "La cédula solo debe contener números.", "error");
+            return;
+        }
+        if (!nombre) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa tu nombre completo.", "error");
+            return;
+        }
+        if (!correo) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa tu correo electrónico.", "error");
+            return;
+        }
+        if (!password) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa tu contraseña.", "error");
+            return;
+        }
+        if (password.length < 8) {
+            event.preventDefault();
+            Swal.fire("Error", "La contraseña debe tener al menos 8 caracteres.", "error");
+            return;
+        }
+    });
+</script>

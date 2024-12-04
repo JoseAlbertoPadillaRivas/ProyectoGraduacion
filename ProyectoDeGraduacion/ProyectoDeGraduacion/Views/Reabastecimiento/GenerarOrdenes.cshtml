@@ -10,7 +10,7 @@
     <p class="text-center">Seleccione los productos que necesitan ser reabastecidos.</p>
 
     <div class="table-responsive mt-4">
-        <form method="post" action="@Url.Action("GenerarOrdenes", "Reabastecimiento")">
+        <form id="generarOrdenesForm" method="post" action="@Url.Action("GenerarOrdenes", "Reabastecimiento")">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -26,10 +26,11 @@
                         <tr>
                             <td>@producto.NombreProducto</td>
                             <td>
-                                <input type="number" name="cantidad_@producto.idProducto" class="form-control" value="0" min="0">
+                                <input type="number" name="cantidad_@producto.idProducto" class="form-control cantidad" data-producto-id="@producto.idProducto" value="0" min="0">
                             </td>
                             <td>
-                                <select name="proveedor_@producto.idProducto" class="form-control">
+                                <select name="proveedor_@producto.idProducto" class="form-control proveedor" data-producto-id="@producto.idProducto">
+                                    <option value="">Seleccione un proveedor</option>
                                     @foreach (var proveedor in ViewBag.Proveedores)
                                     {
                                         <option value="@proveedor.idProveedor">@proveedor.Empresa</option>
@@ -53,7 +54,39 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    document.getElementById("generarOrdenesForm").addEventListener("submit", function (event) {
+        const cantidades = document.querySelectorAll(".cantidad");
+        const proveedores = document.querySelectorAll(".proveedor");
+        let hayErrores = false;
+
+        cantidades.forEach((cantidad) => {
+            const idProducto = cantidad.getAttribute("data-producto-id");
+            const cantidadValue = cantidad.value.trim();
+            const proveedor = document.querySelector(`.proveedor[data-producto-id="${idProducto}"]`);
+            const proveedorValue = proveedor.value.trim();
+
+            if (!cantidadValue || cantidadValue <= 0) {
+                hayErrores = true;
+                Swal.fire("Error", "Por favor, ingresa una cantidad válida para cada producto.", "error");
+                event.preventDefault();
+                return;
+            }
+
+            if (!proveedorValue) {
+                hayErrores = true;
+                Swal.fire("Error", "Por favor, selecciona un proveedor para cada producto.", "error");
+                event.preventDefault();
+                return;
+            }
+        });
+
+        if (hayErrores) {
+            return false; // Detiene el envío del formulario
+        }
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         @if (TempData["SuccessMessage"] != null)
         {

@@ -21,7 +21,7 @@
                 @ViewBag.msj
             </div>
         }
-        @using (Html.BeginForm("ActualizarPaciente", "Pacientes"))
+        @using (Html.BeginForm("ActualizarPaciente", "Pacientes", FormMethod.Post, new { @id = "actualizarPacienteForm" }))
         {
             @Html.HiddenFor(m => m.idPaciente)
             <div class="input-group mb-3">
@@ -30,7 +30,8 @@
                     @type = "text",
                     @class = "form-control",
                     @placeholder = "Identificación",
-                    onkeyup = "ConsultarIdentificacion();"
+                    @id = "Cedula",
+                    oninput = "this.value=this.value.replace(/[^0-9]/g,'');"
                 })
                 <div class="input-group-append">
                     <div class="input-group-text">
@@ -39,7 +40,14 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre", @readOnly = true })
+                @Html.TextBoxFor(m => m.Nombre, new
+                {
+                    @type = "text",
+                    @class = "form-control",
+                    @placeholder = "Nombre",
+                    @id = "Nombre",
+                    @readOnly = true
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>
@@ -47,7 +55,13 @@
                 </div>
             </div>
             <div class="input-group mb-3">
-                @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
+                @Html.TextBoxFor(m => m.Correo, new
+                {
+                    @type = "email",
+                    @class = "form-control",
+                    @placeholder = "Correo Electrónico",
+                    @id = "Correo"
+                })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -64,3 +78,39 @@
         }
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/root/funciones/Usuario.js"></script>
+<script>
+    document.getElementById("actualizarPacienteForm").addEventListener("submit", function (event) {
+        const cedula = document.getElementById("Cedula").value.trim();
+        const nombre = document.getElementById("Nombre").value.trim();
+        const correo = document.getElementById("Correo").value.trim();
+
+        // Validar que la cédula solo contenga números y no esté vacía
+        if (!cedula) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa la cédula del paciente.", "error");
+            return;
+        }
+        if (isNaN(cedula)) {
+            event.preventDefault();
+            Swal.fire("Error", "La cédula solo debe contener números.", "error");
+            return;
+        }
+
+        // Validar que el nombre no esté vacío
+        if (!nombre) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa el nombre del paciente.", "error");
+            return;
+        }
+
+        // Validar que el correo no esté vacío
+        if (!correo) {
+            event.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa un correo electrónico válido.", "error");
+            return;
+        }
+    });
+</script>
