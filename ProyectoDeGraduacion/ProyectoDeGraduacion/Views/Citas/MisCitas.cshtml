@@ -8,9 +8,6 @@
     <p class="text-center">Consulta tus citas programadas con facilidad.</p>
 </div>
 
-<div class="mb-2">
-    <a class="btn btn-info" href="@Url.Action("CitasProgramadas", "Citas")">Vista Administrador</a>
-</div>
 
 <div class="row">
     <div class="col-12">
@@ -74,33 +71,64 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
-        // Manejo del formulario (puedes agregar validación aquí si es necesario)
         $('#formRegistrarCita').submit(function (e) {
-            e.preventDefault(); // Prevenir el comportamiento por defecto (enviar el formulario)
+            e.preventDefault(); // Prevenir el envío del formulario por defecto
 
-            // Obtener los datos del formulario
+            // Validar que los campos requeridos estén llenos
+            var sede = $('#Sede').val();
+            var citaDisponible = $('#CitasDisponibles').val();
+
+            if (!sede || !citaDisponible) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor, asegúrate de seleccionar una sede y una cita disponible antes de continuar.'
+                });
+                return; // Detenemos el proceso si la validación falla
+            }
+
+            // Si la validación es correcta, enviar el formulario vía AJAX
             var formData = $(this).serialize();
 
-            // Enviar el formulario via AJAX
             $.ajax({
                 url: $(this).attr('action'),
                 method: 'POST',
                 data: formData,
                 success: function (response) {
-                    if (response) {
-                        // Cerrar el modal si la cita fue registrada con éxito
-                        $('#modalRegistrarCita').modal('hide');
-                        // Aquí puedes agregar un mensaje de éxito o actualizar la lista de citas
+                    // Manejar la respuesta JSON del servidor
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: response.message
+                        }).then(() => {
+                            // Opcional: recargar la página o redirigir
+                            location.reload();
+                        });
                     } else {
-                        alert('Hubo un error al registrar la cita');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message
+                        });
                     }
                 },
                 error: function () {
-                    alert('Hubo un error al registrar la cita');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error inesperado',
+                        text: 'Hubo un problema con el servidor. Por favor, inténtalo nuevamente.'
+                    });
                 }
             });
         });
     });
 </script>
+
+
+

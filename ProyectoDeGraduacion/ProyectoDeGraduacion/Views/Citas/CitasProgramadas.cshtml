@@ -12,9 +12,6 @@
     <p class="text-center">Administra y controla las citas de todos los pacientes desde esta sección.</p>
 </div>
 
-<div class="mb-2">
-    <a class="btn btn-info" href="@Url.Action("MisCitas", "Citas")">Vista Paciente</a>
-</div>
 
 <div class="row">
     <div class="col-12">
@@ -99,76 +96,120 @@
     </div>
 </div>
 
-<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
-        // Inicializar DataTables
-        $("#citasProgramadas").DataTable({
-            language: {
-                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
-            },
-            columnDefs: [
-                { targets: 0, visible: false, searchable: false }, // Oculta la columna ID Cita
-                { type: 'string', targets: [1, 2, 3, 4] } // Define tipos para las otras columnas
-            ]
+        // Manejar el envío del formulario para reprogramar citas (ya existente)
+        $('#formReprogramarCita').submit(function (e) {
+            e.preventDefault();
+
+            var nuevaSede = $('#NuevaSede').val();
+            var nuevaCita = $('#NuevaCita').val();
+
+            if (!nuevaSede || !nuevaCita) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor selecciona una nueva sede y cita disponible antes de continuar.'
+                });
+                return;
+            }
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: response.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error inesperado',
+                        text: 'Hubo un problema al reprogramar la cita. Por favor, inténtalo nuevamente.'
+                    });
+                }
+            });
         });
 
-        // Cargar la información de la cita en el modal al hacer clic en "Reprogramar"
+        // Modal para cargar datos de la cita al reprogramar (ya existente)
         $('#modalReprogramarCita').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Botón que abrió el modal
-            var idCita = button.data('id'); // Extraer el ID de la cita
-            var fecha = button.data('fecha'); // Extraer la fecha
-            var sede = button.data('sede'); // Extraer la sede
-            var paciente = button.data('paciente'); // Extraer el paciente
+            var button = $(event.relatedTarget);
+            var idCita = button.data('id');
+            var fecha = button.data('fecha');
+            var sede = button.data('sede');
 
-            // Asignar los valores al formulario del modal
             var modal = $(this);
             modal.find('#idCita').val(idCita);
             modal.find('#Sede').val(sede);
             modal.find('#FechaHora').val(fecha);
-            modal.find('#NuevaSede').val(sede); // Puedes configurar la nueva sede si es necesario
         });
-    });
 
-    $(document).on("click", ".btn-eliminar-cita", function () {
-    var citaID = $(this).attr('data-id');
-    var paciente = $(this).attr('data-name');
+        // Manejador para el botón de cancelar cita
+        $(document).on('click', '.btn-eliminar-cita', function () {
+            var citaID = $(this).data('id');
+            var paciente = $(this).data('name');
 
-    Swal.fire({
-        title: '¿Estás seguro de que deseas cancelar esta cita?',
-        text: 'Paciente: ' + paciente,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, cancelar cita',
-        cancelButtonText: 'No, mantener cita',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Realizamos la solicitud AJAX para cancelar la cita
-            $.ajax({
-                url: '@Url.Action("CancelarCita", "Citas")', // URL del controlador
-                type: 'POST',
-                data: { idCita: citaID },
-                success: function (response) {
-                    Swal.fire(
-                        'Cita Cancelada',
-                        'La cita ha sido cancelada correctamente',
-                        'success'
-                    ).then(function () {
-                        location.reload(); // Recargar la página para reflejar los cambios
+            Swal.fire({
+                title: '¿Estás seguro de que deseas cancelar esta cita?',
+                text: `Paciente: ${paciente}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar cita',
+                cancelButtonText: 'No, mantener cita',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Solicitud AJAX para cancelar la cita
+                    $.ajax({
+                        url: '@Url.Action("CancelarCita", "Citas")',
+                        type: 'POST',
+                        data: { idCita: citaID },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Cita Cancelada',
+                                    response.message,
+                                    'success'
+                                ).then(function () {
+                                    location.reload(); // Refrescar la página
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function () {
+                            Swal.fire(
+                                'Error inesperado',
+                                'No se pudo cancelar la cita. Por favor, inténtalo nuevamente.',
+                                'error'
+                            );
+                        }
                     });
-                },
-                error: function () {
-                    Swal.fire(
-                        'Error',
-                        'No se pudo cancelar la cita',
-                        'error'
-                    );
                 }
             });
-        }
+        });
     });
-});
-
 </script>

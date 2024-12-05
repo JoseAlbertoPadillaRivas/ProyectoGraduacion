@@ -56,38 +56,71 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.getElementById("generarOrdenesForm").addEventListener("submit", function (event) {
-        const cantidades = document.querySelectorAll(".cantidad");
-        const proveedores = document.querySelectorAll(".proveedor");
-        let hayErrores = false;
+    document.addEventListener("DOMContentLoaded", function () {
+        // Escuchar el evento de clic en los botones "Generar Orden"
+        document.querySelectorAll(".btn-info").forEach((button) => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); // Detener el comportamiento predeterminado del botón
 
-        cantidades.forEach((cantidad) => {
-            const idProducto = cantidad.getAttribute("data-producto-id");
-            const cantidadValue = cantidad.value.trim();
-            const proveedor = document.querySelector(`.proveedor[data-producto-id="${idProducto}"]`);
-            const proveedorValue = proveedor.value.trim();
+                // Encontrar la fila asociada al botón clicado
+                const row = this.closest("tr");
 
-            if (!cantidadValue || cantidadValue <= 0) {
-                hayErrores = true;
-                Swal.fire("Error", "Por favor, ingresa una cantidad válida para cada producto.", "error");
-                event.preventDefault();
-                return;
-            }
+                // Obtener los elementos de cantidad y proveedor dentro de la fila
+                const cantidadInput = row.querySelector(".cantidad");
+                const proveedorSelect = row.querySelector(".proveedor");
 
-            if (!proveedorValue) {
-                hayErrores = true;
-                Swal.fire("Error", "Por favor, selecciona un proveedor para cada producto.", "error");
-                event.preventDefault();
-                return;
-            }
+                const cantidadValue = cantidadInput.value.trim();
+                const proveedorValue = proveedorSelect.value.trim();
+
+                // Validar la cantidad
+                if (!cantidadValue || cantidadValue <= 0) {
+                    Swal.fire("Error", "Por favor, ingresa una cantidad válida para este producto.", "error");
+                    return;
+                }
+
+                // Validar el proveedor
+                if (!proveedorValue) {
+                    Swal.fire("Error", "Por favor, selecciona un proveedor para este producto.", "error");
+                    return;
+                }
+
+                // Si las validaciones pasan, enviar el formulario
+                Swal.fire({
+                    title: 'Confirmación',
+                    text: '¿Deseas generar esta orden de compra?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, generar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Crear un formulario dinámico para enviar solo esta fila
+                        const form = document.createElement("form");
+                        form.method = "post";
+                        form.action = "@Url.Action("GenerarOrdenes", "Reabastecimiento")";
+
+                        // Agregar campos al formulario
+                        const cantidadField = document.createElement("input");
+                        cantidadField.type = "hidden";
+                        cantidadField.name = cantidadInput.name;
+                        cantidadField.value = cantidadValue;
+                        form.appendChild(cantidadField);
+
+                        const proveedorField = document.createElement("input");
+                        proveedorField.type = "hidden";
+                        proveedorField.name = proveedorSelect.name;
+                        proveedorField.value = proveedorValue;
+                        form.appendChild(proveedorField);
+
+                        // Agregar el formulario al cuerpo y enviarlo
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            });
         });
 
-        if (hayErrores) {
-            return false; // Detiene el envío del formulario
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
+        // Mensajes globales para éxito o error desde TempData
         @if (TempData["SuccessMessage"] != null)
         {
             <text>
@@ -112,3 +145,4 @@
         }
     });
 </script>
+

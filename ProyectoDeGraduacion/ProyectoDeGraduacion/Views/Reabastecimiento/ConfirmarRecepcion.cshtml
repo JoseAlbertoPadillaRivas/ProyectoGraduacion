@@ -88,44 +88,46 @@
         });
     }
 
-   document.querySelectorAll('.confirmar-recepcion-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const idOrdenCompra = this.getAttribute('data-id');
+    document.querySelectorAll('.confirmar-recepcion-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const idOrdenCompra = this.getAttribute('data-id');
 
-        console.log("Botón de Confirmar Recepción clickeado para ID:", idOrdenCompra);
+            console.log("Botón de Confirmar Recepción clickeado para ID:", idOrdenCompra);
 
-        fetch('@Url.Action("ActualizarEstadoOrden", "Reabastecimiento")', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'RequestVerificationToken': '@Html.AntiForgeryToken()'
-            },
-            body: JSON.stringify({ idOrdenCompra: idOrdenCompra })
-        })
-        .then(response => {
-            if (!response.ok) {
-                console.error("Error en la respuesta HTTP:", response);
-                throw new Error("Error en la confirmación de la recepción.");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Respuesta JSON procesada:", data);
-            if (data.success) {
-                const row = document.getElementById(`row-${idOrdenCompra}`);
-                if (row) {
-                    row.remove(); // Elimina la fila correspondiente
+            fetch('@Url.Action("ActualizarEstadoOrden", "Reabastecimiento")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                },
+                body: JSON.stringify({ idOrdenCompra: idOrdenCompra })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error("Error en la respuesta HTTP:", response);
+                    throw new Error("Error en la confirmación de la recepción.");
                 }
-                Swal.fire("Éxito", data.message, "success");
-            } else {
-                Swal.fire("Advertencia", data.message, "warning");
-            }
-        })
-        .catch(error => {
-            console.error("Error en el proceso:", error);
-            Swal.fire("Error", "Ocurrió un error inesperado. Por favor, inténtelo de nuevo.", "error");
+                return response.json();
+            })
+            .then(data => {
+                console.log("Respuesta JSON procesada:", data);
+                if (data.success) {
+                    const row = document.getElementById(`row-${idOrdenCompra}`);
+                    if (row) {
+                        row.remove(); // Elimina la fila correspondiente
+                    }
+                    Swal.fire("Éxito", data.message, "success").then(() => {
+                        location.reload(); // Recarga la página después de confirmar la recepción
+                    });
+                } else {
+                    Swal.fire("Advertencia", data.message, "warning");
+                }
+            })
+            .catch(error => {
+                console.error("Error en el proceso:", error);
+                Swal.fire("Error", "Ocurrió un error inesperado. Por favor, inténtelo de nuevo.", "error");
+            });
         });
     });
-});
-
 </script>
+

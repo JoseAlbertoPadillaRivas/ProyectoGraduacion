@@ -15,100 +15,110 @@ namespace ProyectoDeGraduacion.Models
     {
         public bool RegistrarCita(Citas cita)
         {
-            using (var context = new ProyectoGraduacionEntities())
-            {
-                // Registrar la cita utilizando el procedimiento almacenado
-                var rowsAffected = context.RegistrarCita(cita.idPaciente, cita.idSede, cita.idCitaDisponible);
-
-                if (rowsAffected > 0)
-                {
-                    // Recuperar información de la cita registrada
-                    var citaInfo = (from c in context.tCitas
-                                    join p in context.tPacientes on c.idPaciente equals p.idPaciente
-                                    join s in context.tSede on c.idSede equals s.idSede
-                                    join cd in context.tCitasDisponibles on c.idCitaDisponible equals cd.idCitaDisponible
-                                    where c.idPaciente == cita.idPaciente &&
-                                          c.idSede == cita.idSede &&
-                                          c.idCitaDisponible == cita.idCitaDisponible
-                                    select new
-                                    {
-                                        NombrePaciente = p.Nombre,
-                                        NombreSede = s.Nombre,
-                                        FechaHora = cd.Fecha
-                                    }).FirstOrDefault();
-
-                    if (citaInfo != null)
-                    {
-                        // Cargar la plantilla del correo
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoCita.html";
-                        string contenido = File.ReadAllText(ruta);
-
-                        // Reemplazar los marcadores en la plantilla
-                        contenido = contenido.Replace("@@NombrePaciente", citaInfo.NombrePaciente)
-                                             .Replace("@@FechaHora", citaInfo.FechaHora.ToString("dd/MM/yyyy HH:mm"))
-                                             .Replace("@@NombreSede", citaInfo.NombreSede);
-
-                        // Enviar el correo
-                        EnviarCorreoCitas("cherrera90114@ufide.ac.cr", contenido);
-                    }
-
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        public bool ReprogramarCita(Citas cita)
-        {
-            var rowsAffected = 0;
-
-            using (var context = new ProyectoGraduacionEntities())
-            {
-                // Llamar al procedimiento almacenado para reprogramar la cita
-                rowsAffected = context.ReprogramarCita(cita.idCita, cita.idPaciente, cita.idSede, cita.idCitaDisponible);
-            }
-
-            if (rowsAffected > 0)
+            try
             {
                 using (var context = new ProyectoGraduacionEntities())
                 {
-                    // Asegurarse de que la cita ha sido actualizada antes de proceder
-                    var citaInfo = (from c in context.tCitas
-                                    join p in context.tPacientes on c.idPaciente equals p.idPaciente
-                                    join s in context.tSede on c.idSede equals s.idSede
-                                    join cd in context.tCitasDisponibles on c.idCitaDisponible equals cd.idCitaDisponible
-                                    where c.idCita == cita.idCita // Asegúrate de que este ID es el correcto de la cita reprogramada
-                                    select new
-                                    {
-                                        NombrePaciente = p.Nombre,
-                                        NombreSede = s.Nombre,
-                                        FechaHora = cd.Fecha,
-                                        CorreoPaciente = p.Correo // Correo del paciente
-                                    }).FirstOrDefault();
+                    // Registrar la cita utilizando el procedimiento almacenado
+                    var rowsAffected = context.RegistrarCita(cita.idPaciente, cita.idSede, cita.idCitaDisponible);
 
-                    if (citaInfo != null)
+                    if (rowsAffected > 0)
                     {
-                        // Cargar la plantilla del correo
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoReprogramacion.html";
-                        string contenido = File.ReadAllText(ruta);
+                        // Recuperar información de la cita registrada
+                        var citaInfo = (from c in context.tCitas
+                                        join p in context.tPacientes on c.idPaciente equals p.idPaciente
+                                        join s in context.tSede on c.idSede equals s.idSede
+                                        join cd in context.tCitasDisponibles on c.idCitaDisponible equals cd.idCitaDisponible
+                                        where c.idPaciente == cita.idPaciente &&
+                                              c.idSede == cita.idSede &&
+                                              c.idCitaDisponible == cita.idCitaDisponible
+                                        select new
+                                        {
+                                            NombrePaciente = p.Nombre,
+                                            NombreSede = s.Nombre,
+                                            FechaHora = cd.Fecha
+                                        }).FirstOrDefault();
 
-                        // Reemplazar los marcadores en la plantilla con la nueva información
-                        contenido = contenido.Replace("@@NombrePaciente", citaInfo.NombrePaciente)
-                                             .Replace("@@FechaHora", citaInfo.FechaHora.ToString("dd/MM/yyyy HH:mm"))
-                                             .Replace("@@NombreSede", citaInfo.NombreSede);
+                        if (citaInfo != null)
+                        {
+                            // Cargar la plantilla del correo
+                            string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoCita.html";
+                            string contenido = File.ReadAllText(ruta);
 
-                        // Enviar el correo al paciente con la información de la cita reprogramada
-                        EnviarCorreoCitas(citaInfo.CorreoPaciente, contenido);
+                            // Reemplazar los marcadores en la plantilla
+                            contenido = contenido.Replace("@@NombrePaciente", citaInfo.NombrePaciente)
+                                                 .Replace("@@FechaHora", citaInfo.FechaHora.ToString("dd/MM/yyyy HH:mm"))
+                                                 .Replace("@@NombreSede", citaInfo.NombreSede);
+
+                            // Enviar el correo
+                            EnviarCorreoCitas("cherrera90114@ufide.ac.cr", contenido);
+                        }
+
+                        return true;
                     }
+                    return false;
                 }
-
-                return true;
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                // Aquí puedes registrar el error en un log
+                throw new Exception("Hubo un problema al registrar la cita: " + ex.Message);
+            }
         }
 
+
+        public bool ReprogramarCita(Citas cita)
+        {
+            try
+            {
+                using (var context = new ProyectoGraduacionEntities())
+                {
+                    // Llamar al procedimiento almacenado para reprogramar la cita
+                    var rowsAffected = context.ReprogramarCita(cita.idCita, cita.idPaciente, cita.idSede, cita.idCitaDisponible);
+
+                    if (rowsAffected > 0)
+                    {
+                        // Recuperar la información de la cita reprogramada
+                        var citaInfo = (from c in context.tCitas
+                                        join p in context.tPacientes on c.idPaciente equals p.idPaciente
+                                        join s in context.tSede on c.idSede equals s.idSede
+                                        join cd in context.tCitasDisponibles on c.idCitaDisponible equals cd.idCitaDisponible
+                                        where c.idCita == cita.idCita
+                                        select new
+                                        {
+                                            NombrePaciente = p.Nombre,
+                                            NombreSede = s.Nombre,
+                                            FechaHora = cd.Fecha,
+                                            CorreoPaciente = p.Correo
+                                        }).FirstOrDefault();
+
+                        if (citaInfo != null)
+                        {
+                            // Cargar la plantilla del correo
+                            string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoReprogramacion.html";
+                            string contenido = File.ReadAllText(ruta);
+
+                            // Reemplazar los marcadores
+                            contenido = contenido.Replace("@@NombrePaciente", citaInfo.NombrePaciente)
+                                                 .Replace("@@FechaHora", citaInfo.FechaHora.ToString("dd/MM/yyyy HH:mm"))
+                                                 .Replace("@@NombreSede", citaInfo.NombreSede);
+
+                            // Enviar el correo al paciente
+                            EnviarCorreoCitas(citaInfo.CorreoPaciente, contenido);
+                        }
+
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Registrar error si es necesario
+                throw new Exception("Hubo un problema al reprogramar la cita: " + ex.Message);
+            }
+        }
 
 
 
@@ -160,50 +170,60 @@ namespace ProyectoDeGraduacion.Models
 
         public bool CancelarCita(int idCita)
         {
-            using (var context = new ProyectoGraduacionEntities())
+            try
             {
-                var cita = context.tCitas.FirstOrDefault(c => c.idCita == idCita);
-
-                if (cita != null)
+                using (var context = new ProyectoGraduacionEntities())
                 {
-                    // Recuperar la información necesaria de la cita cancelada
-                    var citaInfo = (from c in context.tCitas
-                                    join p in context.tPacientes on c.idPaciente equals p.idPaciente
-                                    join s in context.tSede on c.idSede equals s.idSede
-                                    join cd in context.tCitasDisponibles on c.idCitaDisponible equals cd.idCitaDisponible
-                                    where c.idCita == idCita
-                                    select new
-                                    {
-                                        NombrePaciente = p.Nombre,
-                                        CorreoPaciente = p.Correo, // Correo del paciente
-                                        NombreSede = s.Nombre,
-                                        FechaHora = cd.Fecha
-                                    }).FirstOrDefault();
+                    var cita = context.tCitas.FirstOrDefault(c => c.idCita == idCita);
 
-                    if (citaInfo != null)
+                    if (cita != null)
                     {
-                        // Eliminar la cita
-                        context.tCitas.Remove(cita);
-                        context.SaveChanges();
+                        // Recuperar la información necesaria de la cita cancelada
+                        var citaInfo = (from c in context.tCitas
+                                        join p in context.tPacientes on c.idPaciente equals p.idPaciente
+                                        join s in context.tSede on c.idSede equals s.idSede
+                                        join cd in context.tCitasDisponibles on c.idCitaDisponible equals cd.idCitaDisponible
+                                        where c.idCita == idCita
+                                        select new
+                                        {
+                                            NombrePaciente = p.Nombre,
+                                            CorreoPaciente = p.Correo,
+                                            NombreSede = s.Nombre,
+                                            FechaHora = cd.Fecha
+                                        }).FirstOrDefault();
 
-                        // Cargar la plantilla del correo
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoCancelacion.html";
-                        string contenido = File.ReadAllText(ruta);
+                        if (citaInfo != null)
+                        {
+                            // Eliminar la cita
+                            context.tCitas.Remove(cita);
+                            context.SaveChanges();
 
-                        // Reemplazar los marcadores en la plantilla
-                        contenido = contenido.Replace("@@NombrePaciente", citaInfo.NombrePaciente)
-                                             .Replace("@@FechaHora", citaInfo.FechaHora.ToString("dd/MM/yyyy HH:mm"))
-                                             .Replace("@@NombreSede", citaInfo.NombreSede);
+                            // Cargar la plantilla del correo
+                            string ruta = AppDomain.CurrentDomain.BaseDirectory + "correoCancelacion.html";
+                            string contenido = File.ReadAllText(ruta);
 
-                        // Enviar el correo
-                        EnviarCorreoCitas(citaInfo.CorreoPaciente, contenido);
+                            // Reemplazar los marcadores en la plantilla
+                            contenido = contenido.Replace("@@NombrePaciente", citaInfo.NombrePaciente)
+                                                 .Replace("@@FechaHora", citaInfo.FechaHora.ToString("dd/MM/yyyy HH:mm"))
+                                                 .Replace("@@NombreSede", citaInfo.NombreSede);
 
-                        return true;
+                            // Enviar el correo
+                            EnviarCorreoCitas(citaInfo.CorreoPaciente, contenido);
+
+                            return true;
+                        }
                     }
+
+                    return false;
                 }
-                return false;
+            }
+            catch (Exception ex)
+            {
+                // Aquí puedes registrar el error en un log si es necesario
+                throw new Exception("Error al cancelar la cita: " + ex.Message);
             }
         }
+
 
 
         private void EnviarCorreoCitas(string destinatario, string contenido)

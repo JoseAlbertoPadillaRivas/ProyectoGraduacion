@@ -16,48 +16,33 @@ namespace ProyectoDeGraduacion.Controllers
         CitasModel citasM = new CitasModel();
         private ProyectoGraduacionEntities _context = new ProyectoGraduacionEntities();
 
-
-        //[HttpGet]
-        //public ActionResult RegistrarCita()
-        //{
-        //    // Obtén el valor de `Session` para `idPaciente`
-        //    int idPaciente = (int)Session["idUsuario"];
-
-        //    // Crear una instancia del modelo Citas y asignar el valor de `idPaciente`
-        //    var model = new Citas
-        //    {
-        //        idPaciente = idPaciente
-        //    };
-
-        //    // Obtener la lista de servicios y pasarla a la vista
-        //    var sedes = _context.tSede.ToList();
-        //    ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
-
-
-        //    // Obtener la lista de servicios y pasarla a la vista
-        //    var citasDisponibles = _context.tCitasDisponibles
-        //        .Where(c => c.Estado == true) // Filtrar citas disponibles (Estado == 1)
-        //        .ToList();
-        //    ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
-
-
-        //    return View(model); // Pasar el modelo con `idPaciente` a la vista
-        //}
-
-
         [HttpPost]
-        public ActionResult RegistrarCita(Citas cita)
+        public JsonResult RegistrarCita(Citas cita)
         {
-            var respuesta = citasM.RegistrarCita(cita);
-            if (respuesta)
-                
-                return RedirectToAction("MisCitas", "Citas");
-            else
+            try
             {
-                ViewBag.msj = "Error al registrar la cita";
-                return View();
+                if (cita == null || cita.idPaciente <= 0 || cita.idSede <= 0 || cita.idCitaDisponible <= 0)
+                {
+                    return Json(new { success = false, message = "Por favor, completa todos los campos requeridos." });
+                }
+
+                var respuesta = citasM.RegistrarCita(cita);
+                if (respuesta)
+                {
+                    return Json(new { success = true, message = "Cita registrada exitosamente." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Error al registrar la cita. Inténtelo nuevamente." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error: " + ex.Message });
             }
         }
+
+
 
         [HttpGet]
         public ActionResult MisCitas()
@@ -107,33 +92,60 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReprogramarCita(Citas cita)
+        public JsonResult ReprogramarCita(Citas cita)
         {
-            var respuesta = citasM.ReprogramarCita(cita);
-            
-            if (respuesta)
-                return RedirectToAction("CitasProgramadas", "Citas");
-            else
+            try
             {
-                ViewBag.msj = "No se ha podido actualizar la informacion de la cita";
-                return View();
-            }            
+                if (cita == null || cita.idCita <= 0 || cita.idPaciente <= 0 || cita.idSede <= 0 || cita.idCitaDisponible <= 0)
+                {
+                    return Json(new { success = false, message = "Por favor, completa todos los campos requeridos." });
+                }
+
+                var respuesta = citasM.ReprogramarCita(cita);
+
+                if (respuesta)
+                {
+                    return Json(new { success = true, message = "Cita reprogramada exitosamente." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "No se pudo reprogramar la cita. Inténtalo nuevamente." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error: " + ex.Message });
+            }
         }
+
 
         [HttpPost]
-        public ActionResult CancelarCita(int idCita)
+        public JsonResult CancelarCita(int idCita)
         {
-            var respuesta = citasM.CancelarCita(idCita);
+            try
+            {
+                if (idCita <= 0)
+                {
+                    return Json(new { success = false, message = "ID de cita no válido. Por favor, verifica los datos." });
+                }
 
-            if (respuesta)
-            {
-                return Json(new { success = true, message = "Cita cancelada correctamente." });
+                var respuesta = citasM.CancelarCita(idCita);
+
+                if (respuesta)
+                {
+                    return Json(new { success = true, message = "Cita cancelada correctamente." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "No se pudo cancelar la cita. Inténtalo nuevamente." });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Json(new { success = false, message = "Hubo un error al cancelar la cita." });
+                return Json(new { success = false, message = "Ocurrió un error: " + ex.Message });
             }
         }
+
 
 
     }
