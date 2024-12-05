@@ -1,6 +1,7 @@
 ﻿using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Entidades;
 using ProyectoDeGraduacion.Models;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -43,9 +44,6 @@ namespace ProyectoDeGraduacion.Controllers
                 return Json(new { success = false, message = "No se pudo eliminar el producto. Intenta nuevamente." });
             }
         }
-
-
-
 
 
         [HttpGet]
@@ -92,6 +90,91 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public ActionResult MostrarProveedores()
+        {
+            var respuesta = inventarioM.ConsultarProveedores();
+            return View(respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult RegistrarProveedor(Proveedor proveedor)
+        {
+
+            try
+            {
+                // Lógica para registrar el proveedor
+                var resultado = inventarioM.RegistrarProveedor(proveedor);
+
+                if (resultado)
+                {
+                    return Json(new { success = true, message = "Proveedor registrado correctamente." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Error al registrar el proveedor. Verifica los datos." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult ActualizarProveedor(Proveedor proveedor)
+        {
+            try
+            {
+                var respuesta = inventarioM.ActualizarProveedor(proveedor);
+
+                if (respuesta)
+                {
+                    TempData["SuccessMessage"] = "Proveedor actualizado correctamente.";
+                    return RedirectToAction("MostrarProveedores", "Inventario");
+                }
+                else
+                {
+                    ViewBag.msj = "No se pudo actualizar el proveedor. Inténtelo nuevamente.";
+                    return View(proveedor); // Devuelve la vista con los datos ingresados
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción y mostrar un mensaje amigable al usuario
+                ViewBag.msj = "Ocurrió un error al actualizar el proveedor: " + ex.Message;
+                return View(proveedor); // Devuelve la vista con los datos ingresados
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CambiarEstadoProveedor(Proveedor proveedor)
+        {
+            try
+            {
+                var respuesta = inventarioM.CambiarEstadoProveedor(proveedor);
+
+                if (respuesta)
+                {
+                    TempData["SuccessMessage"] = "El estado del proveedor se ha cambiado correctamente.";
+                    return RedirectToAction("MostrarProveedores", "Inventario");
+                }
+                else
+                {
+                    ViewBag.msj = "No se pudo cambiar el estado del proveedor. Inténtelo nuevamente.";
+                    return View(proveedor); // Devuelve la vista con los datos ingresados
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción y mostrar un mensaje amigable al usuario
+                ViewBag.msj = "Ocurrió un error al intentar cambiar el estado del proveedor: " + ex.Message;
+                return View(proveedor); // Devuelve la vista con los datos ingresados
+            }
+        }
+
 
     }
 }

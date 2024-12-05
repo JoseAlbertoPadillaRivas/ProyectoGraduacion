@@ -1,7 +1,9 @@
 ﻿using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace ProyectoDeGraduacion.Models
 {
@@ -49,8 +51,6 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-
-
         // Método para consultar un producto en específico por su ID
         public tInventario ConsultarProductoID(int idProducto)
         {
@@ -93,10 +93,6 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-
-
-
-
         // Método para actualizar un producto existente en el inventario usando LINQ
         public bool ActualizarProducto(Inventario inventario)
         {
@@ -115,8 +111,77 @@ namespace ProyectoDeGraduacion.Models
                     context.SaveChanges(); // Guardamos los cambios en la base de datos
                     return true;
                 }
-                return false;
+                return false;          
             }
         }
+
+        public bool RegistrarProveedor(Proveedor proveedor)
+        {
+            try
+            {
+                var rowsAffected = 0;
+
+                using (var context = new ProyectoGraduacionEntities())
+                {
+                    rowsAffected = context.RegistrarProveedor(proveedor.Empresa, proveedor.NumeroTelefono, proveedor.Correo);
+                }                
+
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al registrar el proveedor: " + ex.Message);
+            }
+        }
+
+
+
+        public List<tProveedores> ConsultarProveedores()
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                return (from x in context.tProveedores                        
+                        select x).ToList();
+            }
+        }
+
+        public bool ActualizarProveedor(Proveedor proveedor)
+        {
+            try
+            {
+                using (var context = new ProyectoGraduacionEntities())
+                {
+                    var prov = context.tProveedores.FirstOrDefault(p => p.idProveedor == proveedor.idProveedor);
+
+                    if (prov != null)
+                    {
+                        prov.Empresa = proveedor.Empresa;
+                        prov.NumeroTelefono = proveedor.NumeroTelefono;
+                        prov.Correo = proveedor.Correo;
+
+                        context.SaveChanges(); // Guardamos los cambios en la base de datos
+                        return true;
+                    }
+                    return false; // Si no se encuentra el proveedor
+                }
+            }
+            catch (Exception ex)
+            {
+                // Registrar o manejar la excepción según sea necesario
+                throw new Exception("Error al actualizar el proveedor: " + ex.Message, ex);
+            }
+        }
+
+        public bool CambiarEstadoProveedor(Proveedor proveedor)
+        {
+            var rowsAffected = 0;
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                rowsAffected = context.CambiarEstadoProveedor(proveedor.idProveedor);
+            }
+
+            return (rowsAffected > 0 ? true : false);
+        }
+
     }
 }

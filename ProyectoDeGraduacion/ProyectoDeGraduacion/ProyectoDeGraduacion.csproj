@@ -288,6 +288,7 @@
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Entidades\Citas.cs" />
     <Compile Include="Entidades\CitasDisponibles.cs" />
+    <Compile Include="Entidades\Proveedor.cs" />
     <Compile Include="Entidades\Servicio.cs" />
     <Compile Include="Entidades\Calificacion.cs" />
     <Compile Include="Entidades\HistorialORD.cs" />
@@ -725,6 +726,7 @@
     <Content Include="Views\Reabastecimiento\HistorialReabastecimientoPDF.cshtml" />
     <Content Include="Views\Calificacion\verCalificaciones.cshtml" />
     <Content Include="Views\Calificacion\CalificacionPDF.cshtml" />
+    <Content Include="Views\Inventario\MostrarProveedores.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

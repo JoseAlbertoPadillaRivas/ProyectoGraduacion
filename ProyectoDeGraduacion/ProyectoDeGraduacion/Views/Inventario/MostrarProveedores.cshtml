@@ -1,0 +1,226 @@
+﻿@model List<ProyectoDeGraduacion.BaseDatos.tProveedores>
+
+@{
+    ViewBag.Title = "MostrarProveedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Gestión de Proveedores</h2>
+</div>
+
+<div class="row">
+    <div class="col-12">
+
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-info text-center" role="alert">
+                @ViewBag.msj
+            </div>
+        }
+
+        <br>
+
+        <!-- Botón para registrar proveedor -->
+        <div class="mb-3 text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistrarProveedor">
+                <i class="fas fa-plus"></i> Agregar Proveedor
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table id="tablaProveedores" class="table table-hover table-bordered text-center">
+                <thead class="thead-dark bg-dark text-white">
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Estado</th>
+                        <th>Actualizar Información</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Empresa</td>
+                            <td>@item.NumeroTelefono</td>
+                            <td>@item.Correo</td>
+                            <td>
+                                @if (item.Estado)
+                                {
+                                    <span class="badge bg-success">Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactivo</span>
+                                }
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-sm btn-actualizar-proveedor"
+                                        data-id="@item.idProveedor"
+                                        data-empresa="@item.Empresa"
+                                        data-telefono="@item.NumeroTelefono"
+                                        data-correo="@item.Correo"
+                                        title="Actualizar Información"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalActualizarProveedor">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm btn-eliminar" data-id="@item.idProveedor" title="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Registrar Proveedor -->
+<div class="modal fade" id="modalRegistrarProveedor" tabindex="-1" aria-labelledby="modalRegistrarProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistrarProveedorLabel">Registrar Proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formRegistrarProveedor" action="@Url.Action("RegistrarProveedor", "Inventario")" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="empresa" class="form-label">Empresa</label>
+                        <input type="text" class="form-control" id="empresa" name="Empresa" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" name="NumeroTelefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="correo" name="Correo" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Actualizar Proveedor -->
+<div class="modal fade" id="modalActualizarProveedor" tabindex="-1" aria-labelledby="modalActualizarProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalActualizarProveedorLabel">Actualizar Proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formActualizarProveedor" action="@Url.Action("ActualizarProveedor", "Inventario")" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="idProveedor" name="idProveedor">
+                    <div class="mb-3">
+                        <label for="empresaActualizar" class="form-label">Empresa</label>
+                        <input type="text" class="form-control" id="empresaActualizar" name="Empresa" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefonoActualizar" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefonoActualizar" name="NumeroTelefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correoActualizar" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="correoActualizar" name="Correo" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#formRegistrarProveedor').submit(function (e) {
+            e.preventDefault(); // Prevenir el envío del formulario por defecto
+
+            // Validar que los campos requeridos estén llenos
+            var empresa = $('#empresa').val();
+            var telefono = $('#telefono').val();
+            var correo = $('#correo').val();
+
+            if (!empresa || !telefono || !correo) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos incompletos',
+                    text: 'Por favor,ingrese toda la informacion requerida'
+                });
+                return; // Detenemos el proceso si la validación falla
+            }
+
+            // Si la validación es correcta, enviar el formulario vía AJAX
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Manejar la respuesta JSON del servidor
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: response.message
+                        }).then(() => {
+                            // Opcional: recargar la página o redirigir
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error inesperado',
+                        text: 'Hubo un problema con el servidor. Por favor, inténtalo nuevamente.'
+                    });
+                }
+            });
+        });
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        // Llenar datos en el modal de actualizar
+        $('.btn-actualizar-proveedor').click(function () {
+            const id = $(this).data('id');
+            const empresa = $(this).data('empresa');
+            const telefono = $(this).data('telefono');
+            const correo = $(this).data('correo');
+
+            $('#idProveedor').val(id);
+            $('#empresaActualizar').val(empresa);
+            $('#telefonoActualizar').val(telefono);
+            $('#correoActualizar').val(correo);
+        });
+    });
+</script>
