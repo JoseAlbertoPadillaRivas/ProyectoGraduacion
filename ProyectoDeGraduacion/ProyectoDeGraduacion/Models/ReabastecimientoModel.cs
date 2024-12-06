@@ -30,5 +30,20 @@ namespace ProyectoGraduacion.Models
             CantidadActual = cantidadActual;
             NivelMinimoStock = nivelMinimoStock;
         }
+
+        public bool EliminarOrdenCompre(int idOrdenCompra)
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                var orden = context.tOrdenesCompra.FirstOrDefault(p => p.idOrdenCompra == idOrdenCompra);
+                if (orden != null)
+                {
+                    context.tOrdenesCompra.Remove(orden);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

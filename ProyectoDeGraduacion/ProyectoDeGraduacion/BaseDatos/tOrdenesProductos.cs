@@ -19,7 +19,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         public int idProducto { get; set; }
         public int CantidadSolicitada { get; set; }
     
-        public virtual tInventario tInventario { get; set; }
         public virtual tOrdenesCompra tOrdenesCompra { get; set; }
+        public virtual tInventario tInventario { get; set; }
     }
 }

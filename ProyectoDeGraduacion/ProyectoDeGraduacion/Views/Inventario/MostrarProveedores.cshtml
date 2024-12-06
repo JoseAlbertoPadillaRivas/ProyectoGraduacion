@@ -1,7 +1,7 @@
 ﻿@model List<ProyectoDeGraduacion.BaseDatos.tProveedores>
 
 @{
-    ViewBag.Title = "MostrarProveedores";
+    ViewBag.Title = "Mostrar Proveedores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,7 +37,7 @@
                         <th>Correo</th>
                         <th>Estado</th>
                         <th>Actualizar Información</th>
-                        <th>Eliminar</th>
+                        <th>Cambiar Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,8 +70,8 @@
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-sm btn-eliminar" data-id="@item.idProveedor" title="Eliminar">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button type="button" class="btn btn-warning btn-sm btn-cambiar-estado" data-id="@item.idProveedor" data-name="@item.Empresa" title="Cambiar Estado">
+                                    <i class="fas fa-sync-alt"></i>
                                 </button>
                             </td>
                         </tr>
@@ -122,7 +122,7 @@
                 <h5 class="modal-title" id="modalActualizarProveedorLabel">Actualizar Proveedor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="formActualizarProveedor" action="@Url.Action("ActualizarProveedor", "Inventario")" method="post">
+            <form id="formActualizarProveedor">
                 <div class="modal-body">
                     <input type="hidden" id="idProveedor" name="idProveedor">
                     <div class="mb-3">
@@ -147,80 +147,188 @@
     </div>
 </div>
 
+<!-- Scripts necesarios -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+
 
 <script>
     $(document).ready(function () {
-        $('#formRegistrarProveedor').submit(function (e) {
-            e.preventDefault(); // Prevenir el envío del formulario por defecto
+        $("#tablaProveedores").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
+            },
+            columnDefs: [{ type: 'string', target: [0, 1, 2, 3, 4, 5] }]
+        });
+</script>
 
-            // Validar que los campos requeridos estén llenos
-            var empresa = $('#empresa').val();
-            var telefono = $('#telefono').val();
-            var correo = $('#correo').val();
+<script>
+$(document).ready(function () {
+    $('#formRegistrarProveedor').submit(function (e) {
+        e.preventDefault(); // Prevenir el envío del formulario por defecto
 
-            if (!empresa || !telefono || !correo) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor,ingrese toda la informacion requerida'
-                });
-                return; // Detenemos el proceso si la validación falla
-            }
+        // Validar que los campos requeridos estén llenos
+        var empresa = $('#empresa').val();
+        var telefono = $('#telefono').val();
+        var correo = $('#correo').val();
 
-            // Si la validación es correcta, enviar el formulario vía AJAX
-            var formData = $(this).serialize();
+        if (!empresa || !telefono || !correo) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos incompletos',
+                text: 'Por favor, ingrese toda la información requerida.'
+            });
+            return; // Detenemos el proceso si la validación falla
+        }
 
-            $.ajax({
-                url: $(this).attr('action'),
-                method: 'POST',
-                data: formData,
-                success: function (response) {
-                    // Manejar la respuesta JSON del servidor
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Éxito!',
-                            text: response.message
-                        }).then(() => {
-                            // Opcional: recargar la página o redirigir
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message
-                        });
-                    }
-                },
-                error: function () {
+        // Si la validación es correcta, enviar el formulario vía AJAX
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: '@Url.Action("RegistrarProveedor", "Inventario")',  // URL generada por Razor
+            method: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error inesperado',
-                        text: 'Hubo un problema con el servidor. Por favor, inténtalo nuevamente.'
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error inesperado',
+                    text: 'Hubo un problema con el servidor. Por favor, inténtalo nuevamente.'
+                });
+            }
+        });
+    });
+});
+</script>
+
+<script>
+$(document).ready(function () {
+    // Llenar datos en el modal cuando el usuario hace clic en "Actualizar"
+    $('.btn-actualizar-proveedor').click(function () {
+        const id = $(this).data('id');
+        const empresa = $(this).data('empresa');
+        const telefono = $(this).data('telefono');
+        const correo = $(this).data('correo');
+
+        // Asignar los datos a los campos del formulario en el modal
+        $('#idProveedor').val(id);
+        $('#empresaActualizar').val(empresa);
+        $('#telefonoActualizar').val(telefono);
+        $('#correoActualizar').val(correo);
+    });
+
+    // Manejo del formulario de actualización con AJAX
+    $('#formActualizarProveedor').submit(function (e) {
+        e.preventDefault();  // Prevenir el envío del formulario por defecto
+
+        // Validar los campos
+        var empresa = $('#empresaActualizar').val();
+        var telefono = $('#telefonoActualizar').val();
+        var correo = $('#correoActualizar').val();
+
+        if (!empresa || !telefono || !correo) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos incompletos',
+                text: 'Por favor, ingrese toda la información requerida.'
+            });
+            return;  // Detener el proceso si la validación falla
+        }
+
+        // Enviar los datos del formulario por AJAX
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: '@Url.Action("ActualizarProveedor", "Inventario")',  // URL de la acción en el controlador
+            method: 'POST',
+            data: formData,  // Envío de los datos serializados
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: response.message
+                    }).then(() => {
+                        location.reload();  // Recargar la página después de la actualización
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error inesperado',
+                    text: 'Hubo un problema con el servidor. Por favor, inténtalo nuevamente.'
+                });
+            }
+        });
+    });
+});
+
+</script>
+<script>
+
+            $(document).on("click", ".btn-cambiar-estado", function () {
+            var proveedorID = $(this).attr('data-id');
+            var nombreEmpresa = $(this).attr('data-name');
+
+            Swal.fire({
+                title: '¿Cambiar el estado del proveedor?',
+                text: nombreEmpresa,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Cambiar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("CambiarEstadoProveedor", "Inventario")',
+                        type: 'POST',
+                        data: { idProveedor: proveedorID },
+                        success: function (response) {
+                            Swal.fire(
+                                'Estado Cambiado',
+                                'El estado del proveedor ha sido cambiado.',
+                                'success'
+                            ).then(function () {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            Swal.fire(
+                                'Error',
+                                'No se pudo cambiar el estado del proveedor.',
+                                'error'
+                            );
+                        }
                     });
                 }
             });
         });
-    });
-
-
-</script>
-<script>
-    $(document).ready(function () {
-        // Llenar datos en el modal de actualizar
-        $('.btn-actualizar-proveedor').click(function () {
-            const id = $(this).data('id');
-            const empresa = $(this).data('empresa');
-            const telefono = $(this).data('telefono');
-            const correo = $(this).data('correo');
-
-            $('#idProveedor').val(id);
-            $('#empresaActualizar').val(empresa);
-            $('#telefonoActualizar').val(telefono);
-            $('#correoActualizar').val(correo);
-        });
-    });
 </script>

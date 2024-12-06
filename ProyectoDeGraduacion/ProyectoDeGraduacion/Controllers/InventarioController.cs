@@ -97,14 +97,12 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = inventarioM.ConsultarProveedores();
             return View(respuesta);
         }
-
         [HttpPost]
         public JsonResult RegistrarProveedor(Proveedor proveedor)
         {
-
             try
             {
-                // Lógica para registrar el proveedor
+                // Aquí procesas los datos, por ejemplo, registrando al proveedor
                 var resultado = inventarioM.RegistrarProveedor(proveedor);
 
                 if (resultado)
@@ -123,31 +121,35 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
 
+
         [HttpPost]
-        public ActionResult ActualizarProveedor(Proveedor proveedor)
+        public JsonResult ActualizarProveedor(Proveedor proveedor)
         {
             try
             {
+                // Intentamos actualizar el proveedor
                 var respuesta = inventarioM.ActualizarProveedor(proveedor);
 
+                // Si la actualización fue exitosa, devolver un JSON con éxito
                 if (respuesta)
                 {
-                    TempData["SuccessMessage"] = "Proveedor actualizado correctamente.";
-                    return RedirectToAction("MostrarProveedores", "Inventario");
+                    return Json(new { success = true, message = "Proveedor actualizado correctamente." });
                 }
                 else
                 {
-                    ViewBag.msj = "No se pudo actualizar el proveedor. Inténtelo nuevamente.";
-                    return View(proveedor); // Devuelve la vista con los datos ingresados
+                    // Si no se pudo actualizar, devolvemos un error
+                    return Json(new { success = false, message = "No se pudo actualizar el proveedor. Inténtelo nuevamente." });
                 }
             }
             catch (Exception ex)
             {
-                // Manejar la excepción y mostrar un mensaje amigable al usuario
-                ViewBag.msj = "Ocurrió un error al actualizar el proveedor: " + ex.Message;
-                return View(proveedor); // Devuelve la vista con los datos ingresados
+                // Si hay un error, devolvemos un mensaje con el error
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
             }
         }
+
+
+
 
         [HttpPost]
         public ActionResult CambiarEstadoProveedor(Proveedor proveedor)

@@ -14,12 +14,6 @@ namespace ProyectoDeGraduacion.BaseDatos
     
     public partial class tCitas
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tCitas()
-        {
-            this.tProductosTratamiento = new HashSet<tProductosTratamiento>();
-        }
-    
         public int idCita { get; set; }
         public int idPaciente { get; set; }
         public int idSede { get; set; }
@@ -27,8 +21,6 @@ namespace ProyectoDeGraduacion.BaseDatos
     
         public virtual tPacientes tPacientes { get; set; }
         public virtual tSede tSede { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tProductosTratamiento> tProductosTratamiento { get; set; }
         public virtual tCitasDisponibles tCitasDisponibles { get; set; }
     }
 }

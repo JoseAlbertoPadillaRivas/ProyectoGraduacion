@@ -14,17 +14,10 @@ namespace ProyectoDeGraduacion.BaseDatos
     
     public partial class tCitasDisponibles
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tCitasDisponibles()
-        {
-            this.tCitas = new HashSet<tCitas>();
-        }
-    
         public int idCitaDisponible { get; set; }
         public System.DateTime Fecha { get; set; }
         public bool Estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tCitas> tCitas { get; set; }
+        public virtual tCitas tCitas { get; set; }
     }
 }

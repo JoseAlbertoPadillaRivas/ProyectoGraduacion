@@ -52,43 +52,50 @@
                                     <img src="~/images/logoClinica.png" alt="image">
                                 </a>
                             </li>
-                            <li><a href="@Url.Action("Index", "Login")"> Home</a></li>
-                            @if (Session["RolUsuario"].ToString() == "1")
+                            <li><a href="@Url.Action("Index", "Login")">Home</a></li>
+
+                            @if (Session["RolUsuario"] == null)
+                            {
+                                <li><a href="@Url.Action("Login", "Login")">Iniciar Sesión</a></li>
+                                <li><a href="@Url.Action("VerCalificaciones", "Calificacion")">Ver Calificaciones</a></li>
+                            }
+                            else if (Session["RolUsuario"].ToString() == "1")
                             {
                                 <li><a href="@Url.Action("MostrarInventario", "Inventario")">Inventario</a></li>
-                                <li><a href="@Url.Action("ConsultarPacientes", "Pacientes")"> Pacientes</a></li>
+                                <li><a href="@Url.Action("ConsultarPacientes", "Pacientes")">Pacientes</a></li>
                                 <li><a href="@Url.Action("MostrarProductos", "Seguimiento")">Seguimiento de productos</a></li>
                                 <li><a href="@Url.Action("HistorialesAdmin", "Historial")">Historia Clínica</a></li>
                                 <li><a href="@Url.Action("CitasProgramadas", "Citas")">Citas</a></li>
-                                <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
-                                <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
+                                <li><a href="@Url.Action("AdminCalificacion", "Calificacion")">Calificación</a></li>
                             }
                             else if (Session["RolUsuario"].ToString() == "2")
                             {
                                 <li><a href="@Url.Action("HistorialPaciente", "Historial")">Mi Historial</a></li>
                                 <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
                                 <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
-                                <li><a href="@Url.Action("verCalificaciones", "Calificacion")"> Calificación</a></li>
+                                <li><a href="@Url.Action("VerCalificaciones", "Calificacion")">Calificación</a></li>
                             }
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                                    @Session["NombreUsuario"].ToString()
-                                    <i class="far fa-user ml-2"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                    <div class="dropdown-divider"></div>
-                                    <a href="@Url.Action("MiPerfil", "Perfil")" class="dropdown-item">
-                                        <i class="fas fa-users mr-2"></i> Perfil
-                                        <span class="float-right text-muted text-sm"></span>
+
+                            @if (Session["RolUsuario"] != null)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                                        @Session["NombreUsuario"].ToString()
+                                        <i class="far fa-user ml-2"></i>
                                     </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="@Url.Action("CerrarSesion", "Login")" class="dropdown-item">
-                                        <i class="fas fa-door-open mr-2"></i> Cerrar Sesión
-                                        <span class="float-right text-muted text-sm"></span>
-                                    </a>
-                                </div>
-                            </li>
+                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                        <a href="@Url.Action("MiPerfil", "Perfil")" class="dropdown-item">
+                                            <i class="fas fa-users mr-2"></i> Perfil
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="@Url.Action("CerrarSesion", "Login")" class="dropdown-item">
+                                            <i class="fas fa-door-open mr-2"></i> Cerrar Sesión
+                                        </a>
+                                    </div>
+                                </li>
+                            }
                         </ul>
+
                     </nav>
                 </div>
             </div>

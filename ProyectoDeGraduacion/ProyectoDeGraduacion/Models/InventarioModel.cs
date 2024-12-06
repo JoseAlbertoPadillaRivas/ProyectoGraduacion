@@ -117,23 +117,33 @@ namespace ProyectoDeGraduacion.Models
 
         public bool RegistrarProveedor(Proveedor proveedor)
         {
-            try
+            using (var context = new ProyectoGraduacionEntities())
             {
-                var rowsAffected = 0;
-
-                using (var context = new ProyectoGraduacionEntities())
+                tProveedores nuevoProveedor = new tProveedores
                 {
-                    rowsAffected = context.RegistrarProveedor(proveedor.Empresa, proveedor.NumeroTelefono, proveedor.Correo);
-                }                
+                    Empresa = proveedor.Empresa,
+                    NumeroTelefono = proveedor.NumeroTelefono,
+                    Correo = proveedor.Correo,
+                    Estado = true  // Estado activo, por ejemplo: 1 es para activo
+                };
 
-                return rowsAffected > 0;
+                context.tProveedores.Add(nuevoProveedor);
+                context.SaveChanges(); // Guardamos los cambios en la base de datos
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al registrar el proveedor: " + ex.Message);
-            }
+
+            return true;
         }
 
+
+        public tProveedores ConsultarUsuarioidProveedor(int idProveedor)
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                return (from x in context.tProveedores
+                        where x.idProveedor == idProveedor
+                        select x).FirstOrDefault();
+            }
+        }
 
 
         public List<tProveedores> ConsultarProveedores()
@@ -159,18 +169,20 @@ namespace ProyectoDeGraduacion.Models
                         prov.NumeroTelefono = proveedor.NumeroTelefono;
                         prov.Correo = proveedor.Correo;
 
-                        context.SaveChanges(); // Guardamos los cambios en la base de datos
+                        context.SaveChanges();  
                         return true;
                     }
-                    return false; // Si no se encuentra el proveedor
+                    return false;  
                 }
             }
             catch (Exception ex)
             {
-                // Registrar o manejar la excepción según sea necesario
                 throw new Exception("Error al actualizar el proveedor: " + ex.Message, ex);
             }
         }
+
+
+
 
         public bool CambiarEstadoProveedor(Proveedor proveedor)
         {

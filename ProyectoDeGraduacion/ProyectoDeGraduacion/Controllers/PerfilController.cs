@@ -31,24 +31,5 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
-        [FiltroSeguridad]
-        [HttpPost]
-        public JsonResult EliminarUsuario(int idPaciente)
-        {
-            var respuesta = pacienteM.EliminarUsuario(idPaciente);
-
-            if (respuesta)
-            {
-                // Devuelve una respuesta JSON para que el cliente maneje el redireccionamiento
-                return Json(new { success = true, message = "El usuario ha sido eliminado correctamente." });
-            }
-            else
-            {
-                return Json(new { success = false, message = "No se pudo eliminar el usuario." });
-            }
-        }
-
-
     }
 }

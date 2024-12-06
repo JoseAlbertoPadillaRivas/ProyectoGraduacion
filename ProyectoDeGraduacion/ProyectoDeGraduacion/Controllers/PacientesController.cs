@@ -53,23 +53,5 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
-        [HttpPost]
-        public JsonResult EliminarUsuario(int idPaciente)
-        {
-            var respuesta = pacienteM.EliminarUsuario(idPaciente);
-
-            if (respuesta)
-            {
-                return Json(new { success = true, message = "El usuario ha sido eliminado correctamente." });
-            }
-            else
-            {
-                return Json(new { success = false, message = "No se pudo eliminar el usuario." });
-            }
-        }
-
-
-
     }
 }

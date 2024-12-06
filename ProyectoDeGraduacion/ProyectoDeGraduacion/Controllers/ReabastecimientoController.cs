@@ -254,7 +254,8 @@ namespace ProyectoDeGraduacion.Controllers
                                         NombreProducto = orden.NombreProducto,
                                         CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
                                         FechaSolicitud = orden.FechaSolicitud,
-                                        NombreProveedor = proveedor.Empresa
+                                        NombreProveedor = proveedor.Empresa,
+                                        idOrdenCompra = orden.idOrdenCompra
                                     }).ToList();
 
             return View(historialOrdenes);
@@ -270,7 +271,8 @@ namespace ProyectoDeGraduacion.Controllers
                                         NombreProducto = orden.NombreProducto,
                                         CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
                                         FechaSolicitud = orden.FechaSolicitud,
-                                        NombreProveedor = proveedor.Empresa
+                                        NombreProveedor = proveedor.Empresa,
+                                        idOrdenCompra = orden.idOrdenCompra
                                     }).ToList();
 
             return View(historialOrdenes);
@@ -287,7 +289,8 @@ namespace ProyectoDeGraduacion.Controllers
                                         NombreProducto = orden.NombreProducto,
                                         CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
                                         FechaSolicitud = orden.FechaSolicitud,
-                                        NombreProveedor = proveedor.Empresa
+                                        NombreProveedor = proveedor.Empresa,
+                                        idOrdenCompra = orden.idOrdenCompra
                                     }).ToList();
 
             var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", historialOrdenes)
@@ -297,5 +300,25 @@ namespace ProyectoDeGraduacion.Controllers
 
             return pdfResult;
         }
+
+
+        [HttpPost]
+        public ActionResult EliminarOrdenCompra(int idOrdenCompra)
+        {
+            ReabastecimientoModel reabastecimientoModel = new ReabastecimientoModel();
+            var orden = reabastecimientoModel.EliminarOrdenCompre(idOrdenCompra);
+
+            if (orden)
+            {
+                return Json(new { success = true, message = "Producto eliminado correctamente." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No se pudo eliminar el producto. Intenta nuevamente." });
+            }
+        }
+
+
+
     }
 }

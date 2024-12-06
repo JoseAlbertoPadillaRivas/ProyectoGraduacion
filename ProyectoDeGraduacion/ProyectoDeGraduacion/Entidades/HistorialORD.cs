@@ -11,5 +11,7 @@ namespace ProyectoDeGraduacion.Entidades
         public int CantidadTotalSolicitada { get; set; }
         public DateTime FechaSolicitud { get; set; }
         public string NombreProveedor { get; set; }
+
+        public int idOrdenCompra { get; set; }
     }
 }

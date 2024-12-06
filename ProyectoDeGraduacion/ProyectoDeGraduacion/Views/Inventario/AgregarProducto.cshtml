@@ -18,14 +18,15 @@
                 </div>
             }
 
-            <form method="post" action="@Url.Action("AgregarProducto", "Inventario")">
+            <form method="post" action="@Url.Action("AgregarProducto", "Inventario")" id="productoForm">
                 <div class="form-group">
                     <label for="NombreProducto" class="font-weight-bold">Nombre del Producto</label>
                     @Html.TextBoxFor(m => m.NombreProducto, new
                     {
                         @type = "text",
                         @class = "form-control",
-                        @placeholder = "Ingrese el nombre del producto"
+                        @placeholder = "Ingrese el nombre del producto",
+                        @id = "NombreProducto"
                     })
                 </div>
 
@@ -35,7 +36,8 @@
                     {
                         @type = "number",
                         @class = "form-control",
-                        @placeholder = "Ingrese la cantidad disponible"
+                        @placeholder = "Ingrese la cantidad disponible",
+                        @id = "Cantidad"
                     })
                 </div>
 
@@ -45,7 +47,8 @@
                     {
                         @type = "date",
                         @class = "form-control",
-                        @placeholder = "Seleccione la fecha de caducidad"
+                        @placeholder = "Seleccione la fecha de caducidad",
+                        @id = "CaducidadProducto"
                     })
                 </div>
 
@@ -53,13 +56,14 @@
                     <label for="idProveedor" class="font-weight-bold">Proveedor</label>
                     @Html.DropDownListFor(m => m.idProveedor, (SelectList)ViewBag.Proveedores, "Seleccione un proveedor", new
                     {
-                        @class = "form-control"
+                        @class = "form-control",
+                        @id = "idProveedor"
                     })
                 </div>
 
                 <hr class="my-4">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg px-5">
+                    <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn">
                         <i class="fas fa-save"></i> Registrar Producto
                     </button>
                 </div>
@@ -67,3 +71,38 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function (e) {
+        // Validar campos antes de enviar
+        let nombreProducto = document.getElementById("NombreProducto").value.trim();
+        let cantidad = document.getElementById("Cantidad").value.trim();
+        let caducidadProducto = document.getElementById("CaducidadProducto").value.trim();
+        let idProveedor = document.getElementById("idProveedor").value;
+
+        if (!nombreProducto) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa el nombre del producto.", "error");
+            return;
+        }
+
+        if (!cantidad || isNaN(cantidad) || cantidad <= 0) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, ingresa una cantidad válida.", "error");
+            return;
+        }
+
+        if (!caducidadProducto) {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona la fecha de caducidad.", "error");
+            return;
+        }
+
+        if (!idProveedor || idProveedor === "Seleccione un proveedor") {
+            e.preventDefault();
+            Swal.fire("Error", "Por favor, selecciona un proveedor.", "error");
+            return;
+        }
+    });
+</script>

@@ -28,9 +28,9 @@ namespace ProyectoDeGraduacion.BaseDatos
         public System.DateTime FechaSolicitud { get; set; }
         public int idProducto { get; set; }
     
-        public virtual tInventario tInventario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrdenesProductos> tOrdenesProductos { get; set; }
+        public virtual tInventario tInventario { get; set; }
         public virtual tProveedores tProveedores { get; set; }
     }
 }

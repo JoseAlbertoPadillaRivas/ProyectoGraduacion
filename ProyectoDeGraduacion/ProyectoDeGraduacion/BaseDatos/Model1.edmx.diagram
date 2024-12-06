@@ -4,50 +4,38 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a576ff3ad7e74496b2e89a40bc6f3001" Name="Diagram1">
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tArchivosPaciente" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+      <Diagram DiagramId="1cdcb399767d4261abd41fa096b292d6" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tCalificaciones" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tCitas" Width="1.5" PointX="8.25" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tCitasDisponibles" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tHistorial" Width="1.5" PointX="5.25" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tInventario" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tMovimientosInventario" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tOrdenesCompra" Width="1.5" PointX="11.25" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tOrdenesProductos" Width="1.5" PointX="13.5" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tPacientes" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProductosTratamiento" Width="1.5" PointX="10.5" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProveedores" Width="1.5" PointX="3.75" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tRecomendacionesProducto" Width="1.5" PointX="10.5" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tRol" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tSede" Width="1.5" PointX="6" PointY="16.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tSeguimiento" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoGraduacionModel.tSeguimientoProducto" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoGraduacionModel.tServicio" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ArchivoPaciente" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idPac__5FB337D6" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idPac__6EF57B66" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idPac__70DDC3D8" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idSer__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idPac__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idPac__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idPac__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idSer__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idSer__6EF57B66" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idSer__6FE99F9F" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK__tCalifica__idSer__71D1E811" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaPaciente" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaSede" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_CitaTratamiento" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_tCitas_tCitasDisponibles" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_HistorialPaciente" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoMovimiento" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoOrden" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoOrdenCompra" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoProveedor" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoTratamiento" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_SeguimientoProducto" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_OrdenCompra" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProveedorOrdenCompra" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_idPaciente" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoGraduacionModel.FK_PacienteRol" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_SeguimientoPaciente" ManuallyRouted="false" />
-        <AssociationConnector Association="ProyectoGraduacionModel.FK_RecomendacionSeguimiento" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tInventario" Width="1.5" PointX="6" PointY="4.125" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoOrden" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoOrdenCompra" />
+        <EntityTypeShape EntityType="ProyectoGraduacionModel.tProveedores" Width="1.5" PointX="3.75" PointY="4.25" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProductoProveedor" />
+        <AssociationConnector Association="ProyectoGraduacionModel.FK_ProveedorOrdenCompra" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

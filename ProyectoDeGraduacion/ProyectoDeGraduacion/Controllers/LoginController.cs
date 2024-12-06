@@ -64,9 +64,6 @@ namespace KN_Web.Controllers
                 return View();
             }
         }
-
-
-        [FiltroSeguridad]
         [HttpGet]
         public ActionResult Index()
         {

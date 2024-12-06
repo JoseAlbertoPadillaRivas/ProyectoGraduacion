@@ -28,6 +28,7 @@
                     <th>Cantidad Comprada</th>
                     <th>Fecha de compra</th>
                     <th>Proveedor</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,11 @@
                         <td>@item.CantidadTotalSolicitada</td>
                         <td>@item.FechaSolicitud.ToString("dd/MM/yyyy")</td>
                         <td>@item.NombreProveedor</td>
+                        <td style="text-align:center">
+                            <button type="button" class="btn btn-primary btn-eliminar-producto" data-id="@item.idOrdenCompra" data-name="@item.NombreProducto">
+                                <i class="fa fa-share-square"></i>
+                            </button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -111,4 +117,51 @@
             }
         });
     });
+</script>
+<script>
+        $(document).on("click", ".btn-eliminar-producto", function () {
+            var idcompra = $(this).attr('data-id');
+            var producto = $(this).attr('data-name');
+
+            Swal.fire({
+                title: '¿Deseas eliminar este producto?',
+                text: producto,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("EliminarOrdenCompra", "Reabastecimiento")',
+                        type: 'POST',
+                        data: { idOrdenCompra: idcompra },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    'Producto Eliminado',
+                                    response.message,
+                                    'success'
+                                ).then(function () {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Operación Fallida',
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function () {
+                            Swal.fire(
+                                'Error',
+                                'No se pudo procesar la solicitud.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
 </script>
