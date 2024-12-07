@@ -104,7 +104,10 @@
                             'Exportación Completa',
                             'El historial ha sido exportado como PDF.',
                             'success'
-                        );
+                        ).then(() => {
+                            // Recargar la página después de la descarga y confirmación del Swal
+                            window.location.reload();
+                        });
                     },
                     error: function () {
                         Swal.fire(
