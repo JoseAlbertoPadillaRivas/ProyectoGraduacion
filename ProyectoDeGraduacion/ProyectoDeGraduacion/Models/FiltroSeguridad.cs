@@ -29,7 +29,7 @@ namespace ProyectoDeGraduacion.Models
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
                 {
                     { "controller", "Login" },
-                    { "action", "Index" }
+                    { "action", "Login" }
                 });
             }
 

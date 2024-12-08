@@ -70,7 +70,7 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
 
-
+        [FiltroAdmin]
         [HttpGet]
         public ActionResult CitasProgramadas()
         {
@@ -90,7 +90,7 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = citasM.CitasProgramadas();
             return View(respuesta);
         }
-
+        [FiltroAdmin]
         [HttpPost]
         public JsonResult ReprogramarCita(Citas cita)
         {
@@ -118,7 +118,7 @@ namespace ProyectoDeGraduacion.Controllers
             }
         }
 
-
+        [FiltroAdmin]
         [HttpPost]
         public JsonResult CancelarCita(int idCita)
         {

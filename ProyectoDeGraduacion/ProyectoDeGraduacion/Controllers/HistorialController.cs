@@ -9,6 +9,8 @@ using System.Linq;
 
 namespace ProyectoDeGraduacion.Controllers
 {
+    [FiltroSeguridad]
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class HistorialController : Controller
     {
         HistorialModel historialM = new HistorialModel();
@@ -22,6 +24,8 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
+
+        [FiltroAdmin]
         [HttpGet]
         public ActionResult HistorialesAdmin()
         {
@@ -29,6 +33,8 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
+
+        [FiltroAdmin]
         [HttpGet]
         public ActionResult RegistrarHistoria()
         {
@@ -37,42 +43,63 @@ namespace ProyectoDeGraduacion.Controllers
             return View();
         }
 
+
+        [FiltroAdmin]
         [HttpPost]
         public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist)
         {
-            if (Archivo == null || Archivo.ContentLength == 0)
+            try
             {
-                ViewBag.msj = "Por favor, selecciona un archivo.";
-                return View();
+                if (Archivo == null || Archivo.ContentLength == 0)
+                {
+                    ViewBag.msj = "Por favor, selecciona un archivo.";
+                    return View();
+                }
+
+                // Validar y crear la carpeta si no existe
+                string directorio = Server.MapPath("~/ArchivosHistorial");
+                if (!Directory.Exists(directorio))
+                {
+                    Directory.CreateDirectory(directorio);
+                }
+
+                // Generar el nombre y la ruta completa del archivo
+                string extension = Path.GetExtension(Archivo.FileName);
+                string fechaCreacion = DateTime.Now.ToString("yyyyMMdd");
+                string idUnico = new Random().Next(10000, 99999).ToString();
+                string nombreArchivo = $"HistorialMedico_{fechaCreacion}_{idUnico}{extension}";
+                string ruta = Path.Combine(directorio, nombreArchivo);
+
+                // Guardar el archivo en la ruta
+                Archivo.SaveAs(ruta);
+
+                // Guardar la ruta del archivo en la base de datos
+                hist.Archivo = "/ArchivosHistorial/" + nombreArchivo;
+                var consecutivo = historialM.RegistrarHistoria(hist);
+
+                if (consecutivo > 0)
+                {
+                    return RedirectToAction("HistorialesAdmin", "Historial");
+                }
+                else
+                {
+                    ViewBag.historial = "No se ha podido registrar la información del producto.";
+                    return View();
+                }
             }
-
-            string extension = Path.GetExtension(Archivo.FileName);
-
-            string fechaCreacion = DateTime.Now.ToString("yyyyMMdd");
-
-            string idUnico = new Random().Next(10000, 99999).ToString();
-
-            string nombreArchivo = $"HistorialMedico_{fechaCreacion}_{idUnico}{extension}";
-
-            string ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ArchivosHistorial", nombreArchivo);
-
-            Archivo.SaveAs(ruta);
-
-            hist.Archivo = "/ArchivosHistorial/" + nombreArchivo;
-
-            var consecutivo = historialM.RegistrarHistoria(hist);
-
-            if (consecutivo > 0)
+            catch (Exception ex)
             {
-                return RedirectToAction("HistorialesAdmin", "Historial");
-            }
-            else
-            {
-                ViewBag.historial = "No se ha podido registrar la información del producto";
+                // Registrar errores para depuración
+                System.Diagnostics.Debug.WriteLine("Error en RegistrarHistoria: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("StackTrace: " + ex.StackTrace);
+
+                ViewBag.Error = "Ocurrió un error al procesar la solicitud. Por favor, inténtalo más tarde.";
                 return View();
             }
         }
 
+
+        [FiltroAdmin]
         [HttpGet]
         public ActionResult ActualizarHistorial(int idHistorial)
         {
@@ -81,7 +108,7 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = historialM.ConsultarHistorialID(idHistorial);
             return View(respuesta);
         }
-
+        [FiltroAdmin]
         [HttpPost]
         public ActionResult ActualizarHistorial(tHistorial historial)
         {

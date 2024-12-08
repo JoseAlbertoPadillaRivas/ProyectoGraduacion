@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace ProyectoDeGraduacion.Controllers
 {
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ChatbotController : Controller
     {
         private readonly ChatbotModel chatbotModel;

@@ -17,7 +17,6 @@ namespace ProyectoDeGraduacion.BaseDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tInventario()
         {
-            this.tOrdenesProductos = new HashSet<tOrdenesProductos>();
             this.tOrdenesCompra = new HashSet<tOrdenesCompra>();
         }
     
@@ -28,8 +27,6 @@ namespace ProyectoDeGraduacion.BaseDatos
         public int idProveedor { get; set; }
         public int NivelMinimoStock { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tOrdenesProductos> tOrdenesProductos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrdenesCompra> tOrdenesCompra { get; set; }
         public virtual tProveedores tProveedores { get; set; }

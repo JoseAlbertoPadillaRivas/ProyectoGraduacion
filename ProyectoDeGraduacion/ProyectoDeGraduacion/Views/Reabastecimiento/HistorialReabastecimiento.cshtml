@@ -76,47 +76,51 @@
     });
 
     // Exportar historial a PDF con SweetAlert
-    document.getElementById('btn-exportar').addEventListener('click', function() {
-        Swal.fire({
-            title: '¿Desea exportar el historial?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, exportar',
-            cancelButtonText: 'No'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '@Url.Action("GenerarPdf", "Reabastecimiento")',
-                    type: 'POST',
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    success: function (data) {
-                        const url = window.URL.createObjectURL(new Blob([data]));
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = 'Historial.pdf';
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
+// Exportar historial a PDF con SweetAlert
+document.getElementById('btn-exportar').addEventListener('click', function() {
+     Swal.fire({
+         title: '¿Desea exportar el historial?',
+         icon: 'question',
+         showCancelButton: true,
+         confirmButtonText: 'Sí, exportar',
+         cancelButtonText: 'No'
+     }).then((result) => {
+         if (result.isConfirmed) {
+             $.ajax({
+                 url: '@Url.Action("GenerarPdf", "Reabastecimiento")',
+                 type: 'POST',
+                 xhrFields: {
+                     responseType: 'blob'
+                 },
+                 success: function (data) {
+                     const url = window.URL.createObjectURL(new Blob([data]));
+                     const a = document.createElement('a');
+                     a.href = url;
+                     a.download = 'Historial.pdf';
+                     document.body.appendChild(a);
+                     a.click();
+                     a.remove();
 
-                        Swal.fire(
-                            'Exportación Completa',
-                            'El historial ha sido exportado como PDF.',
-                            'success'
-                        );
-                    },
-                    error: function () {
-                        Swal.fire(
-                            'Error',
-                            'Hubo un problema al exportar el historial.',
-                            'error'
-                        );
-                    }
-                });
-            }
-        });
-    });
+                     Swal.fire(
+                         'Exportación Completa',
+                         'El historial ha sido exportado como PDF.',
+                         'success'
+                     ).then(() => {
+                         // Recargar la página después de la descarga y confirmación del Swal
+                         window.location.reload();
+                     });
+                 },
+                 error: function () {
+                     Swal.fire(
+                         'Error',
+                         'Hubo un problema al exportar el historial.',
+                         'error'
+                     );
+                 }
+             });
+         }
+     });
+});
 </script>
 <script>
         $(document).on("click", ".btn-eliminar-producto", function () {

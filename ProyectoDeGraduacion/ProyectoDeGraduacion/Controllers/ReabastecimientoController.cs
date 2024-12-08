@@ -10,6 +10,9 @@ using Rotativa;
 using System.Text;
 namespace ProyectoDeGraduacion.Controllers
 {
+    [FiltroAdmin]
+    [FiltroSeguridad]
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ReabastecimientoController : Controller
     {
         private ProyectoGraduacionEntities db = new ProyectoGraduacionEntities();
@@ -293,12 +296,20 @@ namespace ProyectoDeGraduacion.Controllers
                                         idOrdenCompra = orden.idOrdenCompra
                                     }).ToList();
 
+            // Generar el PDF en memoria
             var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", historialOrdenes)
             {
                 FileName = "Historial.pdf"
             };
 
-            return pdfResult;
+            var pdfBytes = pdfResult.BuildFile(this.ControllerContext);
+
+            // Eliminar los registros después de generar el PDF
+            db.tOrdenesCompra.RemoveRange(db.tOrdenesCompra);
+            db.SaveChanges();
+
+            // Devolver el archivo PDF al usuario para su descarga
+            return File(pdfBytes, "application/pdf", "Historial.pdf");
         }
 
 
