@@ -10,6 +10,9 @@ using Rotativa;
 using System.Text;
 namespace ProyectoDeGraduacion.Controllers
 {
+    [FiltroAdmin]
+    [FiltroSeguridad]
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ReabastecimientoController : Controller
     {
         private ProyectoGraduacionEntities db = new ProyectoGraduacionEntities();

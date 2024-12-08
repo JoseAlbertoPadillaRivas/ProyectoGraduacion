@@ -27,19 +27,20 @@ namespace ProyectoDeGraduacion.BaseDatos
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tArchivosPaciente> tArchivosPaciente { get; set; }
         public virtual DbSet<tCalificaciones> tCalificaciones { get; set; }
         public virtual DbSet<tCitas> tCitas { get; set; }
         public virtual DbSet<tCitasDisponibles> tCitasDisponibles { get; set; }
         public virtual DbSet<tHistorial> tHistorial { get; set; }
+        public virtual DbSet<tInventario> tInventario { get; set; }
         public virtual DbSet<tOrdenesCompra> tOrdenesCompra { get; set; }
         public virtual DbSet<tOrdenesProductos> tOrdenesProductos { get; set; }
         public virtual DbSet<tPacientes> tPacientes { get; set; }
+        public virtual DbSet<tProveedores> tProveedores { get; set; }
         public virtual DbSet<tRol> tRol { get; set; }
         public virtual DbSet<tSede> tSede { get; set; }
         public virtual DbSet<tSeguimiento> tSeguimiento { get; set; }
         public virtual DbSet<tServicio> tServicio { get; set; }
-        public virtual DbSet<tInventario> tInventario { get; set; }
-        public virtual DbSet<tProveedores> tProveedores { get; set; }
     
         public virtual int ActualizarArchivo(Nullable<int> idHistorial, string archivo)
         {

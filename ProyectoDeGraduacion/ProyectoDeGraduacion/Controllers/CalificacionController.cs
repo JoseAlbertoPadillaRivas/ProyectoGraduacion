@@ -9,6 +9,7 @@ using Rotativa;
 
 namespace ProyectoDeGraduacion.Controllers
 {
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class CalificacionController : Controller
     {
 
@@ -27,6 +28,7 @@ namespace ProyectoDeGraduacion.Controllers
         }
         
         [HttpGet]
+        [FiltroSeguridad]
         public ActionResult NuevaCalificacion()
         {
             // Obtener el idPaciente de la sesión
@@ -45,7 +47,7 @@ namespace ProyectoDeGraduacion.Controllers
             return View(model); 
         }
 
-
+        [FiltroSeguridad]
         [HttpPost]
         public ActionResult NuevaCalificacion(Calificacion calificacion)
         {
@@ -59,7 +61,8 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
+        [FiltroSeguridad]
+        [FiltroAdmin]
         [HttpPost]
         public ActionResult EliminarCalificacion(int idCalificaciones)
         {
@@ -75,6 +78,8 @@ namespace ProyectoDeGraduacion.Controllers
             }
         }
 
+        [FiltroSeguridad]
+        [FiltroAdmin]
         [HttpGet]
         public ActionResult AdminCalificacion()
         {
@@ -82,6 +87,8 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
+        [FiltroSeguridad]
+        [FiltroAdmin]
         [HttpGet]
         public ActionResult AnalizarCalificaciones()
         {
@@ -92,8 +99,9 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
 
-        //Vista específica para PDF
-            public ActionResult CalificacionPDF()
+        [FiltroSeguridad]
+        [FiltroAdmin]
+        public ActionResult CalificacionPDF()
         {
             var calificacion = (from calificaciones in db.tCalificaciones
                                     join paciente in db.tPacientes on calificaciones.idPaciente equals paciente.idPaciente
@@ -111,6 +119,8 @@ namespace ProyectoDeGraduacion.Controllers
             return View(calificacion);
         }
 
+        [FiltroSeguridad]
+        [FiltroAdmin]
         [HttpPost]
         public ActionResult GenerarPdf()
         {
