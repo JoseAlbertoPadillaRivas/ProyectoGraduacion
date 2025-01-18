@@ -11,7 +11,6 @@ namespace ProyectoDeGraduacion.Entidades
 
         public DateTime Fecha { get; set; }
 
-        public Boolean Estado{get; set;
-        }
+        public Boolean Estado{get; set;}
     }
 }

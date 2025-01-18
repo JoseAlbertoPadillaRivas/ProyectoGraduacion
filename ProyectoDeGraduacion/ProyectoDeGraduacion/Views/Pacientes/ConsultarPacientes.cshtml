@@ -31,6 +31,7 @@
                         <th>Estado</th>
                         <th>Cambiar Estado</th>
                         <th>Actualizar Información</th>
+                        <th>Historial Médico</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,21 +49,25 @@
                             {
                                 <td><span class="badge bg-danger">Inactivo</span></td>
                             }
-
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm btn-cambiar-estado" data-id="@item.idPaciente" data-name="@item.Nombre" title="Cambiar Estado">
                                     <i class="fas fa-sync-alt"></i>
                                 </button>
                             </td>
-
                             <td>
                                 <a class="btn btn-info btn-sm" href="@Url.Action("ActualizarPaciente","Pacientes", new { idPaciente = item.idPaciente })" title="Actualizar Información">
                                     <i class="fas fa-user-edit"></i>
                                 </a>
                             </td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("HistorialPaciente", "Historial", new { idPaciente = item.idPaciente })" title="Ver Historial Médico">
+                                    <i class="fas fa-notes-medical"></i>
+                                </a>
+                            </td>
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </div>

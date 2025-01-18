@@ -12,7 +12,7 @@ namespace ProyectoDeGraduacion
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",
-                defaults: new { controller = "Login", action = "Login" }
+                defaults: new { controller = "Login", action = "Index" }
             );
         }
     }

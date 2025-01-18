@@ -117,6 +117,8 @@
         const correo = document.getElementById("Correo").value.trim();
         const password = document.getElementById("Password").value.trim();
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*?&])[A-Za-z\d$!%*?&]{8,}$/;
+
         if (!cedula) {
             event.preventDefault();
             Swal.fire("Error", "Por favor, ingresa tu cédula.", "error");
@@ -142,10 +144,15 @@
             Swal.fire("Error", "Por favor, ingresa tu contraseña.", "error");
             return;
         }
-        if (password.length < 8) {
+        if (!passwordRegex.test(password)) {
             event.preventDefault();
-            Swal.fire("Error", "La contraseña debe tener al menos 8 caracteres.", "error");
+            Swal.fire(
+                "Error",
+                "La contraseña debe tener al menos 8 caracteres, incluyendo una letra minúscula, una letra mayúscula, un número y un símbolo especial",
+                "error"
+            );
             return;
         }
     });
 </script>
+

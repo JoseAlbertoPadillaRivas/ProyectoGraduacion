@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ProyectoGraduacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tArchivosPaciente">
           <Key>
             <PropertyRef Name="idArchivo" />
@@ -143,7 +143,7 @@
           <Property Name="idServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="120" Nullable="false" />
         </EntityType>
-        <Association Name="FK__tCalifica__idPac__75A278F5">
+        <Association Name="FK__tCalifica__idPac__6B24EA82">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -155,7 +155,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__76969D2E">
+        <Association Name="FK__tCalifica__idPac__6C190EBB">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -167,7 +167,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__778AC167">
+        <Association Name="FK__tCalifica__idPac__6D0D32F4">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -179,7 +179,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__787EE5A0">
+        <Association Name="FK__tCalifica__idSer__6E01572D">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -191,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__797309D9">
+        <Association Name="FK__tCalifica__idSer__6EF57B66">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -203,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__7A672E12">
+        <Association Name="FK__tCalifica__idSer__6FE99F9F">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -212,6 +212,18 @@
             </Principal>
             <Dependent Role="tCalificaciones">
               <PropertyRef Name="idServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchivoPaciente">
+          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
+          <End Role="tArchivosPaciente" Type="Self.tArchivosPaciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPacientes">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="tArchivosPaciente">
+              <PropertyRef Name="idPaciente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -284,6 +296,18 @@
             </Principal>
             <Dependent Role="tPacientes">
               <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoOrden">
+          <End Role="tInventario" Type="Self.tInventario" Multiplicity="1" />
+          <End Role="tOrdenesProductos" Type="Self.tOrdenesProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tInventario">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="tOrdenesProductos">
+              <PropertyRef Name="idProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -434,29 +458,33 @@
           <EntitySet Name="tSede" EntityType="Self.tSede" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tSeguimiento" EntityType="Self.tSeguimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tServicio" EntityType="Self.tServicio" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__tCalifica__idPac__75A278F5" Association="Self.FK__tCalifica__idPac__75A278F5">
+          <AssociationSet Name="FK__tCalifica__idPac__6B24EA82" Association="Self.FK__tCalifica__idPac__6B24EA82">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__76969D2E" Association="Self.FK__tCalifica__idPac__76969D2E">
+          <AssociationSet Name="FK__tCalifica__idPac__6C190EBB" Association="Self.FK__tCalifica__idPac__6C190EBB">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__778AC167" Association="Self.FK__tCalifica__idPac__778AC167">
+          <AssociationSet Name="FK__tCalifica__idPac__6D0D32F4" Association="Self.FK__tCalifica__idPac__6D0D32F4">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__787EE5A0" Association="Self.FK__tCalifica__idSer__787EE5A0">
+          <AssociationSet Name="FK__tCalifica__idSer__6E01572D" Association="Self.FK__tCalifica__idSer__6E01572D">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__797309D9" Association="Self.FK__tCalifica__idSer__797309D9">
+          <AssociationSet Name="FK__tCalifica__idSer__6EF57B66" Association="Self.FK__tCalifica__idSer__6EF57B66">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__7A672E12" Association="Self.FK__tCalifica__idSer__7A672E12">
+          <AssociationSet Name="FK__tCalifica__idSer__6FE99F9F" Association="Self.FK__tCalifica__idSer__6FE99F9F">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
+            <End Role="tPacientes" EntitySet="tPacientes" />
+            <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
           </AssociationSet>
           <AssociationSet Name="FK_CitaPaciente" Association="Self.FK_CitaPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
@@ -481,6 +509,10 @@
           <AssociationSet Name="FK_PacienteRol" Association="Self.FK_PacienteRol">
             <End Role="tRol" EntitySet="tRol" />
             <End Role="tPacientes" EntitySet="tPacientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoOrden" Association="Self.FK_ProductoOrden">
+            <End Role="tInventario" EntitySet="tInventario" />
+            <End Role="tOrdenesProductos" EntitySet="tOrdenesProductos" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductoOrdenCompra" Association="Self.FK_ProductoOrdenCompra">
             <End Role="tInventario" EntitySet="tInventario" />
@@ -514,6 +546,7 @@
           <Property Name="TipoArchivo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Archivo" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="FechaSubida" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="tPacientes" Relationship="Self.FK_ArchivoPaciente" FromRole="tArchivosPaciente" ToRole="tPacientes" />
         </EntityType>
         <EntityType Name="tCalificaciones">
           <Key>
@@ -525,12 +558,12 @@
           <Property Name="Opinion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idServicio" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="tPacientes" Relationship="Self.FK__tCalifica__idPac__75A278F5" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tPacientes1" Relationship="Self.FK__tCalifica__idPac__76969D2E" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tPacientes2" Relationship="Self.FK__tCalifica__idPac__778AC167" FromRole="tCalificaciones" ToRole="tPacientes" />
-          <NavigationProperty Name="tServicio" Relationship="Self.FK__tCalifica__idSer__787EE5A0" FromRole="tCalificaciones" ToRole="tServicio" />
-          <NavigationProperty Name="tServicio1" Relationship="Self.FK__tCalifica__idSer__797309D9" FromRole="tCalificaciones" ToRole="tServicio" />
-          <NavigationProperty Name="tServicio2" Relationship="Self.FK__tCalifica__idSer__7A672E12" FromRole="tCalificaciones" ToRole="tServicio" />
+          <NavigationProperty Name="tPacientes" Relationship="Self.FK__tCalifica__idPac__6B24EA82" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tPacientes1" Relationship="Self.FK__tCalifica__idPac__6C190EBB" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tPacientes2" Relationship="Self.FK__tCalifica__idPac__6D0D32F4" FromRole="tCalificaciones" ToRole="tPacientes" />
+          <NavigationProperty Name="tServicio" Relationship="Self.FK__tCalifica__idSer__6E01572D" FromRole="tCalificaciones" ToRole="tServicio" />
+          <NavigationProperty Name="tServicio1" Relationship="Self.FK__tCalifica__idSer__6EF57B66" FromRole="tCalificaciones" ToRole="tServicio" />
+          <NavigationProperty Name="tServicio2" Relationship="Self.FK__tCalifica__idSer__6FE99F9F" FromRole="tCalificaciones" ToRole="tServicio" />
         </EntityType>
         <EntityType Name="tCitas">
           <Key>
@@ -577,6 +610,7 @@
           <Property Name="CaducidadProducto" Type="DateTime" Precision="0" />
           <Property Name="idProveedor" Type="Int32" Nullable="false" />
           <Property Name="NivelMinimoStock" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tOrdenesProductos" Relationship="Self.FK_ProductoOrden" FromRole="tInventario" ToRole="tOrdenesProductos" />
           <NavigationProperty Name="tOrdenesCompra" Relationship="Self.FK_ProductoOrdenCompra" FromRole="tInventario" ToRole="tOrdenesCompra" />
           <NavigationProperty Name="tProveedores" Relationship="Self.FK_ProductoProveedor" FromRole="tInventario" ToRole="tProveedores" />
         </EntityType>
@@ -603,6 +637,7 @@
           <Property Name="idOrdenCompra" Type="Int32" Nullable="false" />
           <Property Name="idProducto" Type="Int32" Nullable="false" />
           <Property Name="CantidadSolicitada" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tInventario" Relationship="Self.FK_ProductoOrden" FromRole="tOrdenesProductos" ToRole="tInventario" />
           <NavigationProperty Name="tOrdenesCompra" Relationship="Self.FK_OrdenCompra" FromRole="tOrdenesProductos" ToRole="tOrdenesCompra" />
         </EntityType>
         <EntityType Name="tPacientes">
@@ -616,9 +651,10 @@
           <Property Name="Contrasenna" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdRol" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idPac__75A278F5" FromRole="tPacientes" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idPac__76969D2E" FromRole="tPacientes" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idPac__778AC167" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tArchivosPaciente" Relationship="Self.FK_ArchivoPaciente" FromRole="tPacientes" ToRole="tArchivosPaciente" />
+          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idPac__6B24EA82" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idPac__6C190EBB" FromRole="tPacientes" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idPac__6D0D32F4" FromRole="tPacientes" ToRole="tCalificaciones" />
           <NavigationProperty Name="tCitas" Relationship="Self.FK_CitaPaciente" FromRole="tPacientes" ToRole="tCitas" />
           <NavigationProperty Name="tHistorial" Relationship="Self.FK_HistorialPaciente" FromRole="tPacientes" ToRole="tHistorial" />
           <NavigationProperty Name="tSeguimiento" Relationship="Self.FK_idPaciente" FromRole="tPacientes" ToRole="tSeguimiento" />
@@ -670,11 +706,23 @@
           </Key>
           <Property Name="idServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idSer__787EE5A0" FromRole="tServicio" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idSer__797309D9" FromRole="tServicio" ToRole="tCalificaciones" />
-          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idSer__7A672E12" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones" Relationship="Self.FK__tCalifica__idSer__6E01572D" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones1" Relationship="Self.FK__tCalifica__idSer__6EF57B66" FromRole="tServicio" ToRole="tCalificaciones" />
+          <NavigationProperty Name="tCalificaciones2" Relationship="Self.FK__tCalifica__idSer__6FE99F9F" FromRole="tServicio" ToRole="tCalificaciones" />
         </EntityType>
-        <Association Name="FK__tCalifica__idPac__75A278F5">
+        <Association Name="FK_ArchivoPaciente">
+          <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
+          <End Role="tArchivosPaciente" Type="Self.tArchivosPaciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tPacientes">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="tArchivosPaciente">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tCalifica__idPac__6B24EA82">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -686,7 +734,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__76969D2E">
+        <Association Name="FK__tCalifica__idPac__6C190EBB">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -698,7 +746,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idPac__778AC167">
+        <Association Name="FK__tCalifica__idPac__6D0D32F4">
           <End Role="tPacientes" Type="Self.tPacientes" Multiplicity="1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -710,7 +758,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__787EE5A0">
+        <Association Name="FK__tCalifica__idSer__6E01572D">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -722,7 +770,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__797309D9">
+        <Association Name="FK__tCalifica__idSer__6EF57B66">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -734,7 +782,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tCalifica__idSer__7A672E12">
+        <Association Name="FK__tCalifica__idSer__6FE99F9F">
           <End Role="tServicio" Type="Self.tServicio" Multiplicity="0..1" />
           <End Role="tCalificaciones" Type="Self.tCalificaciones" Multiplicity="*" />
           <ReferentialConstraint>
@@ -791,6 +839,18 @@
             </Principal>
             <Dependent Role="tHistorial">
               <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoOrden">
+          <End Role="tInventario" Type="Self.tInventario" Multiplicity="1" />
+          <End Role="tOrdenesProductos" Type="Self.tOrdenesProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tInventario">
+              <PropertyRef Name="idProducto" />
+            </Principal>
+            <Dependent Role="tOrdenesProductos">
+              <PropertyRef Name="idProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -881,27 +941,31 @@
           <EntitySet Name="tSede" EntityType="Self.tSede" />
           <EntitySet Name="tSeguimiento" EntityType="Self.tSeguimiento" />
           <EntitySet Name="tServicio" EntityType="Self.tServicio" />
-          <AssociationSet Name="FK__tCalifica__idPac__75A278F5" Association="Self.FK__tCalifica__idPac__75A278F5">
+          <AssociationSet Name="FK_ArchivoPaciente" Association="Self.FK_ArchivoPaciente">
+            <End Role="tPacientes" EntitySet="tPacientes" />
+            <End Role="tArchivosPaciente" EntitySet="tArchivosPaciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tCalifica__idPac__6B24EA82" Association="Self.FK__tCalifica__idPac__6B24EA82">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__76969D2E" Association="Self.FK__tCalifica__idPac__76969D2E">
+          <AssociationSet Name="FK__tCalifica__idPac__6C190EBB" Association="Self.FK__tCalifica__idPac__6C190EBB">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idPac__778AC167" Association="Self.FK__tCalifica__idPac__778AC167">
+          <AssociationSet Name="FK__tCalifica__idPac__6D0D32F4" Association="Self.FK__tCalifica__idPac__6D0D32F4">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__787EE5A0" Association="Self.FK__tCalifica__idSer__787EE5A0">
+          <AssociationSet Name="FK__tCalifica__idSer__6E01572D" Association="Self.FK__tCalifica__idSer__6E01572D">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__797309D9" Association="Self.FK__tCalifica__idSer__797309D9">
+          <AssociationSet Name="FK__tCalifica__idSer__6EF57B66" Association="Self.FK__tCalifica__idSer__6EF57B66">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
-          <AssociationSet Name="FK__tCalifica__idSer__7A672E12" Association="Self.FK__tCalifica__idSer__7A672E12">
+          <AssociationSet Name="FK__tCalifica__idSer__6FE99F9F" Association="Self.FK__tCalifica__idSer__6FE99F9F">
             <End Role="tServicio" EntitySet="tServicio" />
             <End Role="tCalificaciones" EntitySet="tCalificaciones" />
           </AssociationSet>
@@ -920,6 +984,10 @@
           <AssociationSet Name="FK_HistorialPaciente" Association="Self.FK_HistorialPaciente">
             <End Role="tPacientes" EntitySet="tPacientes" />
             <End Role="tHistorial" EntitySet="tHistorial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoOrden" Association="Self.FK_ProductoOrden">
+            <End Role="tInventario" EntitySet="tInventario" />
+            <End Role="tOrdenesProductos" EntitySet="tOrdenesProductos" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductoOrdenCompra" Association="Self.FK_ProductoOrdenCompra">
             <End Role="tInventario" EntitySet="tInventario" />

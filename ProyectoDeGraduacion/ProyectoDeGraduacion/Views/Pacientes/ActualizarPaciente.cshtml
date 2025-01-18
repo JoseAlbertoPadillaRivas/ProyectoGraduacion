@@ -26,13 +26,14 @@
             @Html.HiddenFor(m => m.idPaciente)
             <div class="input-group mb-3">
                 @Html.TextBoxFor(m => m.Cedula, new
-                {
-                    @type = "text",
-                    @class = "form-control",
-                    @placeholder = "Identificación",
-                    @id = "Cedula",
-                    oninput = "this.value=this.value.replace(/[^0-9]/g,'');"
-                })
+           {
+               @type = "text",
+               @class = "form-control",
+               @placeholder = "Identificación",
+               @id = "Cedula",
+               onkeyup = "ConsultarIdentificacion();",
+               oninput = "this.value=this.value.replace(/[^0-9]/g,'');"
+           })
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-user"></span>

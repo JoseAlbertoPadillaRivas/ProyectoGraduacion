@@ -678,14 +678,11 @@
     <Content Include="Views\Inventario\MostrarInventario.cshtml" />
     <Content Include="Views\Inventario\ActualizarProducto.cshtml" />
     <Content Include="Views\Inventario\AgregarProducto.cshtml" />
-    <Content Include="Views\Citas\RegistrarCita.cshtml" />
     <Content Include="Views\Citas\MisCitas.cshtml" />
     <Content Include="Views\Citas\CitasProgramadas.cshtml" />
-    <Content Include="Views\Citas\ReprogramarCita.cshtml" />
     <Content Include="Views\Calificacion\NuevaCalificacion.cshtml" />
     <Content Include="Views\Historial\RegistrarHistoria.cshtml" />
-    <Content Include="Views\Historial\HistorialPaciente.cshtml" />
-    <Content Include="Views\Historial\HistorialesAdmin.cshtml" />
+    <Content Include="Views\Historial\MiHistorial.cshtml" />
     <Content Include="Views\Historial\ActualizarHistorial.cshtml" />
     <Content Include="Views\Calificacion\AdminCalificacion.cshtml" />
     <Content Include="Views\Calificacion\AnalizarCalificaciones.cshtml" />
@@ -705,6 +702,7 @@
     <Content Include="Views\Calificacion\verCalificaciones.cshtml" />
     <Content Include="Views\Calificacion\CalificacionPDF.cshtml" />
     <Content Include="Views\Inventario\MostrarProveedores.cshtml" />
+    <Content Include="Views\Historial\HistorialPaciente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

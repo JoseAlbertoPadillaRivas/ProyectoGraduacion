@@ -13,144 +13,124 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css">
     <link rel="stylesheet" type="text/css" href="~/css/stylesHistorial.css">
 
-    <!-- Responsive -->
-    <link rel="stylesheet" type="text/css" href="~/css/responsive.css">
-
-    <!-- Colors -->
-    <link rel="stylesheet" type="text/css" href="~/css/colors/color1.css" id="colors">
-
-    <!-- Animation Style -->
-    <link rel="stylesheet" type="text/css" href="~/css/animate.css">
-
     <!-- FontAwesome and other styles -->
-    <link href="~/root/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
-    <link href="~/root/dist/css/adminlte.min.css" rel="stylesheet" />
-    <link href="~/root/dist/css/styles.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7x9lpzt8sE7L7L2it5RQQBf7ZxdF/cJpN/4" crossorigin="anonymous"></script>
-    <!-- Sweet Alert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.12.3/sweetalert2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMsB0jRZVVnD+TpOd+UowDR7YxEr1mfIbc3Okhz" crossorigin="anonymous">
-    <link href="~/css/chatbot.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <!-- JQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<body class="page-template-front-page header-sticky home2">
-    <div class="boxed">
-        <!-- Header -->
-        <header id="header" class="header style2 clearfix">
-            <div class="header-inner">
-                <div class="nav-wrap">
-                    <div class="btn-menu"></div>
-                    <nav id="mainnav" class="navbar navbar-expand">
-                        <ul class="navbar-nav ml-auto">
-                            <li>
-                                <a href="@Url.Action("Index", "Login")" class="text-center">
-                                    <img src="~/images/logoClinica.png" alt="image">
+<body>
+    <header id="header" class="header style2 clearfix">
+        <div class="header-inner">
+            <div class="nav-wrap">
+                <button class="navbar-toggler text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fas fa-toggle-down"></span>
+                </button>
+
+                <nav id="mainnav" class="navbar navbar-expand-lg custom_nav-container">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item text-center">
+                                <a href="@Url.Action("Index", "Login")" class="nav-link">
+                                    <img src="~/images/logoClinica.png" alt="Logo de la clínica" style="height: 50px;">
                                 </a>
                             </li>
-                            <li><a href="@Url.Action("Index", "Login")">Home</a></li>
 
                             @if (Session["RolUsuario"] == null)
                             {
-                                <li><a href="@Url.Action("Login", "Login")">Iniciar Sesión</a></li>
-                                <li><a href="@Url.Action("VerCalificaciones", "Calificacion")">Ver Calificaciones</a></li>
+                                <li class="nav-item"><a href="@Url.Action("Login", "Login")" class="nav-link">Iniciar Sesión</a></li>
+                                <li class="nav-item"><a href="@Url.Action("VerCalificaciones", "Calificacion")" class="nav-link">Ver Calificaciones</a></li>
                             }
                             else if (Session["RolUsuario"].ToString() == "1")
                             {
-                                <li><a href="@Url.Action("MostrarInventario", "Inventario")">Inventario</a></li>
-                                <li><a href="@Url.Action("ConsultarPacientes", "Pacientes")">Pacientes</a></li>
-                                <li><a href="@Url.Action("MostrarProductos", "Seguimiento")">Seguimiento de productos</a></li>
-                                <li><a href="@Url.Action("HistorialesAdmin", "Historial")">Historia Clínica</a></li>
-                                <li><a href="@Url.Action("CitasProgramadas", "Citas")">Citas</a></li>
-                                <li><a href="@Url.Action("AdminCalificacion", "Calificacion")">Calificación</a></li>
+                                <li class="nav-item"><a href="@Url.Action("MostrarInventario", "Inventario")" class="nav-link">Inventario</a></li>
+                                <li class="nav-item"><a href="@Url.Action("ConsultarPacientes", "Pacientes")" class="nav-link">Pacientes</a></li>
+                                <li class="nav-item"><a href="@Url.Action("MostrarProductos", "Seguimiento")" class="nav-link">Seguimiento de productos</a></li>
+                                <li class="nav-item"><a href="@Url.Action("CitasProgramadas", "Citas")" class="nav-link">Citas</a></li>
+                                <li class="nav-item"><a href="@Url.Action("AdminCalificacion", "Calificacion")" class="nav-link">Calificación</a></li>
                             }
                             else if (Session["RolUsuario"].ToString() == "2")
                             {
-                                <li><a href="@Url.Action("HistorialPaciente", "Historial")">Mi Historial</a></li>
-                                <li><a href="@Url.Action("MisCitas", "Citas")">Citas</a></li>
-                                <li><a href="@Url.Action("MisProductos", "Seguimiento")">Mis Productos</a></li>
-                                <li><a href="@Url.Action("VerCalificaciones", "Calificacion")">Calificación</a></li>
+                                <li class="nav-item"><a href="@Url.Action("MiHistorial", "Historial")" class="nav-link">Mi Historial</a></li>
+                                <li class="nav-item"><a href="@Url.Action("MisCitas", "Citas")" class="nav-link">Citas</a></li>
+                                <li class="nav-item"><a href="@Url.Action("MisProductos", "Seguimiento")" class="nav-link">Mis Productos</a></li>
+                                <li class="nav-item"><a href="@Url.Action("VerCalificaciones", "Calificacion")" class="nav-link">Calificación</a></li>
                             }
 
                             @if (Session["RolUsuario"] != null)
                             {
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         @Session["NombreUsuario"].ToString()
-                                        <i class="far fa-user ml-2"></i>
+                                        <i class="far fa-user ms-2"></i>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                        <a href="@Url.Action("MiPerfil", "Perfil")" class="dropdown-item">
-                                            <i class="fas fa-users mr-2"></i> Perfil
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="@Url.Action("CerrarSesion", "Login")" class="dropdown-item">
-                                            <i class="fas fa-door-open mr-2"></i> Cerrar Sesión
-                                        </a>
-                                    </div>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li><a href="@Url.Action("MiPerfil", "Perfil")" class="dropdown-item"><i class="fas fa-user-circle me-2"></i>Perfil</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a href="@Url.Action("CerrarSesion", "Login")" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                                    </ul>
                                 </li>
                             }
                         </ul>
-
-                    </nav>
-                </div>
+                    </div>
+                </nav>
             </div>
-        </header>
-
-        <!-- Contenido Principal -->
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
         </div>
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-widgets">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="widget widget_text">
-                                <h5 class="widget-title">Sonríe más</h5>
-                                <div class="textwidget">
-                                    <p>Sonríe con confianza</p><br>
-                                    <p>Cuidamos tu salud dental para que muestres tu mejor sonrisa.</p>
-                                </div>
+    </header>
+
+
+    <!-- Contenido Principal -->
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-widgets">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="widget widget_text">
+                            <h5 class="widget-title">Sonríe más</h5>
+                            <div class="textwidget">
+                                <p>Sonríe con confianza</p><br>
+                                <p>Cuidamos tu salud dental para que muestres tu mejor sonrisa.</p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="widget widget_text">
-                                <h5 class="widget-title">Ubicación</h5>
-                                <div class="map-container">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d209423.44069135375!2d-84.20872844259455!3d9.770794751507248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa11db2c6cecc15%3A0xb2002c1fc723e1f5!2sClinica%20Dental%20Dra.%20Mariana%20Garro!5e1!3m2!1ses-419!2scr!4v1724302356184!5m2!1ses-419!2scr"
-                                            width="100%"
-                                            height="200"
-                                            style="border:0;"
-                                            allowfullscreen=""
-                                            loading="lazy"></iframe>
-                                </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget widget_text">
+                            <h5 class="widget-title">Ubicación</h5>
+                            <div class="map-container">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d209423.44069135375!2d-84.20872844259455!3d9.770794751507248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa11db2c6cecc15%3A0xb2002c1fc723e1f5!2sClinica%20Dental%20Dra.%20Mariana%20Garro!5e1!3m2!1ses-419!2scr!4v1724302356184!5m2!1ses-419!2scr"
+                                        width="100%"
+                                        height="200"
+                                        style="border:0;"
+                                        allowfullscreen=""
+                                        loading="lazy"></iframe>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="widget widget_text">
-                                <h5 class="widget-title">Redes Sociales</h5>
-                                <div class="social-icons">
-                                    <a href="https://www.instagram.com/dra.marianagarro/" class="social-icon">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                    <a href="https://www.facebook.com/ClinicaDentalDraMarianaGarro/" class="social-icon">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget widget_text">
+                            <h5 class="widget-title">Redes Sociales</h5>
+                            <div class="social-icons">
+                                <a href="https://www.instagram.com/dra.marianagarro/" class="social-icon">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://www.facebook.com/ClinicaDentalDraMarianaGarro/" class="social-icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
-    </div>
+            </nav>
+        </div>
+    </footer>
 
     <!-- JavaScript Libraries and Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -200,8 +180,6 @@
                 .catch(error => Swal.fire("Error", error.message, "error"));
             });
         });
-
-
         function mostrarAlerta(titulo, mensaje, tipo) {
             Swal.fire({
                 title: titulo,

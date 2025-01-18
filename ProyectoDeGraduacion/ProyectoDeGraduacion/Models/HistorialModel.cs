@@ -17,13 +17,21 @@ namespace ProyectoDeGraduacion.Models
                 return context.tHistorial.ToList();
             }
         }
-        public List<tHistorial> ConsultarHistorialIDPaciente(int idUsuario)
+        public List<tHistorial> ConsultarHistorialIDPaciente(int idPaciente)
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                return context.tHistorial.Where(h => h.idPaciente == idPaciente).ToList();
+            }
+        }
+        public List<tHistorial> ConsultarHistorialIDUsuario(int idUsuario)
         {
             using (var context = new ProyectoGraduacionEntities())
             {
                 return context.tHistorial.Where(x => x.idPaciente == idUsuario).ToList();
             }
         }
+
 
         public tHistorial ConsultarHistorialID(int idHistorial)
         {

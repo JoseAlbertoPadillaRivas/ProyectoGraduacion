@@ -17,6 +17,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tPacientes()
         {
+            this.tArchivosPaciente = new HashSet<tArchivosPaciente>();
             this.tCalificaciones = new HashSet<tCalificaciones>();
             this.tCalificaciones1 = new HashSet<tCalificaciones>();
             this.tCalificaciones2 = new HashSet<tCalificaciones>();
@@ -33,6 +34,8 @@ namespace ProyectoDeGraduacion.BaseDatos
         public bool Estado { get; set; }
         public byte IdRol { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tArchivosPaciente> tArchivosPaciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tCalificaciones> tCalificaciones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

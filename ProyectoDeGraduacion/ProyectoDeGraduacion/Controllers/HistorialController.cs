@@ -18,21 +18,11 @@ namespace ProyectoDeGraduacion.Controllers
 
 
         [HttpGet]
-        public ActionResult HistorialPaciente()
+        public ActionResult MiHistorial()
         {
-            var respuesta = historialM.ConsultarHistorialIDPaciente(int.Parse(Session["idUsuario"].ToString()));
+            var respuesta = historialM.ConsultarHistorialIDUsuario(int.Parse(Session["idUsuario"].ToString()));
             return View(respuesta);
         }
-
-
-        [FiltroAdmin]
-        [HttpGet]
-        public ActionResult HistorialesAdmin()
-        {
-            var respuesta = historialM.ConsultarHistoriales();
-            return View(respuesta);
-        }
-
 
         [FiltroAdmin]
         [HttpGet]
@@ -122,5 +112,13 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public ActionResult HistorialPaciente(int idPaciente)
+        {
+            var respuesta = historialM.ConsultarHistorialIDPaciente(idPaciente);
+            return View(respuesta);
+        }
+
     }
 }

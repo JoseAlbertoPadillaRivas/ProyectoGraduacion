@@ -20,5 +20,7 @@ namespace ProyectoDeGraduacion.BaseDatos
         public string TipoArchivo { get; set; }
         public byte[] Archivo { get; set; }
         public System.DateTime FechaSubida { get; set; }
+    
+        public virtual tPacientes tPacientes { get; set; }
     }
 }
