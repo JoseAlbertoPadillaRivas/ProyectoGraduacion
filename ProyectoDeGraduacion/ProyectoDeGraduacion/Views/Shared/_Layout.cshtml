@@ -25,7 +25,14 @@
     <header id="header" class="header style2 clearfix">
         <div class="header-inner">
             <div class="nav-wrap">
-                <button class="navbar-toggler text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- Botón para dispositivos móviles -->
+                <button class="navbar-toggler text-dark mobile-icon" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        style="display: none;">
                     <span class="fas fa-toggle-down"></span>
                 </button>
 
@@ -128,7 +135,6 @@
                     </div>
                 </div>
             </div>
-            </nav>
         </div>
     </footer>
 
@@ -141,6 +147,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.12.3/sweetalert2.min.js"></script>
 
     <script>
+        // Detectar tamaño de pantalla al cargar la página
+        function toggleMobileIconVisibility() {
+            const mobileIcon = document.querySelector('.mobile-icon');
+            if (window.innerWidth < 768) {
+                mobileIcon.style.display = 'block'; // Mostrar el ícono en pantallas pequeñas
+            } else {
+                mobileIcon.style.display = 'none'; // Ocultar el ícono en pantallas grandes
+            }
+        }
+
+        // Ejecutar la función al cargar la página
+        toggleMobileIconVisibility();
+
+        // Escuchar cambios en el tamaño de la pantalla
+        window.addEventListener('resize', toggleMobileIconVisibility);
+
         $(document).ready(function () {
             $('#discrepanciaModal').on('show.bs.modal', function (event) {
                 const button = $(event.relatedTarget); // Botón que activó la modal
