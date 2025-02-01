@@ -31,8 +31,7 @@
             </div>
             <input type="hidden" id="Calificaciones" name="Calificaciones" value="@(Model?.Calificaciones ?? 0)" />
 
-            <div class="mb-3">
-                <label for="Nombre" class="form-label fw-semibold">Nombre:</label>
+            <div class="mb-3"> <!-- Aqui va el nombre del paciente pero esta hidden -->
                 @Html.TextBoxFor(m => m.idPaciente, new { @type = "number", @class = "form-control", @hidden = "hidden" })
             </div>
 

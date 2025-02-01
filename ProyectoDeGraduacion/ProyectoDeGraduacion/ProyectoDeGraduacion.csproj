@@ -243,6 +243,9 @@
     <Compile Include="BaseDatos\tInventario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\tMovimientosInventario.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tOrdenesCompra.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -252,7 +255,13 @@
     <Compile Include="BaseDatos\tPacientes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseDatos\tProductosTratamiento.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="BaseDatos\tProveedores.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDatos\tRecomendacionesProducto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tRol.cs">
@@ -262,6 +271,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tSeguimiento.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseDatos\tSeguimientoProducto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="BaseDatos\tServicio.cs">
