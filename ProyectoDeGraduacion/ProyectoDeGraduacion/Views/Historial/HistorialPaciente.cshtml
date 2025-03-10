@@ -36,9 +36,11 @@
                         <td>@item.Medicacion</td>
                         <td>@item.Observaciones</td>
                         <td style="text-align:center">
-                            <a class="btn btn-primary btn-sm" href="@item.Archivo" download>
-                                <i class="fa fa-download"></i> Descargar
+                            <a class="btn btn-primary btn-sm"
+                               href="@Url.Action("DescargarArchivo", "Historial", new { idHistorial = item.idHistorial })">
+                                Descargar
                             </a>
+
                         </td>
                         <td>
                             <a href="@Url.Action("ActualizarHistorial", "Historial", new { idHistorial = item.idHistorial })" class="btn btn-warning btn-sm">
@@ -65,7 +67,8 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/es-ES.json'
             },
-            columnDefs: [{ type: 'string', targets: [0, 1, 2, 3, 4, 5, 6, 7] }]
+            columnDefs: [{ type: 'string', targets: [0, 1, 2, 3, 4, 5, 6
+            ] }]
         });
     });
 </script>

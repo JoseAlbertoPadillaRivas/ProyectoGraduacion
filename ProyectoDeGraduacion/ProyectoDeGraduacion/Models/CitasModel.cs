@@ -248,7 +248,21 @@ namespace ProyectoDeGraduacion.Models
                 client.EnableSsl = true;
                 client.Send(message);
             }
-        }             
+        }
+
+        public bool EjecutarInsertarCitasDisponibles()
+        {
+            var rowsAffected = 0;
+
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                // Se asume que en el modelo EF tienes importado el SP y que se llama insertar_citasDisponibles
+                rowsAffected = context.insertar_citasDisponibles();
+            }
+
+            return (rowsAffected > 0 ? true : false);
+        }
+
 
 
     }

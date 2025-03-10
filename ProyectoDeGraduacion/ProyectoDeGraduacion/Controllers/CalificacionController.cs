@@ -99,7 +99,6 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
 
-        [FiltroSeguridad]
         [FiltroAdmin]
         public ActionResult CalificacionPDF()
         {
@@ -119,31 +118,5 @@ namespace ProyectoDeGraduacion.Controllers
             return View(calificacion);
         }
 
-        [FiltroSeguridad]
-        [FiltroAdmin]
-        [HttpPost]
-        public ActionResult GenerarPdf()
-        {
-            var calificacion = (from calificaciones in db.tCalificaciones
-                                join paciente in db.tPacientes on calificaciones.idPaciente equals paciente.idPaciente
-                                join servicio in db.tServicio on calificaciones.idServicio equals servicio.idServicio
-                                select new Calificacion
-                                {
-                                    idCalificaciones = calificaciones.idCalificaciones,
-                                    Calificaciones = calificaciones.Calificaciones,
-                                    idPaciente = calificaciones.idPaciente,
-                                    Opinion = calificaciones.Opinion,
-                                    Fecha = calificaciones.Fecha,
-                                    NombrePaciente = paciente.Nombre, // Nombre del paciente
-                                    NombreServicio = servicio.Nombre  // Nombre del servicio
-                                }).ToList();
-
-            var pdfResult = new ActionAsPdf("CalificacionPDF", calificacion)
-            {
-                FileName = "Calificacion.pdf"
-            };
-
-            return pdfResult;
-        }
     }
 }

@@ -16,7 +16,6 @@
 <!-- Botones para analizar y exportar calificaciones -->
 <div class="d-flex justify-content-end mb-3">
     <a class="btn btn-info mx-2" href=@Url.Action("AnalizarCalificaciones","Calificacion")>Analizar Calificaciones</a>
-    <button class="btn btn-info" id="btn-exportar">Exportar Calificaciones</button>
 </div>
 
 <div class="d-flex justify-content-between mb-3">
@@ -91,49 +90,6 @@
             }
         });
     });
-
-    // Exportar historial a PDF con SweetAlert
-    document.getElementById('btn-exportar').addEventListener('click', function() {
-    Swal.fire({
-        title: '¿Desea exportar las calificaciones?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, exportar',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '@Url.Action("GenerarPdf", "Calificacion")',
-                type: 'POST',
-                xhrFields: {
-                    responseType: 'blob'
-                },
-                success: function (data) {
-                    const url = window.URL.createObjectURL(new Blob([data]));
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'Calificaciones.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-
-                    Swal.fire(
-                        'Exportación Completa',
-                        'Las Calificaciones han sido exportadas como PDF.',
-                        'success'
-                    );
-                },
-                error: function () {
-                    Swal.fire(
-                        'Error',
-                        'Hubo un problema al exportar las calificaciones.',
-                        'error'
-                    );
-                }
-            });
-        }
-    });
-});
 
     $(document).ready(function () {
         $(document).on("click", ".btn-eliminar", function () {

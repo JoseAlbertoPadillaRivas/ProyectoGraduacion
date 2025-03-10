@@ -5,6 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <!-- Estilos de Bootstrap u otros -->
+    <link rel="stylesheet" href="~/root/dist/css/bootstrap.min.css" />
+
+    <!-- Estilos de SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+</head>
+
 <div class="container mt-4">
     <h2 class="text-center">Confirmar Recepción de Productos</h2>
     <p class="text-center">Confirme la recepción de los productos y actualice el inventario.</p>
@@ -68,6 +79,11 @@
         </div>
     </div>
 </div>
+<script src="~/root/plugins/jquery/jquery.min.js"></script>
+<script src="~/root/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script de SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Script para gestionar el ID del producto en la modal -->
 <script>
@@ -130,4 +146,5 @@
         });
     });
 </script>
+
 

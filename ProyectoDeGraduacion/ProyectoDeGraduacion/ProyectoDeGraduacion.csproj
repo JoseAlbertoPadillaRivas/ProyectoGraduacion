@@ -658,7 +658,9 @@
     <Content Include="BaseDatos\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\ClinicaDentalDraMarianaGarro - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\clinicaDentalMarianaGarro - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ClinicaDentDraMarianaGarro - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\clinicaDraMarianaGarro - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\clinicaDraMarianaGarro - Web Deploy1.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />

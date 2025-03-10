@@ -69,7 +69,7 @@ namespace ProyectoDeGraduacion.Controllers
 
                 if (consecutivo > 0)
                 {
-                    return RedirectToAction("HistorialesAdmin", "Historial");
+                    return RedirectToAction("ConsultarPacientes", "Pacientes");
                 }
                 else
                 {
@@ -119,6 +119,17 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = historialM.ConsultarHistorialIDPaciente(idPaciente);
             return View(respuesta);
         }
+
+        [FiltroAdmin]
+        [HttpPost]
+        public ActionResult DescargarArchivo(int idHistorial)
+        {
+            var hist = historialM.ConsultarHistorialID(idHistorial);
+            var rutaFisica = Server.MapPath(hist.Archivo);
+            var nombreDescarga = Path.GetFileName(rutaFisica);
+            return File(rutaFisica, "application/octet-stream", nombreDescarga);
+        }
+
 
     }
 }

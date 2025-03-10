@@ -10,7 +10,6 @@ using Rotativa;
 using System.Text;
 namespace ProyectoDeGraduacion.Controllers
 {
-    [FiltroAdmin]
     [FiltroSeguridad]
     [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ReabastecimientoController : Controller
@@ -264,6 +263,7 @@ namespace ProyectoDeGraduacion.Controllers
             return View(historialOrdenes);
         }
 
+        [AllowAnonymous]
         public ActionResult HistorialReabastecimientoPDF()
         {
             var historialOrdenes = (from orden in db.tOrdenesCompra
@@ -281,36 +281,24 @@ namespace ProyectoDeGraduacion.Controllers
             return View(historialOrdenes);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult GenerarPdf()
         {
-            var historialOrdenes = (from orden in db.tOrdenesCompra
-                                    join proveedor in db.tProveedores
-                                    on orden.idProveedor equals proveedor.idProveedor
-                                    select new HistorialORD
-                                    {
-                                        NombreProducto = orden.NombreProducto,
-                                        CantidadTotalSolicitada = orden.CantidadTotalSolicitada,
-                                        FechaSolicitud = orden.FechaSolicitud,
-                                        NombreProveedor = proveedor.Empresa,
-                                        idOrdenCompra = orden.idOrdenCompra
-                                    }).ToList();
-
-            // Generar el PDF en memoria
-            var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF", historialOrdenes)
+            var pdfResult = new ActionAsPdf("HistorialReabastecimientoPDF")
             {
                 FileName = "Historial.pdf"
             };
 
             var pdfBytes = pdfResult.BuildFile(this.ControllerContext);
 
-            // Eliminar los registros después de generar el PDF
+            // (Opcional) Eliminar los registros después de generar el PDF
             db.tOrdenesCompra.RemoveRange(db.tOrdenesCompra);
             db.SaveChanges();
 
-            // Devolver el archivo PDF al usuario para su descarga
             return File(pdfBytes, "application/pdf", "Historial.pdf");
         }
+
 
 
 

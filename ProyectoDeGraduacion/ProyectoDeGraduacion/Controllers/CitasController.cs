@@ -3,8 +3,10 @@ using ProyectoDeGraduacion.Entidades;
 using ProyectoDeGraduacion.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+
 
 namespace ProyectoDeGraduacion.Controllers
 {
@@ -43,53 +45,60 @@ namespace ProyectoDeGraduacion.Controllers
         }
 
 
-
         [HttpGet]
         public ActionResult MisCitas()
         {
-            // Obtener el idPaciente de la sesión
             int idPaciente = (int)Session["idUsuario"];
-
-            // Pasar el idPaciente como parte del modelo o ViewBag
             ViewBag.IdPaciente = idPaciente;
 
-            // Llamar al método que obtiene las citas del usuario
             var respuesta = citasM.MisCitas(idPaciente);
-
-            // Obtener la lista de sedes y citas disponibles
             var sedes = _context.tSede.ToList();
             ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
 
+            // Obtener la hora del servidor en UTC y convertirla a la zona local
+            DateTime ahoraUtc = DateTime.UtcNow;
+            TimeZoneInfo zonaLocal = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"); // Ajusta esto según tu país
+            DateTime ahoraLocal = TimeZoneInfo.ConvertTimeFromUtc(ahoraUtc, zonaLocal);
+
+            // Filtrar citas futuras en la zona horaria correcta
             var citasDisponibles = _context.tCitasDisponibles
-                .Where(c => c.Estado == true) // Filtrar citas disponibles
+                .Where(c => c.Estado == true && c.Fecha > ahoraLocal)
+                .OrderBy(c => c.Fecha)
                 .ToList();
+
             ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
 
-            // Pasar la lista de citas y los datos adicionales a la vista
             return View(respuesta);
         }
-
 
         [FiltroAdmin]
         [HttpGet]
         public ActionResult CitasProgramadas()
         {
             int idPaciente = (int)Session["idUsuario"];
-
-            // Pasar el idPaciente como parte del modelo o ViewBag
             ViewBag.IdPaciente = idPaciente;
 
             var sedes = _context.tSede.ToList();
             ViewBag.Sede = new SelectList(sedes, "idSede", "Nombre");
 
+            // Obtener la hora UTC y convertirla a la zona local
+            DateTime ahoraUtc = DateTime.UtcNow;
+            TimeZoneInfo zonaLocal = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"); // Ajusta según tu país
+            DateTime ahoraLocal = TimeZoneInfo.ConvertTimeFromUtc(ahoraUtc, zonaLocal);
+
             var citasDisponibles = _context.tCitasDisponibles
-                .Where(c => c.Estado == true) // Filtrar citas disponibles
+                .Where(c => c.Estado == true && c.Fecha > ahoraLocal)
+                .OrderBy(c => c.Fecha)
                 .ToList();
+
             ViewBag.CitasDisponibles = new SelectList(citasDisponibles, "idCitaDisponible", "Fecha");
 
             var respuesta = citasM.CitasProgramadas();
             return View(respuesta);
         }
+
+
+
         [FiltroAdmin]
         [HttpPost]
         public JsonResult ReprogramarCita(Citas cita)
@@ -145,6 +154,27 @@ namespace ProyectoDeGraduacion.Controllers
                 return Json(new { success = false, message = "Ocurrió un error: " + ex.Message });
             }
         }
+
+        [HttpPost]
+        public JsonResult EjecutarSpInsertarCitasDisponibles()
+        {
+            try
+            {
+                CitasModel citasModel = new CitasModel();
+                bool resultado = citasModel.EjecutarInsertarCitasDisponibles();
+
+                return Json(new
+                {
+                    success = resultado,
+                    message = resultado ? "Citas disponibles insertadas correctamente." : "No se insertaron las citas disponibles."
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error: " + ex.Message });
+            }
+        }
+
 
 
 

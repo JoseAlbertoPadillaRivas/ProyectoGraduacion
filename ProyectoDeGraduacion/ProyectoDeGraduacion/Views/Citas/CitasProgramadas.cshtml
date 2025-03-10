@@ -12,7 +12,6 @@
     <p class="text-center">Administra y controla las citas de todos los pacientes desde esta sección.</p>
 </div>
 
-
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
@@ -45,13 +44,18 @@
                                     <button class="btn btn-danger btn-sm btn-eliminar-cita" data-id="@item.idCita" data-name="@item.NombrePaciente">Cancelar</button>
                                 </div>
                             </td>
-
                         </tr>
                     }
                 </tbody>
-
             </table>
         </div>
+    </div>
+</div>
+
+<!-- Botón para ejecutar el SP -->
+<div class="container mt-4">
+    <div class="text-center">
+        <button id="btn-ejecutar-sp" class="btn btn-success">Insertar Citas</button>
     </div>
 </div>
 
@@ -96,8 +100,8 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js">
-</script>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
@@ -178,7 +182,6 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Solicitud AJAX para cancelar la cita
                     $.ajax({
                         url: '@Url.Action("CancelarCita", "Citas")',
                         type: 'POST',
@@ -190,7 +193,7 @@
                                     response.message,
                                     'success'
                                 ).then(function () {
-                                    location.reload(); // Refrescar la página
+                                    location.reload();
                                 });
                             } else {
                                 Swal.fire(
@@ -206,6 +209,34 @@
                                 'No se pudo cancelar la cita. Por favor, inténtalo nuevamente.',
                                 'error'
                             );
+                        }
+                    });
+                }
+            });
+        });
+
+        // Manejador para el botón de ejecutar SP Insertar Citas Disponibles
+        $("#btn-ejecutar-sp").click(function () {
+            Swal.fire({
+                title: '¿Desea insertar citas disponibles?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, ejecutar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("EjecutarSpInsertarCitasDisponibles", "Citas")',
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire('Ejecutado', response.message, 'success');
+                            } else {
+                                Swal.fire('Error', response.message, 'error');
+                            }
+                        },
+                        error: function () {
+                            Swal.fire('Error', 'No se pudo ejecutar el procedimiento.', 'error');
                         }
                     });
                 }
