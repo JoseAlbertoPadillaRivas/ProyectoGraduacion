@@ -1,5 +1,6 @@
 ﻿using ProyectoDeGraduacion.BaseDatos;
 using ProyectoDeGraduacion.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -72,6 +73,52 @@ namespace ProyectoDeGraduacion.Models
 
             return (rowsAffected > 0 ? true : false);
         }
+
+        public bool IsUserSessionAvailable(int idPaciente)
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                var user = context.tPacientes.FirstOrDefault(x => x.idPaciente == idPaciente);
+
+                if (user == null)
+                    return true;
+
+                // Si no hay token, el usuario puede iniciar sesión
+                if (string.IsNullOrEmpty(user.SessionToken))
+                    return true;
+
+                // Si el token ha expirado, lo limpiamos
+                if (user.SessionTokenExpira != null && user.SessionTokenExpira < DateTime.Now)
+                {
+                    user.SessionToken = null;
+                    user.SessionTokenExpira = null;
+                    context.SaveChanges();
+                    return true;
+                }
+
+                // Token aún válido
+                return false;
+            }
+        }
+
+
+        public void UpdateUserSessionToken(int idPaciente, string token)
+        {
+            using (var context = new ProyectoGraduacionEntities())
+            {
+                var user = context.tPacientes.FirstOrDefault(x => x.idPaciente == idPaciente);
+                if (user != null)
+                {
+                    user.SessionToken = token;
+                    if (token != null)
+                        user.SessionTokenExpira = DateTime.Now.AddMinutes(30);
+                    else
+                        user.SessionTokenExpira = null;
+                    context.SaveChanges();
+                }
+            }
+        }
+
     }
 }
 

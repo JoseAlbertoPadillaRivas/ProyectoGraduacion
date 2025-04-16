@@ -17,17 +17,30 @@ namespace KN_Web.Controllers
             return View();
         }
 
+        [ValidarSesionUnicaAttribute]
         [HttpPost]
         public ActionResult Login(Pacientes paciente)
         {
             var respuesta = pacienteM.IniciarSesion(paciente);
-
             if (respuesta != null)
             {
+                // Verificar si ya hay una sesión activa para este usuario
+                if (!pacienteM.IsUserSessionAvailable(respuesta.idPaciente))
+                {
+                    ViewBag.msj = "Esta cuenta ya tiene una sesión activa. Cierre la sesión previa para continuar.";
+                    return View();
+                }
 
+                // Generar un token único para la sesión
+                string sessionToken = System.Guid.NewGuid().ToString();
                 Session["NombreUsuario"] = respuesta.Nombre;
                 Session["idUsuario"] = respuesta.idPaciente;
                 Session["RolUsuario"] = respuesta.IdRol.ToString();
+                Session["SessionToken"] = sessionToken;
+
+                // Actualizar el token en la base de datos
+                pacienteM.UpdateUserSessionToken(respuesta.idPaciente, sessionToken);
+
                 return RedirectToAction("Index", "Login");
             }
             else
@@ -37,12 +50,19 @@ namespace KN_Web.Controllers
             }
         }
 
+        [ValidarSesionUnicaAttribute]
         [HttpGet]
         public ActionResult CerrarSesion()
         {
+            if (Session["idUsuario"] != null)
+            {
+                int idUsuario = (int)Session["idUsuario"];
+                pacienteM.UpdateUserSessionToken(idUsuario, null); // Limpia token y expiración
+            }
             Session.Clear();
             return RedirectToAction("Login", "Login");
         }
+
 
         [HttpGet]
         public ActionResult Registrarse()

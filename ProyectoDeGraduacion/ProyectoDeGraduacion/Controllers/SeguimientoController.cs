@@ -101,20 +101,5 @@ namespace ProyectoDeGraduacion.Controllers
                 return View();
             }
         }
-
-        // Eliminar un seguimiento de producto
-        [HttpPost]
-        public ActionResult EliminarSeguimiento(int idSeguimiento)
-        {
-            var respuesta = seguimientoM.EliminarSeguimiento(idSeguimiento);
-
-            if (respuesta)
-                return RedirectToAction("MostrarProductos", "Seguimiento");
-            else
-            {
-                ViewBag.msj = "Error al eliminar";
-                return View();
-            }
-        }
     }
 }

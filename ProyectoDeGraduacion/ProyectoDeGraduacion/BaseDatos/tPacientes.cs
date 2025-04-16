@@ -34,6 +34,8 @@ namespace ProyectoDeGraduacion.BaseDatos
         public string Contrasenna { get; set; }
         public bool Estado { get; set; }
         public byte IdRol { get; set; }
+        public string SessionToken { get; set; }
+        public Nullable<System.DateTime> SessionTokenExpira { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tArchivosPaciente> tArchivosPaciente { get; set; }

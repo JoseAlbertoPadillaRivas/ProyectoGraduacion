@@ -81,22 +81,6 @@ namespace ProyectoDeGraduacion.Models
             }
         }
 
-        public bool EliminarSeguimiento(int idSeguimiento)
-        {
-            using (var context = new ProyectoGraduacionEntities())
-            {
-                var seguimiento = context.tSeguimiento.FirstOrDefault(p => p.idSeguimiento == idSeguimiento);
-
-                if (seguimiento != null)
-                {
-                    context.tSeguimiento.Remove(seguimiento);
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-        }
-
         public bool ActualizarSeguimiento(Seguimiento seguimiento)
         {
             using (var context = new ProyectoGraduacionEntities())

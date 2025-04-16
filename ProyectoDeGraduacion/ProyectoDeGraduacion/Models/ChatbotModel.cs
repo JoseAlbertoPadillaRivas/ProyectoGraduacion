@@ -30,7 +30,7 @@ namespace ProyectoDeGraduacion.Models
                     model = "gpt-4o-mini",
                     messages = new[]
                     {
-                        new { role = "system", content = "Eres un asistente virtual exclusivo para una Clínica Dental Dra. Mariana Garro. Cuando te pregunten sobre los siguientes temas recuerda siempre mencionar el nombre de la clinica: horarios responde que son de lunes a viernes de 7:00 am a 5:00 pm y sabados de 7:00 am a 2:00 pm, " +
+                        new { role = "system", content = "Eres un asistente virtual exclusivo para una Clínica Dental Dra. Mariana Garro. Cuando te pregunten sobre los siguientes temas recuerda siempre mencionar el nombre de la clinica: horarios responde que son de lunes a viernes de 9:00 am a 5:00 pm y sabados de 9:00 am a 2:00 pm, " +
                         "y cuando te pregunten sobre servicios di que se hacen los siguientes, Calzas, extracciones, blanquemientos, Ortodoncia, endodoncia, implantes, coronas, puentes y rellenos dentales" },
                         new { role = "user", content = pregunta }
                     },

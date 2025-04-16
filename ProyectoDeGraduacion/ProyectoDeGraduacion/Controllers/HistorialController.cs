@@ -36,57 +36,51 @@ namespace ProyectoDeGraduacion.Controllers
 
         [FiltroAdmin]
         [HttpPost]
-        public ActionResult RegistrarHistoria(HttpPostedFileBase Archivo, tHistorial hist)
+        public ActionResult RegistrarHistoria(tHistorial hist, HttpPostedFileBase Archivo)
         {
             try
             {
-                if (Archivo == null || Archivo.ContentLength == 0)
+                if (Archivo != null && Archivo.ContentLength > 0)
                 {
-                    ViewBag.msj = "Por favor, selecciona un archivo.";
-                    return View();
+                    // 1) Obtener extensión y construir nombre deseado
+                    string extension = System.IO.Path.GetExtension(Archivo.FileName);
+                    string nombreArchivo = "HistorialMedico_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + extension;
+
+                    // 2) Crear la ruta física (Server.MapPath) a la carpeta "ArchivosHistorial"
+                    string carpeta = Server.MapPath("~/ArchivosHistorial/");
+                    string rutaCompleta = System.IO.Path.Combine(carpeta, nombreArchivo);
+
+                    // 3) Guardar físicamente el archivo en esa ruta
+                    Archivo.SaveAs(rutaCompleta);
+
+                    // 4) Guardar en la propiedad 'Archivo' de tu entidad la RUTA RELATIVA
+                    //    (es decir, la que comienza con "~").
+                    hist.Archivo = "~/ArchivosHistorial/" + nombreArchivo;
                 }
 
-                // Validar y crear la carpeta si no existe
-                string directorio = Server.MapPath("~/ArchivosHistorial");
-                if (!Directory.Exists(directorio))
+                // 5) Registrar en BD (este método llama a tu HistorialModel)
+                var resultado = historialM.RegistrarHistoria(hist);
+
+                // 6) Redireccionar donde quieras
+                if (resultado == 1)
                 {
-                    Directory.CreateDirectory(directorio);
-                }
-
-                // Generar el nombre y la ruta completa del archivo
-                string extension = Path.GetExtension(Archivo.FileName);
-                string fechaCreacion = DateTime.Now.ToString("yyyyMMdd");
-                string idUnico = new Random().Next(10000, 99999).ToString();
-                string nombreArchivo = $"HistorialMedico_{fechaCreacion}_{idUnico}{extension}";
-                string ruta = Path.Combine(directorio, nombreArchivo);
-
-                // Guardar el archivo en la ruta
-                Archivo.SaveAs(ruta);
-
-                // Guardar la ruta del archivo en la base de datos
-                hist.Archivo = "/ArchivosHistorial/" + nombreArchivo;
-                var consecutivo = historialM.RegistrarHistoria(hist);
-
-                if (consecutivo > 0)
-                {
+                    // Éxito
                     return RedirectToAction("ConsultarPacientes", "Pacientes");
                 }
                 else
                 {
-                    ViewBag.historial = "No se ha podido registrar la información del producto.";
-                    return View();
+                    // Hubo algún fallo
+                    ViewBag.msj = "No se pudo registrar el historial.";
+                    return View(hist);
                 }
             }
             catch (Exception ex)
             {
-                // Registrar errores para depuración
-                System.Diagnostics.Debug.WriteLine("Error en RegistrarHistoria: " + ex.Message);
-                System.Diagnostics.Debug.WriteLine("StackTrace: " + ex.StackTrace);
-
-                ViewBag.Error = "Ocurrió un error al procesar la solicitud. Por favor, inténtalo más tarde.";
-                return View();
+                ViewBag.msj = "Ocurrió un error: " + ex.Message;
+                return View(hist);
             }
         }
+
 
 
         [FiltroAdmin]
@@ -105,7 +99,7 @@ namespace ProyectoDeGraduacion.Controllers
             var respuesta = historialM.ActualizarHistorial(historial);
 
             if (respuesta)
-                return RedirectToAction("HistorialesAdmin", "Historial");
+                return RedirectToAction("ConsultarPacientes", "Pacientes");
             else
             {
                 ViewBag.msj = "Error al actualizar";
@@ -120,15 +114,26 @@ namespace ProyectoDeGraduacion.Controllers
             return View(respuesta);
         }
 
-        [FiltroAdmin]
-        [HttpPost]
+        [HttpGet]
         public ActionResult DescargarArchivo(int idHistorial)
         {
             var hist = historialM.ConsultarHistorialID(idHistorial);
-            var rutaFisica = Server.MapPath(hist.Archivo);
-            var nombreDescarga = Path.GetFileName(rutaFisica);
-            return File(rutaFisica, "application/octet-stream", nombreDescarga);
+
+            // hist.Archivo => "~/ArchivosHistorial/HistorialMedico_20250325_2241.pdf"
+            string rutaFisica = Server.MapPath(hist.Archivo);
+
+            if (!System.IO.File.Exists(rutaFisica))
+            {
+                // Manejar el caso de que no exista físicamente
+                return HttpNotFound("El archivo no existe o fue movido.");
+            }
+
+            string nombreDescarga = System.IO.Path.GetFileName(rutaFisica);
+
+            return File(rutaFisica, "application/pdf", nombreDescarga);
         }
+
+
 
 
     }

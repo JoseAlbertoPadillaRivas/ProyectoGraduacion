@@ -18,56 +18,60 @@
                 </div>
             }
 
-            <form method="post" action="@Url.Action("AgregarProducto", "Inventario")" id="productoForm">
-                <div class="form-group">
-                    <label for="NombreProducto" class="font-weight-bold">Nombre del Producto</label>
-                    @Html.TextBoxFor(m => m.NombreProducto, new
-                    {
-                        @type = "text",
-                        @class = "form-control",
-                        @placeholder = "Ingrese el nombre del producto",
-                        @id = "NombreProducto"
-                    })
-                </div>
+        <form method="post" action="@Url.Action("AgregarProducto", "Inventario")" id="productoForm">
+            <div class="text-center mt-2">
+                <a href="@Url.Action("MostrarInventario", "Inventario")" class="btn btn-primary btn-block">Volver</a>
+            </div>
+            <br /> <br />
+            <div class="form-group">
+                <label for="NombreProducto" class="font-weight-bold">Nombre del Producto</label>
+                @Html.TextBoxFor(m => m.NombreProducto, new
+                {
+                    @type = "text",
+                    @class = "form-control",
+                    @placeholder = "Ingrese el nombre del producto",
+                    @id = "NombreProducto"
+                })
+            </div>
 
-                <div class="form-group">
-                    <label for="Cantidad" class="font-weight-bold">Cantidad</label>
-                    @Html.TextBoxFor(m => m.Cantidad, new
-                    {
-                        @type = "number",
-                        @class = "form-control",
-                        @placeholder = "Ingrese la cantidad disponible",
-                        @id = "Cantidad"
-                    })
-                </div>
+            <div class="form-group">
+                <label for="Cantidad" class="font-weight-bold">Cantidad</label>
+                @Html.TextBoxFor(m => m.Cantidad, new
+                {
+                    @type = "number",
+                    @class = "form-control",
+                    @placeholder = "Ingrese la cantidad disponible",
+                    @id = "Cantidad"
+                })
+            </div>
 
-                <div class="form-group">
-                    <label for="CaducidadProducto" class="font-weight-bold">Fecha de Caducidad</label>
-                    @Html.TextBoxFor(m => m.CaducidadProducto, new
-                    {
-                        @type = "date",
-                        @class = "form-control",
-                        @placeholder = "Seleccione la fecha de caducidad",
-                        @id = "CaducidadProducto"
-                    })
-                </div>
+            <div class="form-group">
+                <label for="CaducidadProducto" class="font-weight-bold">Fecha de Caducidad</label>
+                @Html.TextBoxFor(m => m.CaducidadProducto, new
+                {
+                    @type = "date",
+                    @class = "form-control",
+                    @placeholder = "Seleccione la fecha de caducidad",
+                    @id = "CaducidadProducto"
+                })
+            </div>
 
-                <div class="form-group">
-                    <label for="idProveedor" class="font-weight-bold">Proveedor</label>
-                    @Html.DropDownListFor(m => m.idProveedor, (SelectList)ViewBag.Proveedores, "Seleccione un proveedor", new
-                    {
-                        @class = "form-control",
-                        @id = "idProveedor"
-                    })
-                </div>
+            <div class="form-group">
+                <label for="idProveedor" class="font-weight-bold">Proveedor</label>
+                @Html.DropDownListFor(m => m.idProveedor, (SelectList)ViewBag.Proveedores, "Seleccione un proveedor", new
+                {
+                    @class = "form-control",
+                    @id = "idProveedor"
+                })
+            </div>
 
-                <hr class="my-4">
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn">
-                        <i class="fas fa-save"></i> Registrar Producto
-                    </button>
-                </div>
-            </form>
+            <hr class="my-4">
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn">
+                    <i class="fas fa-save"></i> Registrar Producto
+                </button>
+            </div>
+        </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using ProyectoDeGraduacion.BaseDatos;
+using System.Web.Mvc;
 using System.Web.Routing;
+using System.Linq;
+
 
 namespace ProyectoDeGraduacion.Models
 {
@@ -45,5 +48,28 @@ namespace ProyectoDeGraduacion.Models
             base.OnActionExecuting(filterContext);
         }
     }
+    public class ValidarSesionUnicaAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (filterContext.HttpContext.Session["idUsuario"] != null)
+            {
+                int idUsuario = (int)filterContext.HttpContext.Session["idUsuario"];
+                string sessionToken = filterContext.HttpContext.Session["SessionToken"] as string;
 
+                using (var context = new ProyectoGraduacionEntities())
+                {
+                    var user = context.tPacientes.FirstOrDefault(u => u.idPaciente == idUsuario);
+                    // Si el token registrado en la base de datos no coincide con el de la sesión,
+                    // significa que se inició una sesión en otro dispositivo
+                    if (user != null && user.SessionToken != sessionToken)
+                    {
+                        filterContext.HttpContext.Session.Clear();
+                        filterContext.Result = new RedirectResult("~/Login/Login?mensaje=La sesión ha sido finalizada porque se inició una sesión en otro dispositivo.");
+                    }
+                }
+            }
+            base.OnActionExecuting(filterContext);
+        }
+    }
 }

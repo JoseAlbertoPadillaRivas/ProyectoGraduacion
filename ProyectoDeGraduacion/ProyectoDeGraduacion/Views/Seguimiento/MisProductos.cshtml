@@ -5,6 +5,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .badge-spinner {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.6rem;
+        border-radius: 0.25rem;
+        color: #212529;
+        background-color: #ffc107;
+        font-weight: 500;
+    }
+
+        .badge-spinner::before {
+            content: "";
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.4rem;
+            border: 2px solid currentColor;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+    keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .badge-check {
+        display: inline-block;
+        padding: 0.35rem 0.6rem;
+        border-radius: 0.25rem;
+        color: #fff;
+        background-color: #28a745;
+        font-weight: 500;
+    }
+</style>
+
 <div class="container mt-4">
     <h2 class="text-center">Gestión de Seguimiento de Productos</h2>
     <p class="text-center">Supervisa el estado de tus productos</p>
@@ -12,7 +51,6 @@
 
 <div class="row">
     <div class="col-12">
-
         @if (ViewBag.msj != null)
         {
             <div class="alert alert-info text-center">
@@ -36,25 +74,22 @@
                         <tr>
                             <td>@item.NombreProducto</td>
                             <td>@item.FechaEntrega.ToShortDateString()</td>
-                            @if (item.Estado == true)
-                            {
-                                <td class="text-center">
-                                    <span style="color: forestgreen;">&#x25CF;</span> En proceso <span style="color: forestgreen;">&#x25CF;</span>
-                                </td>
-                            }
-                            else
-                            {
-                                <td class="text-center">
-                                    <span style="color: red;">&#x25CF;</span> Entregado <span style="color: red;">&#x25CF;</span>
-                                </td>
-                            }
-                            <td>@item.Comentario</td> 
+                            <td class="text-center">
+                                @if (item.Estado)
+                                {
+                                    <span class="badge-spinner">En Proceso</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-check">&#10004; Entregado</span>
+                                }
+                            </td>
+                            <td>@item.Comentario</td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 

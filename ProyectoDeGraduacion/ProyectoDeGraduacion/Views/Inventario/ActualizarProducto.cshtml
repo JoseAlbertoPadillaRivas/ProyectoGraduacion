@@ -18,6 +18,10 @@
 
         @using (Html.BeginForm("ActualizarProducto", "Inventario", FormMethod.Post, new { @id = "actualizarProductoForm" }))
         {
+            <div class="text-center mt-2">
+                <a href="@Url.Action("MostrarInventario", "Inventario")" class="btn btn-primary btn-block">Volver</a>
+            </div>
+            <br /> <br />
             @Html.HiddenFor(m => m.idProducto)
             <div class="input-group mb-3">
                 @Html.TextBoxFor(m => m.NombreProducto, new

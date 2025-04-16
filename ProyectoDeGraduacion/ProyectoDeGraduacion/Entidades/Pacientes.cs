@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ProyectoDeGraduacion.Entidades
 {
@@ -14,5 +15,7 @@ namespace ProyectoDeGraduacion.Entidades
 
         // Agregar propiedad de navegación para los productos en seguimiento
         public virtual ICollection<Seguimiento> SeguimientoProductos { get; set; }
+        public DateTime? SessionTokenExpira { get; set; }
+
     }
 }
